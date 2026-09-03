@@ -70,6 +70,7 @@ body {
     display: flex;
     flex-direction: column;
     justify-content: space-between;
+    overflow: hidden;
 }
 
 .nav-list {
@@ -77,6 +78,16 @@ body {
     display: flex;
     flex-direction: column;
     gap: 5px;
+    overflow-y: auto;
+}
+
+/* Hide scrollbar for nav-list for cleaner look */
+.nav-list::-webkit-scrollbar {
+    width: 4px;
+}
+.nav-list::-webkit-scrollbar-thumb {
+    background-color: var(--border-color);
+    border-radius: 4px;
 }
 
 .nav-link {
@@ -108,6 +119,8 @@ body {
 
 .nav-bottom {
     margin-top: auto;
+    flex-shrink: 0;
+    padding-top: 10px;
 }
 
 .logout-link {

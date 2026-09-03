@@ -30,45 +30,39 @@
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a href="/pemasukan" class="nav-link" data-target="pemasukan">
-                            <i class="ri-arrow-left-down-line"></i>
-                            <span>Pemasukan</span>
+                        <a href="#" class="nav-link" data-target="input-kategori">
+                            <i class="ri-price-tag-3-line"></i>
+                            <span>Input Kategori</span>
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a href="/pengeluaran" class="nav-link" data-target="pengeluaran">
-                            <i class="ri-arrow-right-up-line"></i>
-                            <span>Pengeluaran</span>
+                        <a href="#" class="nav-link" data-target="input-nama-akun">
+                            <i class="ri-bank-card-line"></i>
+                            <span>Input Nama Akun</span>
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a href="/transfer" class="nav-link" data-target="transfer">
-                            <i class="ri-arrow-left-right-line"></i>
-                            <span>Transfer</span>
+                        <a href="#" class="nav-link" data-target="input-transaksi">
+                            <i class="ri-file-add-line"></i>
+                            <span>Input Transaksi</span>
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a href="/anggaran" class="nav-link" data-target="anggaran">
-                            <i class="ri-pie-chart-line"></i>
-                            <span>Anggaran</span>
+                        <a href="#" class="nav-link" data-target="riwayat-transaksi">
+                            <i class="ri-history-line"></i>
+                            <span>Riwayat Transaksi</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="#" class="nav-link" data-target="grafik">
+                            <i class="ri-bar-chart-box-line"></i>
+                            <span>Grafik</span>
                         </a>
                     </li>
                     <li class="nav-item active">
                         <a href="/laporan" class="nav-link" data-target="laporan">
                             <i class="ri-file-list-3-line"></i>
                             <span>Laporan</span>
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a href="/users" class="nav-link" data-target="users">
-                            <i class="ri-user-settings-line"></i>
-                            <span>User Management</span>
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a href="/pengaturan" class="nav-link" data-target="pengaturan">
-                            <i class="ri-settings-4-line"></i>
-                            <span>Pengaturan</span>
                         </a>
                     </li>
                 </ul>
