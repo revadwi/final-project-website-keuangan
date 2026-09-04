@@ -442,7 +442,7 @@
                     <!-- Time Tabs -->
                     <div id="grafik-content-pengeluaran">
                     <div style="display: flex; justify-content: space-between; border-bottom: 1px solid var(--border-color); margin-bottom: 30px; padding-bottom: 2px;">
-                        <div id="grafik-tab-pengeluaran-1" style="padding-bottom: 12px; border-bottom: 2px solid #eab308; color: var(--text-dark); font-weight: 600; cursor: pointer; font-size: 14px;">Jun 2026</div>
+                        <div id="grafik-tab-pengeluaran-1" style="padding-bottom: 12px; border-bottom: 2px solid #2563eb; color: var(--text-dark); font-weight: 600; cursor: pointer; font-size: 14px;">Jun 2026</div>
                         <div style="padding-bottom: 12px; color: var(--text-muted); font-weight: 500; cursor: pointer; font-size: 14px;">Jul 2026</div>
                         <div style="padding-bottom: 12px; color: var(--text-muted); font-weight: 500; cursor: pointer; font-size: 14px;">Bulan lalu</div>
                         <div style="padding-bottom: 12px; color: var(--text-muted); font-weight: 500; cursor: pointer; font-size: 14px;">Bulan ini</div>
@@ -515,7 +515,7 @@
 
                         <!-- Item 2 -->
                         <div style="display: flex; align-items: flex-start; gap: 15px; padding-bottom: 20px; margin-bottom: 20px; border-bottom: 1px solid var(--border-color);">
-                            <div style="width: 45px; height: 45px; border-radius: 50%; background: #eab308; color: white; display: flex; justify-content: center; align-items: center; font-size: 20px; flex-shrink: 0;">
+                            <div style="width: 45px; height: 45px; border-radius: 50%; background: #0ea5e9; color: white; display: flex; justify-content: center; align-items: center; font-size: 20px; flex-shrink: 0;">
                                 <i class="ri-global-line"></i>
                             </div>
                             <div style="flex: 1;">
@@ -525,7 +525,7 @@
                                 </div>
                                 <div style="display: flex; align-items: center; gap: 10px;">
                                     <div style="flex: 1; height: 6px; background: #f1f5f9; border-radius: 3px; overflow: hidden;">
-                                        <div style="width: 22.71%; height: 100%; background: #eab308; border-radius: 3px;"></div>
+                                        <div style="width: 22.71%; height: 100%; background: #0ea5e9; border-radius: 3px;"></div>
                                     </div>
                                     <span style="font-size: 12px; color: var(--text-muted); width: 45px; text-align: right;">22,71%</span>
                                 </div>
@@ -534,7 +534,7 @@
 
                         <!-- Item 3 -->
                         <div style="display: flex; align-items: flex-start; gap: 15px; padding-bottom: 20px; margin-bottom: 20px; border-bottom: 1px solid var(--border-color);">
-                            <div style="width: 45px; height: 45px; border-radius: 50%; background: #eab308; color: white; display: flex; justify-content: center; align-items: center; font-size: 20px; flex-shrink: 0;">
+                            <div style="width: 45px; height: 45px; border-radius: 50%; background: #ef4444; color: white; display: flex; justify-content: center; align-items: center; font-size: 20px; flex-shrink: 0;">
                                 <i class="ri-camera-lens-line"></i>
                             </div>
                             <div style="flex: 1;">
@@ -544,7 +544,7 @@
                                 </div>
                                 <div style="display: flex; align-items: center; gap: 10px;">
                                     <div style="flex: 1; height: 6px; background: #f1f5f9; border-radius: 3px; overflow: hidden;">
-                                        <div style="width: 8.15%; height: 100%; background: #eab308; border-radius: 3px;"></div>
+                                        <div style="width: 8.15%; height: 100%; background: #ef4444; border-radius: 3px;"></div>
                                     </div>
                                     <span style="font-size: 12px; color: var(--text-muted); width: 45px; text-align: right;">8,15%</span>
                                 </div>
@@ -553,7 +553,7 @@
 
                         <!-- Item 4 -->
                         <div style="display: flex; align-items: flex-start; gap: 15px; padding-bottom: 20px; margin-bottom: 20px; border-bottom: 1px solid var(--border-color);">
-                            <div style="width: 45px; height: 45px; border-radius: 50%; background: #eab308; color: white; display: flex; justify-content: center; align-items: center; font-size: 20px; flex-shrink: 0;">
+                            <div style="width: 45px; height: 45px; border-radius: 50%; background: #10b981; color: white; display: flex; justify-content: center; align-items: center; font-size: 20px; flex-shrink: 0;">
                                 <i class="ri-graduation-cap-line"></i>
                             </div>
                             <div style="flex: 1;">
@@ -563,7 +563,7 @@
                                 </div>
                                 <div style="display: flex; align-items: center; gap: 10px;">
                                     <div style="flex: 1; height: 6px; background: #f1f5f9; border-radius: 3px; overflow: hidden;">
-                                        <div style="width: 8.03%; height: 100%; background: #eab308; border-radius: 3px;"></div>
+                                        <div style="width: 8.03%; height: 100%; background: #10b981; border-radius: 3px;"></div>
                                     </div>
                                     <span style="font-size: 12px; color: var(--text-muted); width: 45px; text-align: right;">8,03%</span>
                                 </div>
@@ -709,23 +709,176 @@
             <div id="view-laporan" class="view-section" style="display: none;">
                 <!-- Header Laporan -->
                 <div style="display: flex; justify-content: flex-end; align-items: flex-start; margin-bottom: 30px;">
-                    <div style="position: relative;">
-                        <button onclick="document.getElementById('dropdown-jenis-fitur').style.display = document.getElementById('dropdown-jenis-fitur').style.display === 'none' ? 'block' : 'none';" style="display: flex; align-items: center; gap: 8px; background: white; border: 1px solid #10b981; color: #10b981; padding: 10px 20px; border-radius: 8px; font-weight: 600; font-size: 14px; cursor: pointer; box-shadow: 0 2px 5px rgba(0,0,0,0.02); transition: all 0.2s;" onmouseover="this.style.backgroundColor='#10b981'; this.style.color='white';" onmouseout="this.style.backgroundColor='white'; this.style.color='#10b981';">
-                            <span id="text-jenis-fitur">Pilih Jenis Laporan</span> <i class="ri-arrow-down-s-line" style="font-size: 18px;"></i>
+                    <div style="position: relative; display: inline-block;">
+                        <!-- Tombol Kalender Utama -->
+                        <button onclick="var p = document.getElementById('calendar-popup-filter'); p.style.display = p.style.display === 'none' ? 'block' : 'none';" style="background: white; border: 1px solid var(--border-color); padding: 8px 15px 8px 35px; border-radius: 6px; font-size: 14px; font-weight: 500; color: var(--text-dark); cursor: pointer; outline: none; display: flex; align-items: center; gap: 8px; min-width: 220px; justify-content: space-between;">
+                            <i class="ri-calendar-2-line" style="position: absolute; left: 12px; color: var(--text-muted);"></i>
+                            <span id="calendar-display-text">Semua Waktu</span>
+                            <i class="ri-arrow-down-s-line" style="color: var(--text-muted);"></i>
                         </button>
                         
-                        <!-- Dropdown Options -->
-                        <div id="dropdown-jenis-fitur" style="display: none; position: absolute; right: 0; top: 100%; margin-top: 8px; background: white; border: 1px solid var(--border-color); border-radius: 8px; box-shadow: 0 10px 25px rgba(0,0,0,0.1); z-index: 100; min-width: 200px; overflow: hidden;">
-                            <div onclick="document.getElementById('text-jenis-fitur').textContent='Semua'; this.parentElement.style.display='none';" style="padding: 12px 20px; font-size: 14px; font-weight: 500; color: var(--text-dark); cursor: pointer; transition: background 0.2s; border-bottom: 1px solid #f1f5f9;" onmouseover="this.style.backgroundColor='#f8fafc'" onmouseout="this.style.backgroundColor='white'">
-                                Semua
+                        <!-- Popup Kalender -->
+                        <div id="calendar-popup-filter" style="display: none; position: absolute; right: 0; top: 100%; margin-top: 8px; background: white; border: 1px solid var(--border-color); border-radius: 12px; box-shadow: 0 10px 25px rgba(0,0,0,0.1); padding: 20px; z-index: 100; width: 320px;">
+                            <!-- Tabs (Harian, Bulanan, Tahunan) -->
+                            <div style="display: flex; gap: 5px; margin-bottom: 20px; background: #f1f5f9; padding: 4px; border-radius: 8px;">
+                                <button onclick="setCalMode('range')" id="btn-mode-range" style="flex:1; padding: 8px; background: white; border:none; border-radius:6px; cursor:pointer; font-size:13px; font-weight:600; color:var(--text-dark); box-shadow:0 1px 3px rgba(0,0,0,0.1);">Harian</button>
+                                <button onclick="setCalMode('month')" id="btn-mode-month" style="flex:1; padding: 8px; background: transparent; border:none; border-radius:6px; cursor:pointer; font-size:13px; font-weight:500; color:var(--text-muted);">Bulanan</button>
+                                <button onclick="setCalMode('year')" id="btn-mode-year" style="flex:1; padding: 8px; background: transparent; border:none; border-radius:6px; cursor:pointer; font-size:13px; font-weight:500; color:var(--text-muted);">Tahunan</button>
                             </div>
-                            <div onclick="document.getElementById('text-jenis-fitur').textContent='Bulanan'; this.parentElement.style.display='none';" style="padding: 12px 20px; font-size: 14px; font-weight: 500; color: var(--text-dark); cursor: pointer; transition: background 0.2s; border-bottom: 1px solid #f1f5f9;" onmouseover="this.style.backgroundColor='#f8fafc'" onmouseout="this.style.backgroundColor='white'">
-                                Bulanan
+                            
+                            <!-- Konten Range Picker -->
+                            <div id="cal-content-range">
+                                <div style="margin-bottom: 15px;">
+                                    <label style="display:block; font-size:12px; font-weight:500; color:var(--text-muted); margin-bottom:5px;">Dari Tanggal</label>
+                                    <input type="date" id="cal-input-start" style="width: 100%; border: 1px solid var(--border-color); padding: 10px 12px; border-radius: 8px; font-size: 14px; outline: none; font-family: 'Inter', sans-serif;">
+                                </div>
+                                <div style="margin-bottom: 20px;">
+                                    <label style="display:block; font-size:12px; font-weight:500; color:var(--text-muted); margin-bottom:5px;">Sampai Tanggal</label>
+                                    <input type="date" id="cal-input-end" style="width: 100%; border: 1px solid var(--border-color); padding: 10px 12px; border-radius: 8px; font-size: 14px; outline: none; font-family: 'Inter', sans-serif;">
+                                </div>
                             </div>
-                            <div onclick="document.getElementById('text-jenis-fitur').textContent='Kategori'; this.parentElement.style.display='none';" style="padding: 12px 20px; font-size: 14px; font-weight: 500; color: var(--text-dark); cursor: pointer; transition: background 0.2s;" onmouseover="this.style.backgroundColor='#f8fafc'" onmouseout="this.style.backgroundColor='white'">
-                                Kategori
+                            
+                            <!-- Konten Month Picker -->
+                            <div id="cal-content-month" style="display:none; margin-bottom: 20px;">
+                                <label style="display:block; font-size:12px; font-weight:500; color:var(--text-muted); margin-bottom:5px;">Pilih Bulan</label>
+                                <input type="month" id="cal-input-month" style="width: 100%; border: 1px solid var(--border-color); padding: 10px 12px; border-radius: 8px; font-size: 14px; outline: none; font-family: 'Inter', sans-serif;">
+                            </div>
+                            
+                            <!-- Konten Year Picker -->
+                            <div id="cal-content-year" style="display:none; margin-bottom: 20px;">
+                                <label style="display:block; font-size:12px; font-weight:500; color:var(--text-muted); margin-bottom:5px;">Pilih Tahun</label>
+                                <select id="cal-input-year" style="width: 100%; border: 1px solid var(--border-color); padding: 10px 12px; border-radius: 8px; font-size: 14px; outline: none; font-family: 'Inter', sans-serif; appearance: none; background: url('data:image/svg+xml;utf8,<svg xmlns=\'http://www.w3.org/2000/svg\' viewBox=\'0 0 24 24\' width=\'18\' height=\'18\'><path fill=\'none\' d=\'M0 0h24v24H0z\'/><path d=\'M12 13.172l4.95-4.95 1.414 1.414L12 16 5.636 9.636 7.05 8.222z\' fill=\'rgba(148,163,184,1)\'/></svg>') no-repeat right 12px center;">
+                                    <option>2026</option>
+                                    <option>2025</option>
+                                    <option>2024</option>
+                                    <option>2023</option>
+                                </select>
+                            </div>
+                            
+                            <div style="display:flex; justify-content:flex-end; gap:10px; border-top: 1px solid #f1f5f9; padding-top: 15px;">
+                                <button onclick="document.getElementById('calendar-popup-filter').style.display='none'" style="padding: 8px 16px; background: white; border: 1px solid var(--border-color); border-radius: 6px; cursor: pointer; font-size: 14px; font-weight: 500; color: var(--text-dark);">Batal</button>
+                                <button onclick="applyCalFilter()" style="padding: 8px 16px; background: #2563eb; color: white; border: none; border-radius: 6px; cursor: pointer; font-size: 14px; font-weight: 600;">Terapkan</button>
                             </div>
                         </div>
+                        
+                        <script>
+                            var currentCalMode = 'range';
+                            var originalTableHtml = null;
+                            
+                            function setCalMode(mode) {
+                                currentCalMode = mode;
+                                // Reset buttons
+                                document.getElementById('btn-mode-range').style.background = 'transparent';
+                                document.getElementById('btn-mode-range').style.boxShadow = 'none';
+                                document.getElementById('btn-mode-range').style.fontWeight = '500';
+                                document.getElementById('btn-mode-range').style.color = 'var(--text-muted)';
+                                
+                                document.getElementById('btn-mode-month').style.background = 'transparent';
+                                document.getElementById('btn-mode-month').style.boxShadow = 'none';
+                                document.getElementById('btn-mode-month').style.fontWeight = '500';
+                                document.getElementById('btn-mode-month').style.color = 'var(--text-muted)';
+                                
+                                document.getElementById('btn-mode-year').style.background = 'transparent';
+                                document.getElementById('btn-mode-year').style.boxShadow = 'none';
+                                document.getElementById('btn-mode-year').style.fontWeight = '500';
+                                document.getElementById('btn-mode-year').style.color = 'var(--text-muted)';
+                                
+                                // Hide all contents
+                                document.getElementById('cal-content-range').style.display = 'none';
+                                document.getElementById('cal-content-month').style.display = 'none';
+                                document.getElementById('cal-content-year').style.display = 'none';
+                                
+                                // Activate selected
+                                document.getElementById('btn-mode-' + mode).style.background = 'white';
+                                document.getElementById('btn-mode-' + mode).style.boxShadow = '0 1px 3px rgba(0,0,0,0.1)';
+                                document.getElementById('btn-mode-' + mode).style.fontWeight = '600';
+                                document.getElementById('btn-mode-' + mode).style.color = 'var(--text-dark)';
+                                
+                                document.getElementById('cal-content-' + mode).style.display = 'block';
+                            }
+                            
+                            function applyCalFilter() {
+                                var text = "Semua Waktu";
+                                var title = "Ringkasan Semua Waktu";
+                                var colHeader = "Waktu";
+                                
+                                if (currentCalMode === 'range') {
+                                    var start = document.getElementById('cal-input-start').value;
+                                    var end = document.getElementById('cal-input-end').value;
+                                    if (start && end) {
+                                        text = start + " s/d " + end;
+                                    } else if (start) {
+                                        text = "Mulai " + start;
+                                    } else if (end) {
+                                        text = "Sampai " + end;
+                                    }
+                                    title = "Ringkasan Harian";
+                                    colHeader = "Tanggal";
+                                } else if (currentCalMode === 'month') {
+                                    var val = document.getElementById('cal-input-month').value;
+                                    if (val) {
+                                        var parts = val.split('-');
+                                        var months = ['Jan', 'Feb', 'Mar', 'Apr', 'Mei', 'Jun', 'Jul', 'Agu', 'Sep', 'Okt', 'Nov', 'Des'];
+                                        if (parts.length === 2) {
+                                            text = months[parseInt(parts[1]) - 1] + " " + parts[0];
+                                        }
+                                    }
+                                    title = "Ringkasan Bulanan";
+                                    colHeader = "Bulan";
+                                } else if (currentCalMode === 'year') {
+                                    var val = document.getElementById('cal-input-year').value;
+                                    if (val) text = "Tahun " + val;
+                                    title = "Ringkasan Tahunan";
+                                    colHeader = "Tahun";
+                                }
+                                
+                                document.getElementById('calendar-display-text').textContent = text;
+                                document.getElementById('calendar-popup-filter').style.display = 'none';
+                                
+                                var titleEl = document.getElementById('tabel-title');
+                                if (titleEl) titleEl.textContent = title;
+                                var colEl = document.getElementById('tabel-col-header');
+                                if (colEl) colEl.textContent = colHeader;
+                                
+                                var tbody = document.getElementById('tabel-body');
+                                if (tbody) {
+                                    if (!originalTableHtml) {
+                                        originalTableHtml = tbody.innerHTML;
+                                    }
+                                    
+                                    var valSaldo = document.getElementById('card-val-saldo');
+                                    var valKeluar = document.getElementById('card-val-pengeluaran');
+                                    var valMasuk = document.getElementById('card-val-pemasukan');
+                                    
+                                    if (currentCalMode === 'range') {
+                                        tbody.innerHTML = `
+                                            <tr><td colspan="2">01 Sep 2026</td><td>15.000</td><td>0</td><td class="text-red">-15.000</td></tr>
+                                            <tr><td colspan="2">02 Sep 2026</td><td>50.000</td><td>100.000</td><td>50.000</td></tr>
+                                            <tr><td colspan="2">03 Sep 2026</td><td>10.000</td><td>0</td><td class="text-red">-10.000</td></tr>
+                                            <tr><td colspan="2">04 Sep 2026</td><td>0</td><td>250.000</td><td>250.000</td></tr>
+                                            <tr><td colspan="2">05 Sep 2026</td><td>100.000</td><td>0</td><td class="text-red">-100.000</td></tr>
+                                        `;
+                                        if (valSaldo) valSaldo.textContent = "175.000";
+                                        if (valKeluar) valKeluar.textContent = "175.000";
+                                        if (valMasuk) valMasuk.textContent = "350.000";
+                                    } else if (currentCalMode === 'year') {
+                                        tbody.innerHTML = `
+                                            <tr><td colspan="2">2026</td><td>589.983.664</td><td>696.492.777</td><td>106.509.113</td></tr>
+                                            <tr><td colspan="2">2025</td><td>125.400.000</td><td>150.000.000</td><td>24.600.000</td></tr>
+                                            <tr><td colspan="2">2024</td><td>90.000.000</td><td>95.000.000</td><td>5.000.000</td></tr>
+                                        `;
+                                        if (valSaldo) valSaldo.textContent = "136.109.113";
+                                        if (valKeluar) valKeluar.textContent = "805.383.664";
+                                        if (valMasuk) valMasuk.textContent = "941.492.777";
+                                    } else {
+                                        tbody.innerHTML = originalTableHtml;
+                                        if (valSaldo) valSaldo.textContent = "106.509.113";
+                                        if (valKeluar) valKeluar.textContent = "589.983.664";
+                                        if (valMasuk) valMasuk.textContent = "696.492.777";
+                                    }
+                                }
+                            }
+                        </script>
                     </div>
                 </div>
 
@@ -733,32 +886,26 @@
                 <div style="display: flex; gap: 20px; margin-bottom: 30px; flex-wrap: wrap;">
                     <!-- Dropdown Pilih Jenis Laporan removed -->
                     <!-- Ringkasan Cards (Pengeluaran & Pemasukan) -->
-                    <div style="flex: 1; min-width: 400px; display: flex; flex-direction: column; justify-content: flex-end;">
-                        <div style="display: flex; background: white; border-radius: 12px; box-shadow: 0 4px 15px rgba(0,0,0,0.03); border: 1px solid var(--border-color); padding: 25px;">
-                            
-                            <!-- Pengeluaran -->
-                            <div style="flex: 1; display: flex; align-items: center; gap: 15px; border-right: 1px dashed var(--border-color); padding-right: 20px;">
-                                <div style="width: 45px; height: 45px; border-radius: 50%; background: #fee2e2; color: #ef4444; display: flex; align-items: center; justify-content: center; font-size: 22px;">
-                                    <i class="ri-arrow-right-down-line"></i>
-                                </div>
-                                <div>
-                                    <div style="font-size: 14px; font-weight: 500; color: var(--text-dark); margin-bottom: 5px;">Pengeluaran</div>
-                                    <div style="font-size: 20px; font-weight: 700; color: #ef4444;">589.983.664</div>
-                                </div>
-                            </div>
-                            
-                            <!-- Pemasukan -->
-                            <div style="flex: 1; display: flex; align-items: center; gap: 15px; padding-left: 20px;">
-                                <div style="width: 45px; height: 45px; border-radius: 50%; background: #d1fae5; color: #10b981; display: flex; align-items: center; justify-content: center; font-size: 22px;">
-                                    <i class="ri-arrow-right-up-line"></i>
-                                </div>
-                                <div>
-                                    <div style="font-size: 14px; font-weight: 500; color: var(--text-dark); margin-bottom: 5px;">Pemasukan</div>
-                                    <div style="font-size: 20px; font-weight: 700; color: #10b981;">696.492.777</div>
-                                </div>
-                            </div>
-                            
+                    <div style="flex: 1; width: 100%; display: flex; gap: 20px;">
+                        
+                        <!-- Saldo Total Card -->
+                        <div style="flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; background: #2563eb; border-radius: 12px; box-shadow: 0 4px 15px rgba(37,99,235,0.2); padding: 25px; color: white; cursor: pointer; transition: transform 0.2s ease, background 0.2s ease;" onmouseover="this.style.transform='translateY(-3px)'; this.style.background='#1d4ed8';" onmouseout="this.style.transform='translateY(0)'; this.style.background='#2563eb';">
+                            <div style="font-size: 14px; font-weight: 500; color: rgba(255,255,255,0.8); margin-bottom: 8px;">Saldo total</div>
+                            <div id="card-val-saldo" style="font-size: 28px; font-weight: 700; color: white; letter-spacing: 0.5px;">106.509.113</div>
                         </div>
+
+                        <!-- Pengeluaran Card -->
+                        <div style="flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; background: #2563eb; border-radius: 12px; box-shadow: 0 4px 15px rgba(37,99,235,0.2); padding: 25px; color: white; cursor: pointer; transition: transform 0.2s ease, background 0.2s ease;" onmouseover="this.style.transform='translateY(-3px)'; this.style.background='#1d4ed8';" onmouseout="this.style.transform='translateY(0)'; this.style.background='#2563eb';">
+                            <div style="font-size: 13px; font-weight: 500; color: rgba(255,255,255,0.8); margin-bottom: 5px;">Pengeluaran</div>
+                            <div id="card-val-pengeluaran" style="font-size: 20px; font-weight: 600; color: white; letter-spacing: 0.5px;">589.983.664</div>
+                        </div>
+
+                        <!-- Pemasukan Card -->
+                        <div style="flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; background: #2563eb; border-radius: 12px; box-shadow: 0 4px 15px rgba(37,99,235,0.2); padding: 25px; color: white; cursor: pointer; transition: transform 0.2s ease, background 0.2s ease;" onmouseover="this.style.transform='translateY(-3px)'; this.style.background='#1d4ed8';" onmouseout="this.style.transform='translateY(0)'; this.style.background='#2563eb';">
+                            <div style="font-size: 13px; font-weight: 500; color: rgba(255,255,255,0.8); margin-bottom: 5px;">Pemasukan</div>
+                            <div id="card-val-pemasukan" style="font-size: 20px; font-weight: 600; color: white; letter-spacing: 0.5px;">696.492.777</div>
+                        </div>
+
                     </div>
                 </div>
 
@@ -766,17 +913,12 @@
                 <div style="background: white; border-radius: 12px; box-shadow: 0 4px 15px rgba(0,0,0,0.03); border: 1px solid var(--border-color); overflow: hidden;">
                     <!-- Header Tabel -->
                     <div style="display: flex; justify-content: space-between; align-items: center; padding: 20px 25px; border-bottom: 1px solid #f1f5f9;">
-                        <h3 style="font-size: 18px; font-weight: 700; color: var(--text-dark); margin: 0;">Ringkasan Bulanan</h3>
+                        <h3 id="tabel-title" style="font-size: 18px; font-weight: 700; color: var(--text-dark); margin: 0;">Ringkasan Bulanan</h3>
                         
-                        <div style="position: relative;">
-                            <select style="appearance: none; background: white; border: 1px solid var(--border-color); padding: 8px 35px 8px 40px; border-radius: 6px; font-size: 14px; font-weight: 500; color: var(--text-dark); cursor: pointer; outline: none;">
-                                <option>Semua Tahun</option>
-                                <option>2026</option>
-                                <option>2025</option>
-                            </select>
-                            <i class="ri-calendar-2-line" style="position: absolute; left: 12px; top: 50%; transform: translateY(-50%); color: var(--text-muted);"></i>
-                            <i class="ri-arrow-down-s-line" style="position: absolute; right: 12px; top: 50%; transform: translateY(-50%); color: var(--text-muted); pointer-events: none;"></i>
-                        </div>
+                        <button onclick="downloadExcel()" style="display: flex; align-items: center; gap: 8px; background: white; color: #10b981; border: 1px solid #10b981; padding: 8px 16px; border-radius: 6px; font-size: 14px; font-weight: 600; cursor: pointer; transition: all 0.2s; box-shadow: 0 1px 2px rgba(0,0,0,0.05);" onmouseover="this.style.backgroundColor='#10b981'; this.style.color='white';" onmouseout="this.style.backgroundColor='white'; this.style.color='#10b981';">
+                            <i class="ri-file-excel-2-line" style="font-size: 16px;"></i>
+                            Unduh Excel
+                        </button>
                     </div>
                     
                     <!-- Table content -->
@@ -805,16 +947,16 @@
                             }
                             .text-red { color: #ef4444; }
                         </style>
-                        <table class="laporan-table">
+                        <table class="laporan-table" id="tabel-ringkasan">
                             <thead>
                                 <tr>
-                                    <th colspan="2">Bulan</th>
+                                    <th id="tabel-col-header" colspan="2">Bulan</th>
                                     <th>Pengeluaran</th>
                                     <th>Pemasukan</th>
                                     <th>Saldo</th>
                                 </tr>
                             </thead>
-                            <tbody>
+                            <tbody id="tabel-body">
                                 <!-- 2026 Data -->
                                 <tr>
                                     <td rowspan="9" style="vertical-align: middle; font-weight: 700; color: var(--text-dark); width: 80px; border-right: 1px solid #f1f5f9; text-align: center;">2026</td>
@@ -1418,6 +1560,48 @@
                 document.body.removeChild(downloadLink);
             };
         });
+    </script>
+    <script>
+        function downloadExcel() {
+            var table = document.getElementById("tabel-ringkasan");
+            var rows = table.querySelectorAll("tr");
+            var csv = [];
+            
+            // Parse table to CSV
+            for (var i = 0; i < rows.length; i++) {
+                var row = [], cols = rows[i].querySelectorAll("td, th");
+                
+                for (var j = 0; j < cols.length; j++) {
+                    // Strip HTML and get inner text
+                    var data = cols[j].innerText.replace(/(\r\n|\n|\r)/gm, "").trim();
+                    // Escape double quotes
+                    data = data.replace(/"/g, '""');
+                    // Quote the string
+                    row.push('"' + data + '"');
+                }
+                csv.push(row.join(","));
+            }
+            
+            var csvContent = csv.join("\n");
+            
+            // Get current period from the filter button text
+            var periodText = document.getElementById("calendar-display-text").innerText || "Semua_Waktu";
+            var period = periodText.replace(/[^a-zA-Z0-9]/g, "_"); // sanitize filename
+            var filename = "Laporan_Keuangan_" + period + ".csv";
+            
+            // Trigger download
+            var blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+            var link = document.createElement("a");
+            if (link.download !== undefined) {
+                var url = URL.createObjectURL(blob);
+                link.setAttribute("href", url);
+                link.setAttribute("download", filename);
+                link.style.visibility = 'hidden';
+                document.body.appendChild(link);
+                link.click();
+                document.body.removeChild(link);
+            }
+        }
     </script>
 </body>
 </html>
