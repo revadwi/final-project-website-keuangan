@@ -1,0 +1,332 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Akun - FinanceHub</title>
+    <link rel="stylesheet" href="dashboard.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/remixicon@3.5.0/fonts/remixicon.css" rel="stylesheet">
+    <style>
+        .modal {
+            display: none; 
+            position: fixed; 
+            z-index: 1000; 
+            left: 0; 
+            top: 0; 
+            width: 100%; 
+            height: 100%; 
+            overflow: auto; 
+            background-color: rgba(0,0,0,0.5); 
+        }
+        .modal-content {
+            background-color: #fefefe;
+            margin: 5% auto; 
+            padding: 20px;
+            border: 1px solid #888;
+            width: 50%;
+            border-radius: 10px;
+        }
+        .close {
+            color: #aaa;
+            float: right;
+            font-size: 28px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+        .close:hover,
+        .close:focus {
+            color: black;
+            text-decoration: none;
+            cursor: pointer;
+        }
+        .form-group {
+            margin-bottom: 15px;
+        }
+        .form-group label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: 500;
+        }
+        .form-group input, .form-group select {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #cbd5e1;
+            border-radius: 6px;
+            font-family: 'Inter', sans-serif;
+            box-sizing: border-box;
+        }
+        .btn-primary {
+            background-color: #1d4ed8;
+            color: white;
+            padding: 10px 15px;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+        }
+        .btn-danger {
+            background-color: #dc2626;
+            color: white;
+            padding: 6px 10px;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+        }
+        .btn-warning {
+            background-color: #f59e0b;
+            color: white;
+            padding: 6px 10px;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+        }
+        .alert-success {
+            background-color: #d1fae5;
+            color: #065f46;
+            padding: 10px;
+            border-radius: 6px;
+            margin-bottom: 20px;
+        }
+        .alert-danger {
+            background-color: #fee2e2;
+            color: #991b1b;
+            padding: 10px;
+            border-radius: 6px;
+            margin-bottom: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div class="dashboard-container">
+        <!-- Sidebar -->
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <div class="logo">
+                    <img src="logo.png" alt="FinanceHub" style="max-width: 180px; height: auto; margin-top: -15px; margin-bottom: -15px; margin-left: -5px;">
+                </div>
+            </div>
+            <!-- nav -->
+            <nav class="sidebar-nav">
+                <ul class="nav-list">
+                    <li class="nav-item">
+                        <a href="/dashboard" class="nav-link">
+                            <i class="ri-home-5-line"></i><span>Dashboard</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="{{ route('kategori.index') }}" class="nav-link">
+                            <i class="ri-price-tag-3-line"></i><span>Input Kategori</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="{{ route('akun.index') }}" class="nav-link" style="background: rgba(255,255,255,0.1); border-radius: 8px;">
+                            <i class="ri-bank-card-line"></i><span>Input Nama Akun</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="/transaksi" class="nav-link">
+                            <i class="ri-file-add-line"></i><span>Input Transaksi</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="#" class="nav-link">
+                            <i class="ri-history-line"></i><span>Riwayat Transaksi</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="#" class="nav-link">
+                            <i class="ri-bar-chart-box-line"></i><span>Grafik</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="/laporan" class="nav-link">
+                            <i class="ri-file-list-3-line"></i><span>Laporan</span>
+                        </a>
+                    </li>
+                </ul>
+            </nav>
+        </aside>
+
+        <main class="main-content">
+            <header class="header">
+                <div class="header-titles">
+                    <h1>Nama Akun</h1>
+                    <p>Manajemen Daftar Akun Perusahaan</p>
+                </div>
+            </header>
+
+            <div class="view-section active" style="display: block; padding: 20px; background: white; border-radius: 12px; margin-top: 20px;">
+                @if(session('success'))
+                    <div class="alert-success">{{ session('success') }}</div>
+                @endif
+
+                @if($errors->any())
+                    <div class="alert-danger">
+                        <ul style="margin: 0; padding-left: 20px;">
+                            @foreach($errors->all() as $error)
+                                <li>{{ $error }}</li>
+                            @endforeach
+                        </ul>
+                    </div>
+                @endif
+                
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
+                    <h2>Daftar Akun</h2>
+                    <button class="btn-primary" onclick="openModal('modalCreate')"><i class="ri-add-line"></i> Tambah Akun</button>
+                </div>
+                
+                <div class="transactions-list" style="background: #f8fafc; padding: 15px; border-radius: 8px;">
+                    <table style="width:100%; text-align:left; border-collapse: collapse;">
+                        <tr style="border-bottom: 2px solid #e2e8f0;">
+                            <th style="padding: 12px 10px; color:#475569;">No Akun</th>
+                            <th style="padding: 12px 10px; color:#475569;">Nama Akun</th>
+                            <th style="padding: 12px 10px; color:#475569;">Kategori</th>
+                            <th style="padding: 12px 10px; color:#475569;">Arus Kas</th>
+                            <th style="padding: 12px 10px; color:#475569; text-align: center;">Aksi</th>
+                        </tr>
+                        @foreach($akuns as $index => $akun)
+                        <tr style="border-bottom: 1px solid #e2e8f0;">
+                            <td style="padding: 12px 10px; font-weight: 500;">{{ $akun->nomor_akun }}</td>
+                            <td style="padding: 12px 10px;">{{ $akun->nama_akun }}</td>
+                            <td style="padding: 12px 10px;">
+                                @if($akun->kategori)
+                                    {{ $akun->kategori->nama_kategori }} 
+                                    <span style="font-size: 11px; color: #64748b;">({{ $akun->kategori->jenis_kategori }})</span>
+                                @else
+                                    -
+                                @endif
+                            </td>
+                            <td style="padding: 12px 10px;">{{ $akun->aktivitas_arus_kas }}</td>
+                            <td style="padding: 12px 10px; text-align: center;">
+                                <button class="btn-warning" onclick="openEditModal({{ $akun->id }}, '{{ $akun->kategori_id }}', '{{ $akun->nama_akun }}', '{{ $akun->nomor_akun }}', '{{ $akun->aktivitas_arus_kas }}')"><i class="ri-edit-line"></i></button>
+                                <form action="{{ route('akun.destroy', $akun->id) }}" method="POST" style="display:inline;" onsubmit="return confirm('Apakah Anda yakin ingin menghapus akun ini?');">
+                                    @csrf
+                                    @method('DELETE')
+                                    <button type="submit" class="btn-danger"><i class="ri-delete-bin-line"></i></button>
+                                </form>
+                            </td>
+                        </tr>
+                        @endforeach
+                        @if($akuns->isEmpty())
+                        <tr>
+                            <td colspan="5" style="padding: 20px; text-align: center; color: #94a3b8;">Belum ada data akun.</td>
+                        </tr>
+                        @endif
+                    </table>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- Modal Create -->
+    <div id="modalCreate" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeModal('modalCreate')">&times;</span>
+            <h2>Tambah Akun Baru</h2>
+            <form action="{{ route('akun.store') }}" method="POST" style="margin-top: 20px;">
+                @csrf
+                <div class="form-group">
+                    <label>Pilih Kategori</label>
+                    <select name="kategori_id" required>
+                        <option value="">-- Pilih Kategori --</option>
+                        @foreach($kategoris as $kategori)
+                            <option value="{{ $kategori->id }}">{{ $kategori->nama_kategori }} ({{ $kategori->jenis_kategori }})</option>
+                        @endforeach
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Nomor Akun</label>
+                    <input type="text" name="nomor_akun" required placeholder="Contoh: 101">
+                </div>
+                <div class="form-group">
+                    <label>Nama Akun</label>
+                    <input type="text" name="nama_akun" required placeholder="Contoh: Kas Kecil">
+                </div>
+                <div class="form-group">
+                    <label>Aktivitas Arus Kas</label>
+                    <select name="aktivitas_arus_kas" required>
+                        <option value="">-- Pilih Aktivitas --</option>
+                        <option value="Operasi">Operasi</option>
+                        <option value="Investasi">Investasi</option>
+                        <option value="Pendanaan">Pendanaan</option>
+                    </select>
+                </div>
+                <div style="text-align: right; margin-top: 20px;">
+                    <button type="button" class="btn-danger" onclick="closeModal('modalCreate')">Batal</button>
+                    <button type="submit" class="btn-primary">Simpan</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Modal Edit -->
+    <div id="modalEdit" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeModal('modalEdit')">&times;</span>
+            <h2>Edit Akun</h2>
+            <form id="formEdit" method="POST" style="margin-top: 20px;">
+                @csrf
+                @method('PUT')
+                <div class="form-group">
+                    <label>Pilih Kategori</label>
+                    <select id="edit_kategori_id" name="kategori_id" required>
+                        <option value="">-- Pilih Kategori --</option>
+                        @foreach($kategoris as $kategori)
+                            <option value="{{ $kategori->id }}">{{ $kategori->nama_kategori }} ({{ $kategori->jenis_kategori }})</option>
+                        @endforeach
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Nomor Akun</label>
+                    <input type="text" id="edit_nomor_akun" name="nomor_akun" required>
+                </div>
+                <div class="form-group">
+                    <label>Nama Akun</label>
+                    <input type="text" id="edit_nama_akun" name="nama_akun" required>
+                </div>
+                <div class="form-group">
+                    <label>Aktivitas Arus Kas</label>
+                    <select id="edit_aktivitas" name="aktivitas_arus_kas" required>
+                        <option value="">-- Pilih Aktivitas --</option>
+                        <option value="Operasi">Operasi</option>
+                        <option value="Investasi">Investasi</option>
+                        <option value="Pendanaan">Pendanaan</option>
+                    </select>
+                </div>
+                <div style="text-align: right; margin-top: 20px;">
+                    <button type="button" class="btn-danger" onclick="closeModal('modalEdit')">Batal</button>
+                    <button type="submit" class="btn-primary">Simpan Perubahan</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        function openModal(id) {
+            document.getElementById(id).style.display = "block";
+        }
+
+        function closeModal(id) {
+            document.getElementById(id).style.display = "none";
+        }
+
+        function openEditModal(id, kategori_id, nama_akun, nomor_akun, aktivitas) {
+            document.getElementById('formEdit').action = '/akun/' + id;
+            document.getElementById('edit_kategori_id').value = kategori_id;
+            document.getElementById('edit_nama_akun').value = nama_akun;
+            document.getElementById('edit_nomor_akun').value = nomor_akun;
+            document.getElementById('edit_aktivitas').value = aktivitas;
+            openModal('modalEdit');
+        }
+
+        // Close modal when clicking outside of it
+        window.onclick = function(event) {
+            if (event.target.classList.contains('modal')) {
+                event.target.style.display = "none";
+            }
+        }
+    </script>
+</body>
+</html>
