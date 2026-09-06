@@ -170,12 +170,12 @@
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a href="#" class="nav-link">
+                        <a href="/dashboard#riwayat-transaksi" class="nav-link">
                             <i class="ri-history-line"></i><span>Riwayat Transaksi</span>
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a href="#" class="nav-link">
+                        <a href="/dashboard#grafik" class="nav-link">
                             <i class="ri-bar-chart-box-line"></i><span>Grafik</span>
                         </a>
                     </li>

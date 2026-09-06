@@ -30,19 +30,19 @@
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a href="/kategori" class="nav-link" data-target="input-kategori">
+                        <a href="#" class="nav-link" data-target="input-kategori">
                             <i class="ri-price-tag-3-line"></i>
                             <span>Input Kategori</span>
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a href="/akun" class="nav-link" data-target="input-nama-akun">
+                        <a href="#" class="nav-link" data-target="input-nama-akun">
                             <i class="ri-bank-card-line"></i>
                             <span>Input Nama Akun</span>
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a href="/transaksi" class="nav-link" data-target="input-transaksi">
+                        <a href="#" class="nav-link" data-target="input-transaksi">
                             <i class="ri-file-add-line"></i>
                             <span>Input Transaksi</span>
                         </a>
@@ -431,22 +431,20 @@
                             <button id="btn-toggle-pemasukan" onclick="toggleGrafikView('pemasukan')" style="flex: 1; padding: 10px 0; background: transparent; border: none; font-weight: 500; color: var(--text-muted); cursor: pointer; font-size: 14px;">Pemasukan</button>
                         </div>
                         <!-- Calendar Icon -->
-                        <div style="position: relative; margin-left: 10px;">
-                            <input type="month" id="grafik-month-picker" style="position: absolute; opacity: 0; width: 100%; height: 100%; cursor: pointer; left: 0; top: 0; z-index: 10;" onchange="updateGrafikMonth(this.value)">
-                            <button style="background: transparent; border: none; color: var(--text-dark); font-size: 24px; display: flex; align-items: center; justify-content: center; padding: 0;">
-                                <i class="ri-calendar-todo-line"></i>
-                            </button>
+                        <div style="position: relative; margin-left: 10px; display: flex; align-items: center; gap: 10px;">
+                            <span id="grafik-selected-month" style="font-size: 14px; font-weight: 600; color: var(--text-dark);">Bulan ini</span>
+                            <div style="position: relative; display: flex; align-items: center; justify-content: center;">
+                                <input type="month" id="grafik-month-picker" style="position: absolute; opacity: 0; width: 100%; height: 100%; cursor: pointer; left: 0; top: 0; z-index: 10;" onchange="updateGrafikMonth(this.value)">
+                                <button style="background: transparent; border: none; color: var(--text-dark); font-size: 24px; display: flex; align-items: center; justify-content: center; padding: 0;">
+                                    <i class="ri-calendar-todo-line"></i>
+                                </button>
+                            </div>
                         </div>
                     </div>
 
                     <!-- Time Tabs -->
                     <div id="grafik-content-pengeluaran">
-                    <div style="display: flex; justify-content: space-between; border-bottom: 1px solid var(--border-color); margin-bottom: 30px; padding-bottom: 2px;">
-                        <div id="grafik-tab-pengeluaran-1" style="padding-bottom: 12px; border-bottom: 2px solid #2563eb; color: var(--text-dark); font-weight: 600; cursor: pointer; font-size: 14px;">Jun 2026</div>
-                        <div style="padding-bottom: 12px; color: var(--text-muted); font-weight: 500; cursor: pointer; font-size: 14px;">Jul 2026</div>
-                        <div style="padding-bottom: 12px; color: var(--text-muted); font-weight: 500; cursor: pointer; font-size: 14px;">Bulan lalu</div>
-                        <div style="padding-bottom: 12px; color: var(--text-muted); font-weight: 500; cursor: pointer; font-size: 14px;">Bulan ini</div>
-                    </div>
+
 
                     <!-- Chart Area -->
                     <div style="display: flex; align-items: center; justify-content: center; gap: 50px; margin: 40px auto 50px; max-width: 800px;">
@@ -613,12 +611,7 @@
 
                     <!-- Pemasukan Content -->
                     <div id="grafik-content-pemasukan" style="display: none;">
-                        <div style="display: flex; justify-content: space-between; border-bottom: 1px solid var(--border-color); margin-bottom: 30px; padding-bottom: 2px;">
-                            <div id="grafik-tab-pemasukan-1" style="padding-bottom: 12px; border-bottom: 2px solid #10b981; color: var(--text-dark); font-weight: 600; cursor: pointer; font-size: 14px;">Jun 2026</div>
-                            <div style="padding-bottom: 12px; color: var(--text-muted); font-weight: 500; cursor: pointer; font-size: 14px;">Jul 2026</div>
-                            <div style="padding-bottom: 12px; color: var(--text-muted); font-weight: 500; cursor: pointer; font-size: 14px;">Bulan lalu</div>
-                            <div style="padding-bottom: 12px; color: var(--text-muted); font-weight: 500; cursor: pointer; font-size: 14px;">Bulan ini</div>
-                        </div>
+
 
                         <!-- Chart Area -->
                         <div style="display: flex; align-items: center; justify-content: center; gap: 50px; margin: 40px auto 50px; max-width: 800px;">
@@ -889,20 +882,20 @@
                     <div style="flex: 1; width: 100%; display: flex; gap: 20px;">
                         
                         <!-- Saldo Total Card -->
-                        <div style="flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; background: #4db8ff; border-radius: 12px; box-shadow: 0 4px 15px rgba(77,184,255,0.3); padding: 25px; color: white; cursor: pointer; transition: transform 0.2s ease, background 0.2s ease;" onmouseover="this.style.transform='translateY(-3px)'; this.style.background='#3aa5eb';" onmouseout="this.style.transform='translateY(0)'; this.style.background='#4db8ff';">
-                            <div style="font-size: 14px; font-weight: 500; color: rgba(255,255,255,0.9); margin-bottom: 8px;">Saldo total</div>
+                        <div style="flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; background: #2563eb; border-radius: 12px; box-shadow: 0 4px 15px rgba(37,99,235,0.2); padding: 25px; color: white; cursor: pointer; transition: transform 0.2s ease, background 0.2s ease;" onmouseover="this.style.transform='translateY(-3px)'; this.style.background='#1d4ed8';" onmouseout="this.style.transform='translateY(0)'; this.style.background='#2563eb';">
+                            <div style="font-size: 14px; font-weight: 500; color: rgba(255,255,255,0.8); margin-bottom: 8px;">Saldo total</div>
                             <div id="card-val-saldo" style="font-size: 28px; font-weight: 700; color: white; letter-spacing: 0.5px;">106.509.113</div>
                         </div>
 
                         <!-- Pengeluaran Card -->
-                        <div style="flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; background: #4db8ff; border-radius: 12px; box-shadow: 0 4px 15px rgba(77,184,255,0.3); padding: 25px; color: white; cursor: pointer; transition: transform 0.2s ease, background 0.2s ease;" onmouseover="this.style.transform='translateY(-3px)'; this.style.background='#3aa5eb';" onmouseout="this.style.transform='translateY(0)'; this.style.background='#4db8ff';">
-                            <div style="font-size: 13px; font-weight: 500; color: rgba(255,255,255,0.9); margin-bottom: 5px;">Pengeluaran</div>
+                        <div style="flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; background: #2563eb; border-radius: 12px; box-shadow: 0 4px 15px rgba(37,99,235,0.2); padding: 25px; color: white; cursor: pointer; transition: transform 0.2s ease, background 0.2s ease;" onmouseover="this.style.transform='translateY(-3px)'; this.style.background='#1d4ed8';" onmouseout="this.style.transform='translateY(0)'; this.style.background='#2563eb';">
+                            <div style="font-size: 13px; font-weight: 500; color: rgba(255,255,255,0.8); margin-bottom: 5px;">Pengeluaran</div>
                             <div id="card-val-pengeluaran" style="font-size: 20px; font-weight: 600; color: white; letter-spacing: 0.5px;">589.983.664</div>
                         </div>
 
                         <!-- Pemasukan Card -->
-                        <div style="flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; background: #4db8ff; border-radius: 12px; box-shadow: 0 4px 15px rgba(77,184,255,0.3); padding: 25px; color: white; cursor: pointer; transition: transform 0.2s ease, background 0.2s ease;" onmouseover="this.style.transform='translateY(-3px)'; this.style.background='#3aa5eb';" onmouseout="this.style.transform='translateY(0)'; this.style.background='#4db8ff';">
-                            <div style="font-size: 13px; font-weight: 500; color: rgba(255,255,255,0.9); margin-bottom: 5px;">Pemasukan</div>
+                        <div style="flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; background: #2563eb; border-radius: 12px; box-shadow: 0 4px 15px rgba(37,99,235,0.2); padding: 25px; color: white; cursor: pointer; transition: transform 0.2s ease, background 0.2s ease;" onmouseover="this.style.transform='translateY(-3px)'; this.style.background='#1d4ed8';" onmouseout="this.style.transform='translateY(0)'; this.style.background='#2563eb';">
+                            <div style="font-size: 13px; font-weight: 500; color: rgba(255,255,255,0.8); margin-bottom: 5px;">Pemasukan</div>
                             <div id="card-val-pemasukan" style="font-size: 20px; font-weight: 600; color: white; letter-spacing: 0.5px;">696.492.777</div>
                         </div>
 
@@ -1282,11 +1275,8 @@
             const yearStr = dateObj.getFullYear();
             const formatted = monthStr + ' ' + yearStr;
             
-            const tabPengeluaran = document.getElementById('grafik-tab-pengeluaran-1');
-            if (tabPengeluaran) tabPengeluaran.textContent = formatted;
-            
-            const tabPemasukan = document.getElementById('grafik-tab-pemasukan-1');
-            if (tabPemasukan) tabPemasukan.textContent = formatted;
+            const selectedMonthEl = document.getElementById('grafik-selected-month');
+            if (selectedMonthEl) selectedMonthEl.textContent = formatted;
         }
 
         // Category Chart (Donut)

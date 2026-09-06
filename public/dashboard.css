@@ -524,10 +524,11 @@ body {
 }
 
 .riwayat-header-blue {
-    background-color: #4db8ff; /* Light Blue */
+    background-color: var(--primary); /* Blue */
     padding: 20px 30px;
     display: flex;
     justify-content: space-between;
+    gap: 40px;
     align-items: center;
 }
 
@@ -559,6 +560,7 @@ body {
 .rh-stat {
     display: flex;
     flex-direction: column;
+    flex: 1;
 }
 
 .rh-label {
