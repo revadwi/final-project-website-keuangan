@@ -889,20 +889,20 @@
                     <div style="flex: 1; width: 100%; display: flex; gap: 20px;">
                         
                         <!-- Saldo Total Card -->
-                        <div style="flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; background: #2563eb; border-radius: 12px; box-shadow: 0 4px 15px rgba(37,99,235,0.2); padding: 25px; color: white; cursor: pointer; transition: transform 0.2s ease, background 0.2s ease;" onmouseover="this.style.transform='translateY(-3px)'; this.style.background='#1d4ed8';" onmouseout="this.style.transform='translateY(0)'; this.style.background='#2563eb';">
-                            <div style="font-size: 14px; font-weight: 500; color: rgba(255,255,255,0.8); margin-bottom: 8px;">Saldo total</div>
+                        <div style="flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; background: #4db8ff; border-radius: 12px; box-shadow: 0 4px 15px rgba(77,184,255,0.3); padding: 25px; color: white; cursor: pointer; transition: transform 0.2s ease, background 0.2s ease;" onmouseover="this.style.transform='translateY(-3px)'; this.style.background='#3aa5eb';" onmouseout="this.style.transform='translateY(0)'; this.style.background='#4db8ff';">
+                            <div style="font-size: 14px; font-weight: 500; color: rgba(255,255,255,0.9); margin-bottom: 8px;">Saldo total</div>
                             <div id="card-val-saldo" style="font-size: 28px; font-weight: 700; color: white; letter-spacing: 0.5px;">106.509.113</div>
                         </div>
 
                         <!-- Pengeluaran Card -->
-                        <div style="flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; background: #2563eb; border-radius: 12px; box-shadow: 0 4px 15px rgba(37,99,235,0.2); padding: 25px; color: white; cursor: pointer; transition: transform 0.2s ease, background 0.2s ease;" onmouseover="this.style.transform='translateY(-3px)'; this.style.background='#1d4ed8';" onmouseout="this.style.transform='translateY(0)'; this.style.background='#2563eb';">
-                            <div style="font-size: 13px; font-weight: 500; color: rgba(255,255,255,0.8); margin-bottom: 5px;">Pengeluaran</div>
+                        <div style="flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; background: #4db8ff; border-radius: 12px; box-shadow: 0 4px 15px rgba(77,184,255,0.3); padding: 25px; color: white; cursor: pointer; transition: transform 0.2s ease, background 0.2s ease;" onmouseover="this.style.transform='translateY(-3px)'; this.style.background='#3aa5eb';" onmouseout="this.style.transform='translateY(0)'; this.style.background='#4db8ff';">
+                            <div style="font-size: 13px; font-weight: 500; color: rgba(255,255,255,0.9); margin-bottom: 5px;">Pengeluaran</div>
                             <div id="card-val-pengeluaran" style="font-size: 20px; font-weight: 600; color: white; letter-spacing: 0.5px;">589.983.664</div>
                         </div>
 
                         <!-- Pemasukan Card -->
-                        <div style="flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; background: #2563eb; border-radius: 12px; box-shadow: 0 4px 15px rgba(37,99,235,0.2); padding: 25px; color: white; cursor: pointer; transition: transform 0.2s ease, background 0.2s ease;" onmouseover="this.style.transform='translateY(-3px)'; this.style.background='#1d4ed8';" onmouseout="this.style.transform='translateY(0)'; this.style.background='#2563eb';">
-                            <div style="font-size: 13px; font-weight: 500; color: rgba(255,255,255,0.8); margin-bottom: 5px;">Pemasukan</div>
+                        <div style="flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; background: #4db8ff; border-radius: 12px; box-shadow: 0 4px 15px rgba(77,184,255,0.3); padding: 25px; color: white; cursor: pointer; transition: transform 0.2s ease, background 0.2s ease;" onmouseover="this.style.transform='translateY(-3px)'; this.style.background='#3aa5eb';" onmouseout="this.style.transform='translateY(0)'; this.style.background='#4db8ff';">
+                            <div style="font-size: 13px; font-weight: 500; color: rgba(255,255,255,0.9); margin-bottom: 5px;">Pemasukan</div>
                             <div id="card-val-pemasukan" style="font-size: 20px; font-weight: 600; color: white; letter-spacing: 0.5px;">696.492.777</div>
                         </div>
 

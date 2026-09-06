@@ -524,11 +524,10 @@ body {
 }
 
 .riwayat-header-blue {
-    background-color: var(--primary); /* Blue */
+    background-color: #4db8ff; /* Light Blue */
     padding: 20px 30px;
     display: flex;
-    justify-content: flex-start;
-    gap: 40px;
+    justify-content: space-between;
     align-items: center;
 }
 
