@@ -30,19 +30,19 @@
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a href="#" class="nav-link" data-target="input-kategori">
+                        <a href="/kategori" class="nav-link" data-target="input-kategori">
                             <i class="ri-price-tag-3-line"></i>
                             <span>Input Kategori</span>
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a href="#" class="nav-link" data-target="input-nama-akun">
+                        <a href="/akun" class="nav-link" data-target="input-nama-akun">
                             <i class="ri-bank-card-line"></i>
                             <span>Input Nama Akun</span>
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a href="#" class="nav-link" data-target="input-transaksi">
+                        <a href="/transaksi" class="nav-link" data-target="input-transaksi">
                             <i class="ri-file-add-line"></i>
                             <span>Input Transaksi</span>
                         </a>
