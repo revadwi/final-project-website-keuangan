@@ -80,9 +80,7 @@
         <main class="main-content">
             <!-- Header -->
             <header class="header" style="position: relative; display: flex; justify-content: center; align-items: center; margin-bottom: 30px;">
-                <div class="header-titles" style="text-align: center;">
-                    <h1 style="margin: 0; font-size: 24px; font-weight: 700; color: var(--text-dark);">Detail</h1>
-                </div>
+
                 <div class="header-actions" style="position: absolute; right: 0;">
                     <button class="icon-btn">
                         <i class="ri-notification-3-line"></i>
@@ -909,8 +907,15 @@
                     <div style="display: flex; justify-content: space-between; align-items: center; padding: 20px 25px; border-bottom: 1px solid #f1f5f9;">
                         <h3 id="tabel-title" style="font-size: 18px; font-weight: 700; color: var(--text-dark); margin: 0;">Ringkasan Bulanan</h3>
                         
-                        <button onclick="downloadExcel()" style="display: flex; align-items: center; gap: 8px; background: white; color: #10b981; border: 1px solid #10b981; padding: 8px 16px; border-radius: 6px; font-size: 14px; font-weight: 600; cursor: pointer; transition: all 0.2s; box-shadow: 0 1px 2px rgba(0,0,0,0.05);" onmouseover="this.style.backgroundColor='#10b981'; this.style.color='white';" onmouseout="this.style.backgroundColor='white'; this.style.color='#10b981';">
-                            <i class="ri-file-excel-2-line" style="font-size: 16px;"></i>
+                        <button onclick="downloadExcel()" style="display: flex; align-items: center; gap: 8px; background: #10b981; color: white; border: none; padding: 8px 16px; border-radius: 6px; font-size: 14px; font-weight: 500; cursor: pointer; transition: background-color 0.2s ease; box-shadow: 0 1px 2px rgba(0,0,0,0.05);" onmouseover="this.style.backgroundColor='#059669';" onmouseout="this.style.backgroundColor='#10b981';">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8Z"></path>
+                                <path d="M14 2v6h6"></path>
+                                <path d="M8 13h2"></path>
+                                <path d="M8 17h2"></path>
+                                <path d="M14 13h2"></path>
+                                <path d="M14 17h2"></path>
+                            </svg>
                             Unduh Excel
                         </button>
                     </div>

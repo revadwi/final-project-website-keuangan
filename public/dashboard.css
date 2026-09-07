@@ -5,17 +5,17 @@
 }
 
 :root {
-    --primary: #1d4ed8;
-    --primary-light: #eff6ff;
+    --primary: #38bdf8;
+    --primary-light: #e0f2fe;
     --secondary: #10b981;
     --success: #059669;
     --danger: #ef4444;
     --purple: #8b5cf6;
     --text-dark: #0f172a;
     --text-muted: #64748b;
-    --bg-main: #f8fafc;
+    --bg-main: #f0f9ff;
     --bg-card: #ffffff;
-    --border-color: #f1f5f9;
+    --border-color: #bae6fd;
 }
 
 body {
