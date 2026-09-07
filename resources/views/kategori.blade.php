@@ -123,12 +123,12 @@
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a href="#" class="nav-link">
+                        <a href="/dashboard#riwayat-transaksi" class="nav-link">
                             <i class="ri-history-line"></i><span>Riwayat Transaksi</span>
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a href="#" class="nav-link">
+                        <a href="/dashboard#grafik" class="nav-link">
                             <i class="ri-bar-chart-box-line"></i><span>Grafik</span>
                         </a>
                     </li>
@@ -142,10 +142,9 @@
         </aside>
 
         <main class="main-content">
-            <header class="header">
-                <div class="header-titles">
-                    <h1>Kategori</h1>
-                    <p>Manajemen Kategori Debit dan Kredit</p>
+            <header class="header" style="display: flex; justify-content: center; width: 100%;">
+                <div class="header-titles" style="text-align: center;">
+                    <h1 style="margin-bottom: 0;">Kategori</h1>
                 </div>
             </header>
 
@@ -159,14 +158,24 @@
                     <button class="btn-primary" onclick="openModal('modalCreate')"><i class="ri-add-line"></i> Tambah Kategori</button>
                 </div>
                 
-                <div class="transactions-list" style="background: #f8fafc; padding: 15px; border-radius: 8px;">
-                    <table style="width:100%; text-align:left; border-collapse: collapse;">
-                        <tr style="border-bottom: 2px solid #e2e8f0;">
-                            <th style="padding: 12px 10px; color:#475569;">No</th>
-                            <th style="padding: 12px 10px; color:#475569;">Nama Kategori</th>
-                            <th style="padding: 12px 10px; color:#475569;">Jenis Kategori</th>
-                            <th style="padding: 12px 10px; color:#475569; text-align: center;">Aksi</th>
-                        </tr>
+                <div style="margin-bottom: 20px;">
+                    <div style="position: relative; width: 400px; max-width: 100%;">
+                        <i class="ri-search-line" style="position: absolute; left: 15px; top: 50%; transform: translateY(-50%); color: #64748b; font-size: 18px;"></i>
+                        <input type="text" id="searchInput" placeholder="Cari kategori..." style="width: 100%; padding: 12px 15px 12px 45px; border: 1px solid #e2e8f0; border-radius: 8px; font-family: 'Inter', sans-serif; outline: none; font-size: 14px; color: #334155; transition: border-color 0.2s;" onfocus="this.style.borderColor='#3b82f6'" onblur="this.style.borderColor='#e2e8f0'">
+                    </div>
+                </div>
+                
+                <div class="transactions-list" style="background: white;">
+                    <table style="width:100%; text-align:left; border-collapse: separate; border-spacing: 0;">
+                        <thead>
+                            <tr style="background-color: #f8fafc;">
+                                <th style="padding: 16px 20px; color:#475569; font-weight: 600; font-size: 14px; border-top-left-radius: 8px; border-bottom-left-radius: 8px;">No</th>
+                                <th style="padding: 16px 20px; color:#475569; font-weight: 600; font-size: 14px;">Nama Kategori</th>
+                                <th style="padding: 16px 20px; color:#475569; font-weight: 600; font-size: 14px;">Jenis Kategori</th>
+                                <th style="padding: 16px 20px; color:#475569; font-weight: 600; font-size: 14px; text-align: center; border-top-right-radius: 8px; border-bottom-right-radius: 8px;">Aksi</th>
+                            </tr>
+                        </thead>
+                        <tbody id="kategoriTableBody">
                         @foreach($kategoris as $index => $kategori)
                         <tr style="border-bottom: 1px solid #e2e8f0;">
                             <td style="padding: 12px 10px;">{{ $index + 1 }}</td>
@@ -191,6 +200,7 @@
                             <td colspan="4" style="padding: 20px; text-align: center; color: #94a3b8;">Belum ada data kategori.</td>
                         </tr>
                         @endif
+                        </tbody>
                     </table>
                 </div>
             </div>
@@ -272,6 +282,26 @@
                 event.target.style.display = "none";
             }
         }
+
+        // Search functionality
+        document.getElementById('searchInput').addEventListener('keyup', function() {
+            let filter = this.value.toLowerCase();
+            let rows = document.querySelectorAll('#kategoriTableBody tr');
+            
+            rows.forEach(row => {
+                // Skip the "Belum ada data" row if it exists and has only 1 cell
+                if (row.cells.length === 1) return;
+                
+                let nama = row.cells[1] ? row.cells[1].textContent.toLowerCase() : '';
+                let jenis = row.cells[2] ? row.cells[2].textContent.toLowerCase() : '';
+                
+                if (nama.indexOf(filter) > -1 || jenis.indexOf(filter) > -1) {
+                    row.style.display = '';
+                } else {
+                    row.style.display = 'none';
+                }
+            });
+        });
     </script>
 </body>
 </html>
