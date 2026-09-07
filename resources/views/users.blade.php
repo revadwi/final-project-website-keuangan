@@ -68,7 +68,7 @@
                 </ul>
 
                 <div class="nav-bottom">
-                    <a href="/index" class="nav-link logout-link">
+                    <a href="/login" class="nav-link logout-link">
                         <i class="ri-logout-box-r-line"></i>
                         <span>Keluar</span>
                     </a>

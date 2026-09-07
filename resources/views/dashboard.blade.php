@@ -30,19 +30,19 @@
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a href="#" class="nav-link" data-target="input-kategori">
+                        <a href="/kategori" class="nav-link" data-target="input-kategori">
                             <i class="ri-price-tag-3-line"></i>
                             <span>Input Kategori</span>
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a href="#" class="nav-link" data-target="input-nama-akun">
+                        <a href="/akun" class="nav-link" data-target="input-nama-akun">
                             <i class="ri-bank-card-line"></i>
                             <span>Input Nama Akun</span>
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a href="#" class="nav-link" data-target="input-transaksi">
+                        <a href="/transaksi" class="nav-link" data-target="input-transaksi">
                             <i class="ri-file-add-line"></i>
                             <span>Input Transaksi</span>
                         </a>
@@ -68,7 +68,7 @@
                 </ul>
 
                 <div class="nav-bottom">
-                    <a href="/index" class="nav-link logout-link">
+                    <a href="/login" class="nav-link logout-link">
                         <i class="ri-logout-box-r-line"></i>
                         <span>Keluar</span>
                     </a>
@@ -421,14 +421,15 @@
 
             <!-- Grafik Section -->
             <div id="view-grafik" class="view-section" style="display: none;">
+                <h3 style="margin-top: 0; margin-bottom: 20px; font-size: 24px; font-weight: 700; color: var(--text-dark); text-align: center;">Grafik</h3>
                 <div style="width: 100%; background: var(--bg-card); border-radius: 16px; padding: 25px 30px; box-shadow: 0 4px 15px rgba(0,0,0,0.03);">
                     
                     <!-- Header Controls -->
                     <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 25px;">
                         <!-- Segmented Control -->
                         <div style="display: flex; background: #f1f5f9; border-radius: 8px; padding: 4px; width: 80%;">
-                            <button id="btn-toggle-pengeluaran" onclick="toggleGrafikView('pengeluaran')" style="flex: 1; padding: 10px 0; background: #ffffff; border: none; border-radius: 6px; font-weight: 600; color: var(--text-dark); box-shadow: 0 2px 5px rgba(0,0,0,0.05); cursor: pointer; font-size: 14px;">Pengeluaran</button>
                             <button id="btn-toggle-pemasukan" onclick="toggleGrafikView('pemasukan')" style="flex: 1; padding: 10px 0; background: transparent; border: none; font-weight: 500; color: var(--text-muted); cursor: pointer; font-size: 14px;">Pemasukan</button>
+                            <button id="btn-toggle-pengeluaran" onclick="toggleGrafikView('pengeluaran')" style="flex: 1; padding: 10px 0; background: #ffffff; border: none; border-radius: 6px; font-weight: 600; color: var(--text-dark); box-shadow: 0 2px 5px rgba(0,0,0,0.05); cursor: pointer; font-size: 14px;">Pengeluaran</button>
                         </div>
                         <!-- Calendar Icon -->
                         <div style="position: relative; margin-left: 10px; display: flex; align-items: center; gap: 10px;">
@@ -882,19 +883,19 @@
                     <div style="flex: 1; width: 100%; display: flex; gap: 20px;">
                         
                         <!-- Saldo Total Card -->
-                        <div style="flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; background: #2563eb; border-radius: 12px; box-shadow: 0 4px 15px rgba(37,99,235,0.2); padding: 25px; color: white; cursor: pointer; transition: transform 0.2s ease, background 0.2s ease;" onmouseover="this.style.transform='translateY(-3px)'; this.style.background='#1d4ed8';" onmouseout="this.style.transform='translateY(0)'; this.style.background='#2563eb';">
+                        <div style="flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; background: linear-gradient(90deg, #7cd0ff 0%, #4db8ff 100%); border-radius: 12px; box-shadow: 0 4px 15px rgba(77,184,255,0.3); padding: 25px; color: white; cursor: pointer; transition: transform 0.2s ease, opacity 0.2s ease;" onmouseover="this.style.transform='translateY(-3px)'; this.style.opacity='0.9';" onmouseout="this.style.transform='translateY(0)'; this.style.opacity='1';">
                             <div style="font-size: 14px; font-weight: 500; color: rgba(255,255,255,0.8); margin-bottom: 8px;">Saldo total</div>
                             <div id="card-val-saldo" style="font-size: 28px; font-weight: 700; color: white; letter-spacing: 0.5px;">106.509.113</div>
                         </div>
 
                         <!-- Pengeluaran Card -->
-                        <div style="flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; background: #2563eb; border-radius: 12px; box-shadow: 0 4px 15px rgba(37,99,235,0.2); padding: 25px; color: white; cursor: pointer; transition: transform 0.2s ease, background 0.2s ease;" onmouseover="this.style.transform='translateY(-3px)'; this.style.background='#1d4ed8';" onmouseout="this.style.transform='translateY(0)'; this.style.background='#2563eb';">
+                        <div style="flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; background: linear-gradient(90deg, #7cd0ff 0%, #4db8ff 100%); border-radius: 12px; box-shadow: 0 4px 15px rgba(77,184,255,0.3); padding: 25px; color: white; cursor: pointer; transition: transform 0.2s ease, opacity 0.2s ease;" onmouseover="this.style.transform='translateY(-3px)'; this.style.opacity='0.9';" onmouseout="this.style.transform='translateY(0)'; this.style.opacity='1';">
                             <div style="font-size: 13px; font-weight: 500; color: rgba(255,255,255,0.8); margin-bottom: 5px;">Pengeluaran</div>
                             <div id="card-val-pengeluaran" style="font-size: 20px; font-weight: 600; color: white; letter-spacing: 0.5px;">589.983.664</div>
                         </div>
 
                         <!-- Pemasukan Card -->
-                        <div style="flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; background: #2563eb; border-radius: 12px; box-shadow: 0 4px 15px rgba(37,99,235,0.2); padding: 25px; color: white; cursor: pointer; transition: transform 0.2s ease, background 0.2s ease;" onmouseover="this.style.transform='translateY(-3px)'; this.style.background='#1d4ed8';" onmouseout="this.style.transform='translateY(0)'; this.style.background='#2563eb';">
+                        <div style="flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; background: linear-gradient(90deg, #7cd0ff 0%, #4db8ff 100%); border-radius: 12px; box-shadow: 0 4px 15px rgba(77,184,255,0.3); padding: 25px; color: white; cursor: pointer; transition: transform 0.2s ease, opacity 0.2s ease;" onmouseover="this.style.transform='translateY(-3px)'; this.style.opacity='0.9';" onmouseout="this.style.transform='translateY(0)'; this.style.opacity='1';">
                             <div style="font-size: 13px; font-weight: 500; color: rgba(255,255,255,0.8); margin-bottom: 5px;">Pemasukan</div>
                             <div id="card-val-pemasukan" style="font-size: 20px; font-weight: 600; color: white; letter-spacing: 0.5px;">696.492.777</div>
                         </div>
@@ -1522,6 +1523,15 @@
 
             // Run on load
             calculateRiwayatTotals();
+            
+            // Check URL hash on load to switch view
+            if (window.location.hash) {
+                const hash = window.location.hash.substring(1);
+                const targetLink = document.querySelector(`.nav-link[data-target="${hash}"]`);
+                if (targetLink) {
+                    targetLink.click();
+                }
+            }
             
             // Laporan Excel Export Feature
             window.downloadExcel = function() {

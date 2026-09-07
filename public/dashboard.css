@@ -524,7 +524,7 @@ body {
 }
 
 .riwayat-header-blue {
-    background-color: var(--primary); /* Blue */
+    background: linear-gradient(90deg, #7cd0ff 0%, #4db8ff 100%);
     padding: 20px 30px;
     display: flex;
     justify-content: space-between;
