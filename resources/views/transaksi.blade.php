@@ -72,6 +72,12 @@
                     <li class="nav-item"><a href="/dashboard#grafik" class="nav-link"><i class="ri-bar-chart-box-line"></i><span>Grafik</span></a></li>
                     <li class="nav-item"><a href="/laporan" class="nav-link"><i class="ri-file-list-3-line"></i><span>Laporan</span></a></li>
                 </ul>
+                <div class="nav-bottom">
+                    <a href="/login" class="nav-link logout-link">
+                        <i class="ri-logout-box-r-line"></i>
+                        <span>Keluar</span>
+                    </a>
+                </div>
             </nav>
         </aside>
 

@@ -146,6 +146,12 @@
                         </a>
                     </li>
                 </ul>
+                <div class="nav-bottom">
+                    <a href="/login" class="nav-link logout-link">
+                        <i class="ri-logout-box-r-line"></i>
+                        <span>Keluar</span>
+                    </a>
+                </div>
             </nav>
         </aside>
 
