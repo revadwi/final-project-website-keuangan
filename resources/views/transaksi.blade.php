@@ -105,7 +105,7 @@
 
                     <!-- FORM PEMASUKAN -->
                     <div id="form-pemasukan" class="tab-content active">
-                        <form action="{{ route('transaksi.store') }}" method="POST">
+                        <form action="{{ route('transaksi.store') }}" method="POST" enctype="multipart/form-data">
                             @csrf
                             <input type="hidden" name="jenis_transaksi" value="Pemasukan">
                             
@@ -167,6 +167,11 @@
                                 <input type="number" name="jumlah" class="form-control" required min="1" placeholder="0">
                             </div>
 
+                            <div class="form-group">
+                                <label>Bukti Transaksi / Dokumentasi (Opsional)</label>
+                                <input type="file" name="dokumentasi" class="form-control" accept="image/*,.pdf">
+                            </div>
+
                             <div class="form-actions">
                                 <button type="button" class="btn btn-cancel" onclick="window.location.href='/dashboard'">Batal</button>
                                 <button type="submit" class="btn btn-save">Simpan Pemasukan</button>
@@ -176,7 +181,7 @@
 
                     <!-- FORM PENGELUARAN -->
                     <div id="form-pengeluaran" class="tab-content">
-                        <form action="{{ route('transaksi.store') }}" method="POST">
+                        <form action="{{ route('transaksi.store') }}" method="POST" enctype="multipart/form-data">
                             @csrf
                             <input type="hidden" name="jenis_transaksi" value="Pengeluaran">
                             
@@ -236,6 +241,11 @@
                             <div class="form-group">
                                 <label>Jumlah (Rp)</label>
                                 <input type="number" name="jumlah" class="form-control" required min="1" placeholder="0">
+                            </div>
+
+                            <div class="form-group">
+                                <label>Bukti Transaksi / Dokumentasi (Opsional)</label>
+                                <input type="file" name="dokumentasi" class="form-control" accept="image/*,.pdf">
                             </div>
 
                             <div class="form-actions">
