@@ -107,11 +107,11 @@
                                 </option>
                             @endforeach
                         </select>
-                        <button type="button" onclick="openWorksheetModal()" style="width: 36px; height: 36px; border-radius: 8px; border: none; background: #0b5394; color: white; display: flex; align-items: center; justify-content: center; cursor: pointer; transition: 0.2s;" title="Tambah Worksheet">
-                            <i class="ri-add-line" style="font-size: 20px;"></i>
-                        </button>
                     </div>
                     @endif
+                    <button type="button" onclick="openWorksheetModal()" style="width: 36px; height: 36px; border-radius: 8px; border: none; background: #0b5394; color: white; display: flex; align-items: center; justify-content: center; cursor: pointer; transition: 0.2s;" title="Tambah Worksheet">
+                        <i class="ri-add-line" style="font-size: 20px;"></i>
+                    </button>
 
                     <button class="icon-btn">
                         <i class="ri-notification-3-line"></i>
