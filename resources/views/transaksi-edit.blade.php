@@ -1,6 +1,6 @@
 @extends('layouts.app')
-@section('title', 'Input Transaksi - FinanceHub')
-@section('header-title', 'Input Transaksi')
+@section('title', 'Edit Transaksi - FinanceHub')
+@section('header-title', 'Edit Transaksi')
 
 @push('styles')
 <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
@@ -67,25 +67,26 @@
                         </div>
                     @endif
 
-                    <div class="tabs">
-                        <button class="tab-btn active" onclick="switchTab('pemasukan')">Pemasukan</button>
-                        <button class="tab-btn" onclick="switchTab('pengeluaran')">Pengeluaran</button>
+                    @if($transaksi->jenis_transaksi == 'Pemasukan')
+                    <div style="padding: 10px 20px; background: #d1fae5; color: #065f46; font-weight: 600; text-align: center; border-radius: 8px; margin-bottom: 20px;">
+                        Mengedit Transaksi Pemasukan
                     </div>
 
                     <!-- FORM PEMASUKAN -->
                     <div id="form-pemasukan" class="tab-content active">
-                        <form action="{{ route('transaksi.store') }}" method="POST" enctype="multipart/form-data" onsubmit="var btn = this.querySelector('button[type=submit]'); btn.disabled = true; btn.innerHTML = 'Menyimpan...'; btn.style.opacity = '0.7';">
+                        <form action="{{ route('transaksi.update', $transaksi->id) }}" method="POST" enctype="multipart/form-data" onsubmit="var btn = this.querySelector('button[type=submit]'); btn.disabled = true; btn.innerHTML = 'Menyimpan...'; btn.style.opacity = '0.7';">
                             @csrf
+                            @method('PUT')
                             <input type="hidden" name="jenis_transaksi" value="Pemasukan">
                             
                             <div class="form-grid">
                                 <div class="form-group">
                                     <label>Tanggal Transaksi</label>
-                                    <input type="date" name="tanggal" class="form-control" required value="{{ date('Y-m-d') }}">
+                                    <input type="date" name="tanggal" class="form-control" required value="{{ \Carbon\Carbon::parse($transaksi->tanggal)->format('Y-m-d') }}">
                                 </div>
                                 <div class="form-group">
                                     <label>Keterangan</label>
-                                    <input type="text" name="keterangan" class="form-control" required placeholder="Contoh: Pendapatan Jasa">
+                                    <input type="text" name="keterangan" class="form-control" required value="{{ $transaksi->keterangan }}">
                                 </div>
                             </div>
                             
@@ -133,35 +134,47 @@
                             
                             <div class="form-group">
                                 <label>Jumlah (Rp)</label>
-                                <input type="number" name="jumlah" class="form-control" required min="1" placeholder="0">
+                                <input type="number" name="jumlah" class="form-control" required min="1" value="{{ $transaksi->jumlah }}">
                             </div>
 
                             <div class="form-group">
                                 <label>Bukti Transaksi / Dokumentasi (Opsional)</label>
+                                @if($transaksi->dokumentasi)
+                                    <div style="margin-bottom: 10px;">
+                                        <a href="{{ asset('storage/' . $transaksi->dokumentasi) }}" target="_blank" style="color: var(--primary); text-decoration: none; font-size: 14px;"><i class="ri-attachment-line"></i> Lihat File Saat Ini</a>
+                                    </div>
+                                    <p style="font-size: 12px; color: var(--text-muted); margin-bottom: 5px;">Unggah file baru jika ingin mengganti file lama.</p>
+                                @endif
                                 <input type="file" name="dokumentasi" class="form-control" accept="image/*,.pdf">
                             </div>
 
                             <div class="form-actions">
-                                <button type="button" class="btn btn-cancel" onclick="window.location.href='/dashboard'">Batal</button>
-                                <button type="submit" class="btn btn-save">Simpan Pemasukan</button>
+                                <button type="button" class="btn btn-cancel" onclick="window.location.href='/dashboard#riwayat-transaksi'">Batal</button>
+                                <button type="submit" class="btn btn-save">Simpan Perubahan</button>
                             </div>
                         </form>
                     </div>
 
+                    @elseif($transaksi->jenis_transaksi == 'Pengeluaran')
+                    <div style="padding: 10px 20px; background: #fee2e2; color: #991b1b; font-weight: 600; text-align: center; border-radius: 8px; margin-bottom: 20px;">
+                        Mengedit Transaksi Pengeluaran
+                    </div>
+
                     <!-- FORM PENGELUARAN -->
-                    <div id="form-pengeluaran" class="tab-content">
-                        <form action="{{ route('transaksi.store') }}" method="POST" enctype="multipart/form-data" onsubmit="var btn = this.querySelector('button[type=submit]'); btn.disabled = true; btn.innerHTML = 'Menyimpan...'; btn.style.opacity = '0.7';">
+                    <div id="form-pengeluaran" class="tab-content active">
+                        <form action="{{ route('transaksi.update', $transaksi->id) }}" method="POST" enctype="multipart/form-data" onsubmit="var btn = this.querySelector('button[type=submit]'); btn.disabled = true; btn.innerHTML = 'Menyimpan...'; btn.style.opacity = '0.7';">
                             @csrf
+                            @method('PUT')
                             <input type="hidden" name="jenis_transaksi" value="Pengeluaran">
                             
                             <div class="form-grid">
                                 <div class="form-group">
                                     <label>Tanggal Transaksi</label>
-                                    <input type="date" name="tanggal" class="form-control" required value="{{ date('Y-m-d') }}">
+                                    <input type="date" name="tanggal" class="form-control" required value="{{ \Carbon\Carbon::parse($transaksi->tanggal)->format('Y-m-d') }}">
                                 </div>
                                 <div class="form-group">
                                     <label>Keterangan</label>
-                                    <input type="text" name="keterangan" class="form-control" required placeholder="Contoh: Pembayaran Listrik">
+                                    <input type="text" name="keterangan" class="form-control" required value="{{ $transaksi->keterangan }}">
                                 </div>
                             </div>
                             
@@ -209,20 +222,27 @@
                             
                             <div class="form-group">
                                 <label>Jumlah (Rp)</label>
-                                <input type="number" name="jumlah" class="form-control" required min="1" placeholder="0">
+                                <input type="number" name="jumlah" class="form-control" required min="1" value="{{ $transaksi->jumlah }}">
                             </div>
 
                             <div class="form-group">
                                 <label>Bukti Transaksi / Dokumentasi (Opsional)</label>
+                                @if($transaksi->dokumentasi)
+                                    <div style="margin-bottom: 10px;">
+                                        <a href="{{ asset('storage/' . $transaksi->dokumentasi) }}" target="_blank" style="color: var(--primary); text-decoration: none; font-size: 14px;"><i class="ri-attachment-line"></i> Lihat File Saat Ini</a>
+                                    </div>
+                                    <p style="font-size: 12px; color: var(--text-muted); margin-bottom: 5px;">Unggah file baru jika ingin mengganti file lama.</p>
+                                @endif
                                 <input type="file" name="dokumentasi" class="form-control" accept="image/*,.pdf">
                             </div>
 
                             <div class="form-actions">
-                                <button type="button" class="btn btn-cancel" onclick="window.location.href='/dashboard'">Batal</button>
-                                <button type="submit" class="btn btn-save btn-danger">Simpan Pengeluaran</button>
+                                <button type="button" class="btn btn-cancel" onclick="window.location.href='/dashboard#riwayat-transaksi'">Batal</button>
+                                <button type="submit" class="btn btn-save btn-danger">Simpan Perubahan</button>
                             </div>
                         </form>
                     </div>
+                    @endif
 
                 </div>
             </div>
@@ -242,6 +262,39 @@
                     $(this).data('placeholder');
                 }
             });
+
+            // Pre-fill values
+            const jenis = "{{ $transaksi->jenis_transaksi }}";
+            const akunDebitId = "{{ $transaksi->akun_debit_id }}";
+            const akunKreditId = "{{ $transaksi->akun_kredit_id }}";
+
+            if (jenis === 'Pemasukan') {
+                const debitKategori = allAkuns.find(a => a.id == akunDebitId)?.kategori_id;
+                const kreditKategori = allAkuns.find(a => a.id == akunKreditId)?.kategori_id;
+                
+                if(debitKategori) {
+                    $('#pem_kat_tujuan').val(debitKategori).trigger('change');
+                    $('#pem_akun_tujuan').val(akunDebitId).trigger('change');
+                }
+                
+                if(kreditKategori) {
+                    $('#pem_kat_sumber').val(kreditKategori).trigger('change');
+                    $('#pem_akun_sumber').val(akunKreditId).trigger('change');
+                }
+            } else if (jenis === 'Pengeluaran') {
+                const debitKategori = allAkuns.find(a => a.id == akunDebitId)?.kategori_id;
+                const kreditKategori = allAkuns.find(a => a.id == akunKreditId)?.kategori_id;
+                
+                if(debitKategori) {
+                    $('#peng_kat_tujuan').val(debitKategori).trigger('change');
+                    $('#peng_akun_tujuan').val(akunDebitId).trigger('change');
+                }
+
+                if(kreditKategori) {
+                    $('#peng_kat_sumber').val(kreditKategori).trigger('change');
+                    $('#peng_akun_sumber').val(akunKreditId).trigger('change');
+                }
+            }
         });
 
         function switchTab(type) {

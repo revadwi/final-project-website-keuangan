@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Validation\Rule;
 
 class KategoriController extends Controller
 {
@@ -15,7 +16,10 @@ class KategoriController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'nama_kategori' => 'required|string|max:255',
+            'nama_kategori' => [
+                'required', 'string', 'max:255',
+                Rule::unique('kategoris', 'nama_kategori')->where('perusahaan_id', session('active_perusahaan_id', \App\Models\Perusahaan::first()->id ?? null))
+            ],
             'jenis_kategori' => 'required|in:Debit,Kredit',
         ]);
 
@@ -27,7 +31,10 @@ class KategoriController extends Controller
     public function update(Request $request, $id)
     {
         $request->validate([
-            'nama_kategori' => 'required|string|max:255',
+            'nama_kategori' => [
+                'required', 'string', 'max:255',
+                Rule::unique('kategoris', 'nama_kategori')->ignore($id)->where('perusahaan_id', session('active_perusahaan_id', \App\Models\Perusahaan::first()->id ?? null))
+            ],
             'jenis_kategori' => 'required|in:Debit,Kredit',
         ]);
 

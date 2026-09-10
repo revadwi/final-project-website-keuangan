@@ -1,16 +1,10 @@
-<!DOCTYPE html>
-<html lang="id">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Kategori - FinanceHub</title>
-    <link rel="stylesheet" href="dashboard.css">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
-    <link href="https://cdn.jsdelivr.net/npm/remixicon@3.5.0/fonts/remixicon.css" rel="stylesheet">
-    <style>
-        .modal {
+@extends('layouts.app')
+@section('title', 'Kategori - FinanceHub')
+@section('header-title', 'Kategori')
+
+@push('styles')
+<style>
+.modal {
             display: none; 
             position: fixed; 
             z-index: 1000; 
@@ -88,73 +82,11 @@
             border-radius: 6px;
             margin-bottom: 20px;
         }
-    </style>
-</head>
-<body>
-    <div class="dashboard-container">
-        <!-- Sidebar -->
-        <aside class="sidebar">
-            <div class="sidebar-header">
-                <div class="logo">
-                    <img src="logo.png" alt="FinanceHub" style="max-width: 180px; height: auto; margin-top: -15px; margin-bottom: -15px; margin-left: -5px;">
-                </div>
-            </div>
-            <!-- nav -->
-            <nav class="sidebar-nav">
-                <ul class="nav-list">
-                    <li class="nav-item">
-                        <a href="/dashboard" class="nav-link">
-                            <i class="ri-home-5-line"></i><span>Dashboard</span>
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a href="{{ route('kategori.index') }}" class="nav-link" style="background: rgba(255,255,255,0.1); border-radius: 8px;">
-                            <i class="ri-price-tag-3-line"></i><span>Input Kategori</span>
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a href="{{ route('akun.index') }}" class="nav-link">
-                            <i class="ri-bank-card-line"></i><span>Input Nama Akun</span>
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a href="/transaksi" class="nav-link">
-                            <i class="ri-file-add-line"></i><span>Input Transaksi</span>
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a href="/dashboard#riwayat-transaksi" class="nav-link">
-                            <i class="ri-history-line"></i><span>Riwayat Transaksi</span>
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a href="/dashboard#grafik" class="nav-link">
-                            <i class="ri-bar-chart-box-line"></i><span>Grafik</span>
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a href="/laporan" class="nav-link">
-                            <i class="ri-file-list-3-line"></i><span>Laporan</span>
-                        </a>
-                    </li>
-                </ul>
-                <div class="nav-bottom">
-                    <a href="/login" class="nav-link logout-link">
-                        <i class="ri-logout-box-r-line"></i>
-                        <span>Keluar</span>
-                    </a>
-                </div>
-            </nav>
-        </aside>
+</style>
+@endpush
 
-        <main class="main-content">
-            <header class="header" style="display: flex; justify-content: center; width: 100%;">
-                <div class="header-titles" style="text-align: center;">
-                    <h1 style="margin-bottom: 0;">Kategori</h1>
-                </div>
-            </header>
-
-            <div class="view-section active" style="display: block; padding: 20px; background: white; border-radius: 12px; margin-top: 20px;">
+@section('content')
+<div class="view-section active" style="display: block; padding: 20px; background: white; border-radius: 12px; margin-top: 20px;">
                 @if(session('success'))
                     <div class="alert-success">{{ session('success') }}</div>
                 @endif
@@ -210,15 +142,13 @@
                     </table>
                 </div>
             </div>
-        </main>
-    </div>
 
-    <!-- Modal Create -->
+<!-- Modal Create -->
     <div id="modalCreate" class="modal">
         <div class="modal-content">
             <span class="close" onclick="closeModal('modalCreate')">&times;</span>
             <h2>Tambah Kategori Baru</h2>
-            <form action="{{ route('kategori.store') }}" method="POST" style="margin-top: 20px;">
+            <form action="{{ route('kategori.store') }}" method="POST" style="margin-top: 20px;" onsubmit="var btn = this.querySelector('button[type=submit]'); btn.disabled = true; btn.innerHTML = 'Menyimpan...'; btn.style.opacity = '0.7';">
                 @csrf
                 <div class="form-group">
                     <label>Nama Kategori</label>
@@ -244,7 +174,7 @@
         <div class="modal-content">
             <span class="close" onclick="closeModal('modalEdit')">&times;</span>
             <h2>Edit Kategori</h2>
-            <form id="formEdit" method="POST" style="margin-top: 20px;">
+            <form id="formEdit" method="POST" style="margin-top: 20px;" onsubmit="var btn = this.querySelector('button[type=submit]'); btn.disabled = true; btn.innerHTML = 'Menyimpan...'; btn.style.opacity = '0.7';">
                 @csrf
                 @method('PUT')
                 <div class="form-group">
@@ -265,8 +195,10 @@
             </form>
         </div>
     </div>
+@endsection
 
-    <script>
+@push('scripts')
+<script>
         function openModal(id) {
             document.getElementById(id).style.display = "block";
         }
@@ -309,5 +241,4 @@
             });
         });
     </script>
-</body>
-</html>
+@endpush

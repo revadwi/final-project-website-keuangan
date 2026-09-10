@@ -1,104 +1,10 @@
-<!DOCTYPE html>
-<html lang="id">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dashboard - FinanceHub</title>
-    <link rel="stylesheet" href="dashboard.css">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
-    <link href="https://cdn.jsdelivr.net/npm/remixicon@3.5.0/fonts/remixicon.css" rel="stylesheet">
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-</head>
-<body>
-    <div class="dashboard-container">
-        <!-- Sidebar -->
-        <aside class="sidebar">
-            <div class="sidebar-header">
-                <div class="logo">
-                    <img src="logo.png" alt="Jobnation IT Outsource" style="max-width: 180px; height: auto; margin-top: -15px; margin-bottom: -15px; margin-left: -5px;">
-                </div>
-            </div>
+@extends('layouts.app')
+@section('title', 'Dashboard - FinanceHub')
+@section('header-title', 'Pemasukan')
 
-            <nav class="sidebar-nav">
-                <ul class="nav-list">
-                    <li class="nav-item">
-                        <a href="/dashboard" class="nav-link" data-target="dashboard">
-                            <i class="ri-home-5-line"></i>
-                            <span>Dashboard</span>
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a href="/kategori" class="nav-link" data-target="input-kategori">
-                            <i class="ri-price-tag-3-line"></i>
-                            <span>Input Kategori</span>
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a href="/akun" class="nav-link" data-target="input-nama-akun">
-                            <i class="ri-bank-card-line"></i>
-                            <span>Input Nama Akun</span>
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a href="/transaksi" class="nav-link" data-target="input-transaksi">
-                            <i class="ri-file-add-line"></i>
-                            <span>Input Transaksi</span>
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a href="/dashboard#riwayat-transaksi" class="nav-link" data-target="riwayat-transaksi">
-                            <i class="ri-history-line"></i>
-                            <span>Riwayat Transaksi</span>
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a href="/dashboard#grafik" class="nav-link" data-target="grafik">
-                            <i class="ri-bar-chart-box-line"></i>
-                            <span>Grafik</span>
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a href="/laporan" class="nav-link" data-target="laporan">
-                            <i class="ri-file-list-3-line"></i>
-                            <span>Laporan</span>
-                        </a>
-                    </li>
-                </ul>
-
-                <div class="nav-bottom">
-                    <a href="/login" class="nav-link logout-link">
-                        <i class="ri-logout-box-r-line"></i>
-                        <span>Keluar</span>
-                    </a>
-                </div>
-            </nav>
-        </aside>
-
-        <!-- Main Content -->
-        <main class="main-content">
-            <!-- Header -->
-            <header class="header">
-                <div class="header-titles">
-                    <h1>Pemasukan</h1>
-                    <p>Halaman fitur Pemasukan</p>
-                </div>
-                <div class="header-actions">
-                    <button class="icon-btn">
-                        <i class="ri-notification-3-line"></i>
-                    </button>
-                    <div class="user-profile">
-                        <div class="avatar">
-                            <img src="https://ui-avatars.com/api/?name=Admin+Finance&background=cbd5e1&color=334155" alt="User">
-                        </div>
-                        <div class="user-info">
-                            <span class="user-name">Admin Finance</span>
-                            <span class="user-role">Administrator</span>
-                        </div>
-                    </div>
-                </div>
-            </header>
+@section('content')
+<!-- Header -->
+            
 
             <!-- View Sections Container -->
             <div id="view-pemasukan" class="view-section active" style="display: block; padding: 20px; background: white; border-radius: 12px; margin-top: 20px;">
@@ -125,12 +31,11 @@
                 </div>
             </div>
 
-            </main>
+<!-- Chart Configuration Script -->
+@endsection
 
-    </div>
-
-    <!-- Chart Configuration Script -->
-    <script>
+@push('scripts')
+<script>
         // Cashflow Chart (Line/Area)
         const cashflowEl = document.getElementById('cashflowChart');
         if (cashflowEl) {
@@ -322,5 +227,4 @@
             }
         });
     </script>
-</body>
-</html>
+@endpush

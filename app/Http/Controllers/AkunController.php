@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Validation\Rule;
 
 class AkunController extends Controller
 {
@@ -18,7 +19,10 @@ class AkunController extends Controller
         $request->validate([
             'kategori_id' => 'required|exists:kategoris,id',
             'nama_akun' => 'required|string|max:255',
-            'nomor_akun' => 'required|string|max:255|unique:akuns,nomor_akun',
+            'nomor_akun' => [
+                'required', 'string', 'max:255',
+                Rule::unique('akuns', 'nomor_akun')->where('perusahaan_id', session('active_perusahaan_id', \App\Models\Perusahaan::first()->id ?? null))
+            ],
             'aktivitas_arus_kas' => 'required|in:Operasi,Investasi,Pendanaan',
         ]);
 
@@ -32,7 +36,10 @@ class AkunController extends Controller
         $request->validate([
             'kategori_id' => 'required|exists:kategoris,id',
             'nama_akun' => 'required|string|max:255',
-            'nomor_akun' => 'required|string|max:255|unique:akuns,nomor_akun,' . $id,
+            'nomor_akun' => [
+                'required', 'string', 'max:255',
+                Rule::unique('akuns', 'nomor_akun')->ignore($id)->where('perusahaan_id', session('active_perusahaan_id', \App\Models\Perusahaan::first()->id ?? null))
+            ],
             'aktivitas_arus_kas' => 'required|in:Operasi,Investasi,Pendanaan',
         ]);
 

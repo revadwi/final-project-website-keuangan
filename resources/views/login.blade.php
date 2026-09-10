@@ -21,7 +21,7 @@
         <div class="login-card">
             <div class="logo-section">
                 <div class="logo" style="margin-bottom: -10px; margin-top: -20px;">
-                    <img src="logo.png" alt="Jobnation IT Outsource" style="max-width: 280px; height: auto; margin-bottom: -15px;">
+                    <img src="{{ asset('logo.png') }}" alt="Jobnation IT Outsource" style="max-width: 280px; height: auto; margin-bottom: -15px;">
                 </div>
                 <p class="subtitle">Kelola keuangan, rencanakan masa depan.</p>
             </div>
@@ -31,12 +31,19 @@
                 <p>Silakan masuk untuk melanjutkan</p>
             </div>
 
-            <form class="login-form">
+            @if($errors->any())
+                <div style="background-color: #fee2e2; color: #991b1b; padding: 12px 15px; border-radius: 6px; margin-bottom: 20px; font-size: 14px; border: 1px solid #f87171;">
+                    {{ $errors->first() }}
+                </div>
+            @endif
+
+            <form class="login-form" method="POST" action="{{ route('login') }}">
+                @csrf
                 <div class="form-group">
                     <label for="email">Email</label>
                     <div class="input-wrapper">
                         <i class="ri-mail-line icon"></i>
-                        <input type="email" id="email" placeholder="admin@gmail.com" required>
+                        <input type="email" id="email" name="email" placeholder="admin@gmail.com" value="{{ old('email') }}" required>
                     </div>
                 </div>
 
@@ -44,14 +51,14 @@
                     <label for="password">Password</label>
                     <div class="input-wrapper">
                         <i class="ri-lock-2-line icon lock-icon" style="color: #F5A623;"></i>
-                        <input type="password" id="password" placeholder="Masukkan password" required>
+                        <input type="password" id="password" name="password" placeholder="Masukkan password" required>
                         <i class="ri-eye-off-line icon-right toggle-password"></i>
                     </div>
                 </div>
 
                 <div class="form-options">
                     <label class="remember-me">
-                        <input type="checkbox">
+                        <input type="checkbox" name="remember">
                         <span class="checkmark"></span>
                         Ingat saya
                     </label>
@@ -82,26 +89,6 @@
                 this.classList.remove('ri-eye-off-line');
                 this.classList.add('ri-eye-line');
             }
-        });
-
-        // Login form submission handler
-        const loginForm = document.querySelector('.login-form');
-        loginForm.addEventListener('submit', function (e) {
-            e.preventDefault(); // Mencegah reload halaman
-            
-            const email = document.getElementById('email').value.toLowerCase();
-            
-            // Cek apakah email mengandung kata 'admin'
-            if (email.includes('admin')) {
-                localStorage.setItem('userRole', 'admin');
-                localStorage.setItem('userEmail', email);
-            } else {
-                localStorage.setItem('userRole', 'viewer');
-                localStorage.setItem('userEmail', email);
-            }
-            
-            // Redirect ke halaman dashboard
-            window.location.href = '/dashboard';
         });
     </script>
 </body>
