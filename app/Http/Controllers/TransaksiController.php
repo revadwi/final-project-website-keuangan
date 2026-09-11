@@ -6,6 +6,13 @@ use Illuminate\Http\Request;
 
 class TransaksiController extends Controller
 {
+    public function __construct()
+    {
+        if (auth()->check() && auth()->user()->role === 'viewer') {
+            abort(403, 'Akses Ditolak');
+        }
+    }
+
     public function create()
     {
         $kategoris = \App\Models\Kategori::all();

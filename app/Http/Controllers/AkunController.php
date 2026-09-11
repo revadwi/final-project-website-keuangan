@@ -7,6 +7,13 @@ use Illuminate\Validation\Rule;
 
 class AkunController extends Controller
 {
+    public function __construct()
+    {
+        if (auth()->check() && auth()->user()->role === 'viewer') {
+            abort(403, 'Akses Ditolak');
+        }
+    }
+
     public function index()
     {
         $akuns = \App\Models\Akun::with('kategori')->get();

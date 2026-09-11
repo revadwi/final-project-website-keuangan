@@ -7,6 +7,13 @@ use Illuminate\Validation\Rule;
 
 class KategoriController extends Controller
 {
+    public function __construct()
+    {
+        if (auth()->check() && auth()->user()->role === 'viewer') {
+            abort(403, 'Akses Ditolak');
+        }
+    }
+
     public function index()
     {
         $kategoris = \App\Models\Kategori::all();

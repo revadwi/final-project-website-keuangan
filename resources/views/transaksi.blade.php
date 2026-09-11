@@ -261,6 +261,32 @@
 <script>
         const allAkuns = @json($akuns);
 
+        // Populate an akun select with all akuns (or filtered by kategori)
+        function populateAkuns(akunElementId, kategoriId) {
+            const akunSelect = document.getElementById(akunElementId);
+            const currentVal = $(akunSelect).val(); // preserve current selection
+            akunSelect.innerHTML = '<option value="">-- Pilih Akun --</option>';
+
+            let list = allAkuns;
+            if (kategoriId) {
+                list = allAkuns.filter(akun => akun.kategori_id == kategoriId);
+            }
+
+            list.forEach(akun => {
+                const option = document.createElement('option');
+                option.value = akun.id;
+                option.text = akun.nomor_akun + ' - ' + akun.nama_akun;
+                akunSelect.appendChild(option);
+            });
+
+            // Restore previous selection if it still exists in the new list
+            if (currentVal && list.find(a => a.id == currentVal)) {
+                $(akunSelect).val(currentVal).trigger('change.select2');
+            } else {
+                $(akunSelect).val('').trigger('change.select2');
+            }
+        }
+
         $(document).ready(function() {
             $('.select2-search').select2({
                 width: '100%',
@@ -268,6 +294,18 @@
                     $(this).data('placeholder');
                 }
             });
+
+            // Pre-populate all akun dropdowns with ALL akuns on page load
+            populateAkuns('pem_akun_tujuan', null);
+            populateAkuns('pem_akun_sumber', null);
+            populateAkuns('peng_akun_tujuan', null);
+            populateAkuns('peng_akun_sumber', null);
+
+            // Listen for akun selection changes to auto-fill kategori
+            $('#pem_akun_tujuan').on('change', function() { autoFillKategori(this.value, 'pem_kat_tujuan'); });
+            $('#pem_akun_sumber').on('change', function() { autoFillKategori(this.value, 'pem_kat_sumber'); });
+            $('#peng_akun_tujuan').on('change', function() { autoFillKategori(this.value, 'peng_kat_tujuan'); });
+            $('#peng_akun_sumber').on('change', function() { autoFillKategori(this.value, 'peng_kat_sumber'); });
         });
 
         function switchTab(type) {
@@ -288,24 +326,26 @@
             }
         }
 
+        let isAutoFilling = false;
+
+        // When kategori is selected manually, filter akuns
         function filterAkun(kategoriElementId, akunElementId) {
-            const selectedKategoriId = document.getElementById(kategoriElementId).value;
-            const akunSelect = document.getElementById(akunElementId);
-            
-            akunSelect.innerHTML = '<option value="">-- Pilih Akun --</option>';
-            
-            if (selectedKategoriId) {
-                const filteredAkuns = allAkuns.filter(akun => akun.kategori_id == selectedKategoriId);
-                
-                filteredAkuns.forEach(akun => {
-                    const option = document.createElement('option');
-                    option.value = akun.id;
-                    option.text = akun.nomor_akun + ' - ' + akun.nama_akun;
-                    akunSelect.appendChild(option);
-                });
+            if (isAutoFilling) {
+                isAutoFilling = false;
+                return; // Skip — this was triggered by autoFillKategori, not by user
             }
-            
-            $(akunSelect).trigger('change');
+            const selectedKategoriId = document.getElementById(kategoriElementId).value;
+            populateAkuns(akunElementId, selectedKategoriId || null);
+        }
+
+        // When akun is selected, auto-fill the paired kategori dropdown
+        function autoFillKategori(akunId, kategoriElementId) {
+            if (!akunId) return;
+            const akun = allAkuns.find(a => a.id == akunId);
+            if (akun && akun.kategori_id) {
+                isAutoFilling = true;
+                $('#' + kategoriElementId).val(akun.kategori_id).trigger('change');
+            }
         }
     </script>
 @endpush

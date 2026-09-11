@@ -8,6 +8,13 @@ use App\Models\Transaksi;
 
 class RiwayatTransaksiController extends Controller
 {
+    public function __construct()
+    {
+        if (auth()->check() && auth()->user()->role === 'viewer') {
+            abort(403, 'Akses Ditolak');
+        }
+    }
+
     public function index(Request $request)
     {
         // Default ke bulan saat ini jika tidak ada parameter month

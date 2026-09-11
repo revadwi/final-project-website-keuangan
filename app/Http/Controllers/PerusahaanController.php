@@ -16,6 +16,10 @@ class PerusahaanController extends Controller
 
     public function store(Request $request)
     {
+        if (auth()->check() && auth()->user()->role === 'viewer') {
+            abort(403, 'Akses Ditolak');
+        }
+
         $request->validate([
             'nama_perusahaan' => 'required|string|max:255|unique:perusahaans,nama_perusahaan'
         ]);

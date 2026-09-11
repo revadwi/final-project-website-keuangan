@@ -255,6 +255,30 @@
 <script>
         const allAkuns = @json($akuns);
 
+        // Populate an akun select with all akuns (or filtered by kategori)
+        function populateAkuns(akunElementId, kategoriId, preselectId) {
+            const akunSelect = document.getElementById(akunElementId);
+            akunSelect.innerHTML = '<option value="">-- Pilih Akun --</option>';
+
+            let list = allAkuns;
+            if (kategoriId) {
+                list = allAkuns.filter(akun => akun.kategori_id == kategoriId);
+            }
+
+            list.forEach(akun => {
+                const option = document.createElement('option');
+                option.value = akun.id;
+                option.text = akun.nomor_akun + ' - ' + akun.nama_akun;
+                akunSelect.appendChild(option);
+            });
+
+            if (preselectId) {
+                $(akunSelect).val(preselectId).trigger('change.select2');
+            } else {
+                $(akunSelect).val('').trigger('change.select2');
+            }
+        }
+
         $(document).ready(function() {
             $('.select2-search').select2({
                 width: '100%',
@@ -263,7 +287,7 @@
                 }
             });
 
-            // Pre-fill values
+            // Pre-fill values for edit mode
             const jenis = "{{ $transaksi->jenis_transaksi }}";
             const akunDebitId = "{{ $transaksi->akun_debit_id }}";
             const akunKreditId = "{{ $transaksi->akun_kredit_id }}";
@@ -271,29 +295,39 @@
             if (jenis === 'Pemasukan') {
                 const debitKategori = allAkuns.find(a => a.id == akunDebitId)?.kategori_id;
                 const kreditKategori = allAkuns.find(a => a.id == akunKreditId)?.kategori_id;
-                
-                if(debitKategori) {
-                    $('#pem_kat_tujuan').val(debitKategori).trigger('change');
-                    $('#pem_akun_tujuan').val(akunDebitId).trigger('change');
+
+                // Populate all akuns, then pre-select the saved values
+                if (debitKategori) {
+                    $('#pem_kat_tujuan').val(debitKategori).trigger('change.select2');
                 }
-                
-                if(kreditKategori) {
-                    $('#pem_kat_sumber').val(kreditKategori).trigger('change');
-                    $('#pem_akun_sumber').val(akunKreditId).trigger('change');
+                populateAkuns('pem_akun_tujuan', null, akunDebitId);
+
+                if (kreditKategori) {
+                    $('#pem_kat_sumber').val(kreditKategori).trigger('change.select2');
                 }
+                populateAkuns('pem_akun_sumber', null, akunKreditId);
+
+                // Listen for akun selection changes
+                $('#pem_akun_tujuan').on('change', function() { autoFillKategori(this.value, 'pem_kat_tujuan'); });
+                $('#pem_akun_sumber').on('change', function() { autoFillKategori(this.value, 'pem_kat_sumber'); });
+
             } else if (jenis === 'Pengeluaran') {
                 const debitKategori = allAkuns.find(a => a.id == akunDebitId)?.kategori_id;
                 const kreditKategori = allAkuns.find(a => a.id == akunKreditId)?.kategori_id;
-                
-                if(debitKategori) {
-                    $('#peng_kat_tujuan').val(debitKategori).trigger('change');
-                    $('#peng_akun_tujuan').val(akunDebitId).trigger('change');
-                }
 
-                if(kreditKategori) {
-                    $('#peng_kat_sumber').val(kreditKategori).trigger('change');
-                    $('#peng_akun_sumber').val(akunKreditId).trigger('change');
+                if (debitKategori) {
+                    $('#peng_kat_tujuan').val(debitKategori).trigger('change.select2');
                 }
+                populateAkuns('peng_akun_tujuan', null, akunDebitId);
+
+                if (kreditKategori) {
+                    $('#peng_kat_sumber').val(kreditKategori).trigger('change.select2');
+                }
+                populateAkuns('peng_akun_sumber', null, akunKreditId);
+
+                // Listen for akun selection changes
+                $('#peng_akun_tujuan').on('change', function() { autoFillKategori(this.value, 'peng_kat_tujuan'); });
+                $('#peng_akun_sumber').on('change', function() { autoFillKategori(this.value, 'peng_kat_sumber'); });
             }
         });
 
@@ -315,24 +349,26 @@
             }
         }
 
+        let isAutoFilling = false;
+
+        // When kategori is selected manually, filter akuns
         function filterAkun(kategoriElementId, akunElementId) {
-            const selectedKategoriId = document.getElementById(kategoriElementId).value;
-            const akunSelect = document.getElementById(akunElementId);
-            
-            akunSelect.innerHTML = '<option value="">-- Pilih Akun --</option>';
-            
-            if (selectedKategoriId) {
-                const filteredAkuns = allAkuns.filter(akun => akun.kategori_id == selectedKategoriId);
-                
-                filteredAkuns.forEach(akun => {
-                    const option = document.createElement('option');
-                    option.value = akun.id;
-                    option.text = akun.nomor_akun + ' - ' + akun.nama_akun;
-                    akunSelect.appendChild(option);
-                });
+            if (isAutoFilling) {
+                isAutoFilling = false;
+                return; // Skip — this was triggered by autoFillKategori, not by user
             }
-            
-            $(akunSelect).trigger('change');
+            const selectedKategoriId = document.getElementById(kategoriElementId).value;
+            populateAkuns(akunElementId, selectedKategoriId || null, null);
+        }
+
+        // When akun is selected, auto-fill the paired kategori dropdown
+        function autoFillKategori(akunId, kategoriElementId) {
+            if (!akunId) return;
+            const akun = allAkuns.find(a => a.id == akunId);
+            if (akun && akun.kategori_id) {
+                isAutoFilling = true;
+                $('#' + kategoriElementId).val(akun.kategori_id).trigger('change');
+            }
         }
     </script>
 @endpush

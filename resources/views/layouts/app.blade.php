@@ -30,25 +30,25 @@
                             <span>Dashboard</span>
                         </a>
                     </li>
-                    <li class="nav-item {{ request()->is('kategori*') ? 'active' : '' }}">
+                    <li class="nav-item {{ request()->is('kategori*') ? 'active' : '' }}" {!! Auth::user()->role === 'viewer' ? 'style="opacity: 0.5; pointer-events: none;" title="Akses Ditolak"' : '' !!}>
                         <a href="/kategori" class="nav-link">
                             <i class="ri-price-tag-3-line"></i>
                             <span>Input Kategori</span>
                         </a>
                     </li>
-                    <li class="nav-item {{ request()->is('akun*') ? 'active' : '' }}">
+                    <li class="nav-item {{ request()->is('akun*') ? 'active' : '' }}" {!! Auth::user()->role === 'viewer' ? 'style="opacity: 0.5; pointer-events: none;" title="Akses Ditolak"' : '' !!}>
                         <a href="/akun" class="nav-link">
                             <i class="ri-bank-card-line"></i>
                             <span>Input Nama Akun</span>
                         </a>
                     </li>
-                    <li class="nav-item {{ request()->is('transaksi*') && !request()->is('riwayat-transaksi') ? 'active' : '' }}">
+                    <li class="nav-item {{ request()->is('transaksi*') && !request()->is('riwayat-transaksi') ? 'active' : '' }}" {!! Auth::user()->role === 'viewer' ? 'style="opacity: 0.5; pointer-events: none;" title="Akses Ditolak"' : '' !!}>
                         <a href="/transaksi" class="nav-link">
                             <i class="ri-file-add-line"></i>
                             <span>Input Transaksi</span>
                         </a>
                     </li>
-                    <li class="nav-item {{ request()->is('riwayat-transaksi*') ? 'active' : '' }}">
+                    <li class="nav-item {{ request()->is('riwayat-transaksi*') ? 'active' : '' }}" {!! Auth::user()->role === 'viewer' ? 'style="opacity: 0.5; pointer-events: none;" title="Akses Ditolak"' : '' !!}>
                         <a href="/riwayat-transaksi" class="nav-link">
                             <i class="ri-history-line"></i>
                             <span>Riwayat Transaksi</span>
@@ -117,9 +117,11 @@
                         </select>
                     </div>
                     @endif
+                    @if(Auth::user()->role !== 'viewer')
                     <button type="button" onclick="openWorksheetModal()" style="width: 36px; height: 36px; border-radius: 8px; border: none; background: #0b5394; color: white; display: flex; align-items: center; justify-content: center; cursor: pointer; transition: 0.2s;" title="Tambah Worksheet">
                         <i class="ri-add-line" style="font-size: 20px;"></i>
                     </button>
+                    @endif
 
                     <button class="icon-btn">
                         <i class="ri-notification-3-line"></i>
@@ -130,7 +132,7 @@
                         </div>
                         <div class="user-info">
                             <span class="user-name">{{ Auth::user()->name }}</span>
-                            <span class="user-role">Administrator</span>
+                            <span class="user-role">{{ ucfirst(Auth::user()->role) }}</span>
                         </div>
                     </div>
                 </div>
