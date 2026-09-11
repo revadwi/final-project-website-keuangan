@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>@yield('title', 'FinanceHub')</title>
-    <link rel="stylesheet" href="{{ asset('dashboard.css') }}">
+    <link rel="stylesheet" href="{{ asset('dashboard.css') }}?v={{ time() }}">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
@@ -80,15 +80,23 @@
             </nav>
         </aside>
 
+        <!-- Sidebar Overlay for Mobile -->
+        <div class="sidebar-overlay" onclick="toggleSidebar()"></div>
+
         <!-- Main Content -->
         <main class="main-content">
             <!-- Header -->
             <header class="header" style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 30px;">
-                @hasSection('header-title')
-                <div class="header-titles">
-                    <h1 style="margin: 0; font-size: 24px; font-weight: 700; color: var(--text-dark);">@yield('header-title')</h1>
+                <div style="display: flex; align-items: center; gap: 15px;">
+                    <button class="icon-btn mobile-menu-btn" onclick="toggleSidebar()">
+                        <i class="ri-menu-line"></i>
+                    </button>
+                    @hasSection('header-title')
+                    <div class="header-titles">
+                        <h1 style="margin: 0; font-size: 24px; font-weight: 700; color: var(--text-dark);">@yield('header-title')</h1>
+                    </div>
+                    @endif
                 </div>
-                @endif
                 
                 <div class="header-actions" style="display: flex; align-items: center; gap: 15px;">
                     @php
@@ -158,6 +166,11 @@
     </div>
 
     <script>
+        function toggleSidebar() {
+            document.querySelector('.sidebar').classList.toggle('active');
+            document.querySelector('.sidebar-overlay').classList.toggle('active');
+        }
+
         function openWorksheetModal() {
             var modal = document.getElementById('worksheetModal');
             modal.style.display = 'flex';

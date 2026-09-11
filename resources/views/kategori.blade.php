@@ -82,6 +82,42 @@
             border-radius: 6px;
             margin-bottom: 20px;
         }
+
+        /* Mobile specific adjustments for table */
+        @media (max-width: 768px) {
+            .transactions-list table th,
+            .transactions-list table td {
+                padding: 8px 4px !important;
+                font-size: 12px !important;
+                word-wrap: break-word;
+            }
+            .transactions-list table th:nth-child(1),
+            .transactions-list table td:nth-child(1) {
+                width: 10% !important;
+            }
+            .transactions-list table th:nth-child(2),
+            .transactions-list table td:nth-child(2) {
+                width: 35% !important;
+            }
+            .transactions-list table th:nth-child(3),
+            .transactions-list table td:nth-child(3) {
+                width: 30% !important;
+            }
+            .transactions-list table th:nth-child(4),
+            .transactions-list table td:nth-child(4) {
+                width: 25% !important;
+            }
+            .transactions-list .btn-warning,
+            .transactions-list .btn-danger {
+                padding: 4px 6px !important;
+                font-size: 11px !important;
+                margin: 2px !important;
+            }
+            .transactions-list table td span {
+                font-size: 10px !important;
+                padding: 2px 4px !important;
+            }
+        }
 </style>
 @endpush
 
@@ -91,7 +127,7 @@
                     <div class="alert-success">{{ session('success') }}</div>
                 @endif
                 
-                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; flex-wrap: wrap; gap: 10px;">
                     <h2>Daftar Kategori</h2>
                     <button class="btn-primary" onclick="openModal('modalCreate')"><i class="ri-add-line"></i> Tambah Kategori</button>
                 </div>
@@ -104,7 +140,7 @@
                 </div>
                 
                 <div class="transactions-list" style="background: white;">
-                    <table style="width:100%; text-align:left; border-collapse: separate; border-spacing: 0;">
+                    <table style="width:100%; text-align:left; border-collapse: separate; border-spacing: 0; table-layout: fixed; word-wrap: break-word;">
                         <thead>
                             <tr style="background-color: #f8fafc;">
                                 <th style="padding: 16px 20px; color:#475569; font-weight: 600; font-size: 14px; border-top-left-radius: 8px; border-bottom-left-radius: 8px;">No</th>

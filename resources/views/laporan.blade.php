@@ -7,6 +7,16 @@
 <style>
     .filter-tab { padding: 10px; text-align: center; border-radius: 6px; cursor: pointer; font-size: 14px; font-weight: 500; color: var(--text-muted); transition: all 0.2s; }
     .filter-tab.active-tab { background: white; box-shadow: 0 2px 8px rgba(0,0,0,0.08); font-weight: 600; color: var(--text-dark); }
+    .laporan-form { padding: 40px; }
+    .range-inputs { display: flex; gap: 15px; }
+    
+    @media (max-width: 768px) {
+        .laporan-form { padding: 20px !important; }
+        .filter-tab { font-size: 11px !important; padding: 8px 2px !important; }
+        .range-inputs { flex-direction: column !important; gap: 10px !important; }
+        .export-btn { width: 100%; justify-content: center; font-size: 14px !important; }
+        .filter-tabs-container { flex-wrap: wrap; }
+    }
 </style>
 <div id="view-laporan" class="view-section active" style="display: block; padding: 20px; background: white; border-radius: 12px; margin-top: 20px;">
     <div style="max-width: 800px; margin: 0 auto; padding-top: 20px;">
@@ -21,7 +31,7 @@
 
         <!-- Konfigurasi Panel -->
         <div style="background: white; border-radius: 16px; box-shadow: 0 10px 30px rgba(0,0,0,0.03); border: 1px solid var(--border-color); overflow: hidden; margin-bottom: 30px;">
-            <form action="/laporan" method="GET" style="padding: 40px;">
+            <form action="/laporan" method="GET" class="laporan-form">
                 <!-- 1. Filter Kategori -->
                 <div style="margin-bottom: 30px;">
                     <label style="display: block; font-size: 13px; font-weight: 600; color: var(--text-muted); margin-bottom: 12px; text-transform: uppercase; letter-spacing: 0.5px;">Saring Kategori</label>
@@ -40,7 +50,7 @@
                 <div style="margin-bottom: 30px;">
                     <label style="display: block; font-size: 13px; font-weight: 600; color: var(--text-muted); margin-bottom: 12px; text-transform: uppercase; letter-spacing: 0.5px;">Saring Rentang Waktu</label>
                     
-                    <div style="display: flex; gap: 5px; margin-bottom: 15px; background: #f1f5f9; padding: 5px; border-radius: 8px;">
+                    <div class="filter-tabs-container" style="display: flex; gap: 5px; margin-bottom: 15px; background: #f1f5f9; padding: 5px; border-radius: 8px;">
                         <label style="flex:1;">
                             <input type="radio" name="mode" value="range" {{ $mode == 'range' ? 'checked' : '' }} onchange="toggleFilterMode('range')" style="display:none;">
                             <div class="filter-tab {{ $mode == 'range' ? 'active-tab' : '' }}" id="tab-range">Harian (Range)</div>
@@ -57,7 +67,7 @@
                     
                     <!-- Konten Range Picker -->
                     <div id="filter-range" style="display: {{ $mode == 'range' ? 'block' : 'none' }};">
-                        <div style="display: flex; gap: 15px;">
+                        <div class="range-inputs">
                             <div style="flex: 1;">
                                 <label style="display:block; font-size:12px; font-weight:500; color:var(--text-muted); margin-bottom:5px;">Dari Tanggal</label>
                                 <input type="date" name="start" value="{{ request('start') }}" style="width: 100%; border: 1px solid var(--border-color); padding: 10px 12px; border-radius: 8px;">
@@ -88,7 +98,7 @@
                 </div>
 
                 <div style="text-align: right;">
-                    <button type="submit" name="export" value="csv" style="padding: 14px 28px; background: #10b981; color: white; border: none; border-radius: 8px; cursor: pointer; font-size: 16px; font-weight: 600; display: inline-flex; align-items: center; gap: 8px; box-shadow: 0 4px 6px rgba(16, 185, 129, 0.2);"><i class="ri-download-2-line" style="font-size: 18px;"></i> Unduh Laporan (CSV)</button>
+                    <button type="submit" name="export" value="csv" class="export-btn" style="padding: 14px 28px; background: #10b981; color: white; border: none; border-radius: 8px; cursor: pointer; font-size: 16px; font-weight: 600; display: inline-flex; align-items: center; gap: 8px; box-shadow: 0 4px 6px rgba(16, 185, 129, 0.2);"><i class="ri-download-2-line" style="font-size: 18px;"></i> Unduh Laporan (CSV)</button>
                 </div>
             </form>
         </div>

@@ -2,15 +2,43 @@
 @section('title', 'Grafik - FinanceHub')
 @section('header-title', 'Grafik Detail')
 
+@push('styles')
+<style>
+    @media (max-width: 768px) {
+        .grafik-header {
+            flex-direction: column;
+            align-items: stretch !important;
+            gap: 15px;
+        }
+        .grafik-tabs {
+            width: 100% !important;
+            max-width: none !important;
+        }
+        .grafik-tabs button {
+            font-size: 11px !important;
+            padding: 8px 0 !important;
+        }
+        .grafik-summary-cards {
+            grid-template-columns: 1fr !important;
+            gap: 10px !important;
+        }
+        .grafik-chart-donut-wrapper {
+            flex-direction: column !important;
+            gap: 20px !important;
+        }
+    }
+</style>
+@endpush
+
 @section('content')
 <!-- Grafik Section -->
 <div id="view-grafik" class="view-section active" style="display: block;">
     <div style="width: 100%; background: var(--bg-card); border-radius: 16px; padding: 25px 30px; box-shadow: 0 4px 15px rgba(0,0,0,0.03);">
         
         <!-- Header Controls -->
-        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 25px;">
+        <div class="grafik-header" style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 25px;">
             <!-- Segmented Control -->
-            <div style="display: flex; background: #f1f5f9; border-radius: 8px; padding: 4px; width: 80%; max-width: 500px;">
+            <div class="grafik-tabs" style="display: flex; background: #f1f5f9; border-radius: 8px; padding: 4px; width: 80%; max-width: 500px;">
                 <button id="btn-toggle-keseluruhan" onclick="toggleGrafikView('keseluruhan')" style="flex: 1; padding: 10px 0; background: #ffffff; border: none; border-radius: 6px; font-weight: 600; color: var(--text-dark); box-shadow: 0 2px 5px rgba(0,0,0,0.05); cursor: pointer; font-size: 14px;">Keseluruhan</button>
                 <button id="btn-toggle-pengeluaran" onclick="toggleGrafikView('pengeluaran')" style="flex: 1; padding: 10px 0; background: transparent; border: none; font-weight: 500; color: var(--text-muted); cursor: pointer; font-size: 14px;">Pengeluaran</button>
                 <button id="btn-toggle-pemasukan" onclick="toggleGrafikView('pemasukan')" style="flex: 1; padding: 10px 0; background: transparent; border: none; font-weight: 500; color: var(--text-muted); cursor: pointer; font-size: 14px;">Pemasukan</button>
@@ -56,7 +84,7 @@
             </div>
 
             <!-- Summary Cards -->
-            <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; max-width: 700px; margin: 0 auto;">
+            <div class="grafik-summary-cards" style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; max-width: 700px; margin: 0 auto;">
                 <div style="background: #ecfdf5; border-radius: 12px; padding: 20px; text-align: center;">
                     <div style="font-size: 13px; color: #059669; font-weight: 500; margin-bottom: 8px;"><i class="ri-arrow-up-circle-line"></i> Total Pemasukan</div>
                     <div style="font-size: 20px; font-weight: 700; color: #065f46;">Rp {{ number_format($totalPem, 0, ',', '.') }}</div>
@@ -76,7 +104,7 @@
         <!-- Pengeluaran Content -->
         <div id="grafik-content-pengeluaran" style="display: none;">
             <!-- Chart Area -->
-            <div style="display: flex; align-items: center; justify-content: center; gap: 50px; margin: 40px auto 50px; max-width: 800px; flex-wrap: wrap;">
+            <div class="grafik-chart-donut-wrapper" style="display: flex; align-items: center; justify-content: center; gap: 50px; margin: 40px auto 50px; max-width: 800px; flex-wrap: wrap;">
                 <div style="width: 200px; height: 200px; position: relative;">
                     <canvas id="grafikPageDonutPengeluaran"></canvas>
                     <div style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); text-align: center; width: 100%;">
@@ -143,7 +171,7 @@
         <!-- Pemasukan Content -->
         <div id="grafik-content-pemasukan" style="display: none;">
             <!-- Chart Area -->
-            <div style="display: flex; align-items: center; justify-content: center; gap: 50px; margin: 40px auto 50px; max-width: 800px; flex-wrap: wrap;">
+            <div class="grafik-chart-donut-wrapper" style="display: flex; align-items: center; justify-content: center; gap: 50px; margin: 40px auto 50px; max-width: 800px; flex-wrap: wrap;">
                 <div style="width: 200px; height: 200px; position: relative;">
                     <canvas id="grafikPageDonutPemasukan"></canvas>
                     <div style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); text-align: center; width: 100%;">

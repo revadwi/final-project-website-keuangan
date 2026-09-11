@@ -43,6 +43,32 @@
         
         .account-box { background: #f8fafc; border: 1px solid #e2e8f0; padding: 20px; border-radius: 8px; margin-bottom: 20px;}
         .account-box h4 { margin: 0 0 15px 0; font-size: 14px; color: #334155; font-weight: 600;}
+
+        @media (max-width: 768px) {
+            .form-grid {
+                grid-template-columns: 1fr !important;
+                gap: 15px !important;
+            }
+            .transaction-card {
+                padding: 15px !important;
+            }
+            .tabs {
+                display: flex;
+            }
+            .tab-btn {
+                flex: 1;
+                padding: 10px;
+                font-size: 13px;
+                text-align: center;
+            }
+            .form-actions {
+                flex-direction: column;
+            }
+            .form-actions .btn {
+                width: 100%;
+                justify-content: center;
+            }
+        }
 </style>
 @endpush
 
