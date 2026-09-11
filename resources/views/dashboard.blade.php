@@ -89,7 +89,7 @@
             <a href="/riwayat-transaksi" class="btn-outline">Lihat Semua</a>
         </div>
         
-        <div class="transactions-list" style="margin-top: 15px;">
+        <div class="transactions-list" style="margin-top: 15px; overflow-x: auto;">
             @if($transaksiTerbaru->count() > 0)
                 <table style="width: 100%; border-collapse: collapse;">
                     <thead>

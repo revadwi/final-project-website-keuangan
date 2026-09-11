@@ -4,6 +4,10 @@
     box-sizing: border-box;
 }
 
+html, body {
+    overflow-x: hidden;
+}
+
 :root {
     --primary: #38bdf8;
     --primary-light: #e0f2fe;
@@ -314,6 +318,8 @@ body {
 .chart-container {
     height: 300px;
     width: 100%;
+    max-width: 100%;
+    position: relative;
 }
 
 /* Donut specific */
@@ -502,6 +508,24 @@ body {
 
     .worksheet-dropdown select {
         max-width: 150px;
+    }
+
+    .transactions-list {
+        overflow-x: hidden !important;
+    }
+
+    .transactions-list table {
+        table-layout: fixed;
+        width: 100%;
+        word-wrap: break-word;
+    }
+
+    .transactions-list th,
+    .transactions-list td {
+        padding: 8px 4px !important;
+        font-size: 11px !important;
+        white-space: normal !important;
+        word-break: break-word;
     }
 }
 

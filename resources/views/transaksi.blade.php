@@ -52,6 +52,9 @@
             .transaction-card {
                 padding: 15px !important;
             }
+            .select2-container {
+                width: 100% !important;
+            }
             .tabs {
                 display: flex;
             }
