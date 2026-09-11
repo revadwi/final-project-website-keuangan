@@ -108,7 +108,7 @@
                         <form action="{{ route('perusahaan.switch', 'SWITCH_ID') }}" method="POST" id="switchWorksheetForm" style="display: none;">
                             @csrf
                         </form>
-                        <select onchange="var form = document.getElementById('switchWorksheetForm'); form.action = '{{ url('/perusahaan/switch') }}/' + this.value; form.submit();" style="padding: 8px 15px; border-radius: 8px; border: 1px solid #e2e8f0; background: white; font-weight: 600; color: #0b5394; cursor: pointer; outline: none; appearance: auto; min-width: 200px;">
+                        <select onchange="var form = document.getElementById('switchWorksheetForm'); form.action = '{{ url('/perusahaan/switch') }}/' + this.value; form.submit();" style="padding: 8px 15px; border-radius: 8px; border: 1px solid #e2e8f0; background: white; font-weight: 600; color: #0b5394; cursor: pointer; outline: none; appearance: auto;" class="perusahaan-select">
                             @foreach($perusahaans as $p)
                                 <option value="{{ $p->id }}" {{ $active_id == $p->id ? 'selected' : '' }}>
                                     🏢 {{ $p->nama_perusahaan }}
