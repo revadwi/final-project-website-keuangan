@@ -45,11 +45,17 @@ Route::middleware(['auth'])->group(function () {
     });
 
     Route::get('/kategori', [\App\Http\Controllers\KategoriController::class, 'index'])->name('kategori.index');
+    Route::get('/kategori/export', [\App\Http\Controllers\KategoriController::class, 'export'])->name('kategori.export');
+    Route::post('/kategori/import', [\App\Http\Controllers\KategoriController::class, 'import'])->name('kategori.import');
+    Route::get('/kategori/template', [\App\Http\Controllers\KategoriController::class, 'template'])->name('kategori.template');
     Route::post('/kategori', [\App\Http\Controllers\KategoriController::class, 'store'])->name('kategori.store');
     Route::put('/kategori/{id}', [\App\Http\Controllers\KategoriController::class, 'update'])->name('kategori.update');
     Route::delete('/kategori/{id}', [\App\Http\Controllers\KategoriController::class, 'destroy'])->name('kategori.destroy');
 
     Route::get('/akun', [\App\Http\Controllers\AkunController::class, 'index'])->name('akun.index');
+    Route::get('/akun/export', [\App\Http\Controllers\AkunController::class, 'export'])->name('akun.export');
+    Route::post('/akun/import', [\App\Http\Controllers\AkunController::class, 'import'])->name('akun.import');
+    Route::get('/akun/template', [\App\Http\Controllers\AkunController::class, 'template'])->name('akun.template');
     Route::post('/akun', [\App\Http\Controllers\AkunController::class, 'store'])->name('akun.store');
     Route::put('/akun/{id}', [\App\Http\Controllers\AkunController::class, 'update'])->name('akun.update');
     Route::delete('/akun/{id}', [\App\Http\Controllers\AkunController::class, 'destroy'])->name('akun.destroy');

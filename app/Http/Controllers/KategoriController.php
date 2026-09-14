@@ -20,6 +20,27 @@ class KategoriController extends Controller
         return view('kategori', compact('kategoris'));
     }
 
+    public function export()
+    {
+        return \Maatwebsite\Excel\Facades\Excel::download(new \App\Exports\KategoriExport, 'kategori.xlsx');
+    }
+
+    public function import(Request $request)
+    {
+        $request->validate([
+            'file' => 'required|mimes:xlsx,xls,csv|max:2048'
+        ]);
+
+        \Maatwebsite\Excel\Facades\Excel::import(new \App\Imports\KategoriImport, $request->file('file'));
+
+        return redirect()->route('kategori.index')->with('success', 'Data kategori berhasil diimport. Data yang sudah ada dilewati.');
+    }
+
+    public function template()
+    {
+        return \Maatwebsite\Excel\Facades\Excel::download(new \App\Exports\KategoriTemplateExport, 'template_kategori.xlsx');
+    }
+
     public function store(Request $request)
     {
         $request->validate([

@@ -129,7 +129,11 @@
                 
                 <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; flex-wrap: wrap; gap: 10px;">
                     <h2>Daftar Kategori</h2>
-                    <button class="btn-primary" onclick="openModal('modalCreate')"><i class="ri-add-line"></i> Tambah Kategori</button>
+                    <div style="display: flex; gap: 10px; flex-wrap: wrap;">
+                        <a href="{{ route('kategori.export') }}" class="btn-primary" style="background-color: #10b981; text-decoration: none;"><i class="ri-file-excel-line"></i> Export Excel</a>
+                        <button class="btn-primary" style="background-color: #f59e0b;" onclick="openModal('modalImport')"><i class="ri-file-upload-line"></i> Import Excel</button>
+                        <button class="btn-primary" onclick="openModal('modalCreate')"><i class="ri-add-line"></i> Tambah Kategori</button>
+                    </div>
                 </div>
                 
                 <div style="margin-bottom: 20px;">
@@ -178,6 +182,29 @@
                     </table>
                 </div>
             </div>
+
+<!-- Modal Import -->
+    <div id="modalImport" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeModal('modalImport')">&times;</span>
+            <h2>Import Kategori dari Excel</h2>
+            <div style="margin-top: 15px; margin-bottom: 15px;">
+                <p style="font-size: 14px; color: #64748b; margin-bottom: 10px;">Silakan unduh template Excel di bawah ini, isi datanya, lalu unggah kembali.</p>
+                <a href="{{ route('kategori.template') }}" class="btn-primary" style="background-color: #10b981; text-decoration: none; display: inline-block; font-size: 14px;"><i class="ri-download-line"></i> Download Template</a>
+            </div>
+            <form action="{{ route('kategori.import') }}" method="POST" enctype="multipart/form-data" style="margin-top: 20px;" onsubmit="var btn = this.querySelector('button[type=submit]'); btn.disabled = true; btn.innerHTML = 'Mengimpor...'; btn.style.opacity = '0.7';">
+                @csrf
+                <div class="form-group">
+                    <label>File Excel (.xlsx, .xls, .csv)</label>
+                    <input type="file" name="file" accept=".xlsx, .xls, .csv" required style="padding: 8px;">
+                </div>
+                <div style="text-align: right; margin-top: 20px;">
+                    <button type="button" class="btn-danger" onclick="closeModal('modalImport')">Batal</button>
+                    <button type="submit" class="btn-primary">Import</button>
+                </div>
+            </form>
+        </div>
+    </div>
 
 <!-- Modal Create -->
     <div id="modalCreate" class="modal">

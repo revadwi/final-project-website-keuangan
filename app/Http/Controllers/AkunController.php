@@ -21,6 +21,27 @@ class AkunController extends Controller
         return view('akun', compact('akuns', 'kategoris'));
     }
 
+    public function export()
+    {
+        return \Maatwebsite\Excel\Facades\Excel::download(new \App\Exports\AkunExport, 'akun.xlsx');
+    }
+
+    public function import(Request $request)
+    {
+        $request->validate([
+            'file' => 'required|mimes:xlsx,xls,csv|max:2048'
+        ]);
+
+        \Maatwebsite\Excel\Facades\Excel::import(new \App\Imports\AkunImport, $request->file('file'));
+
+        return redirect()->route('akun.index')->with('success', 'Data akun berhasil diimport. Data duplikat atau tidak valid dilewati.');
+    }
+
+    public function template()
+    {
+        return \Maatwebsite\Excel\Facades\Excel::download(new \App\Exports\AkunTemplateExport, 'template_akun.xlsx');
+    }
+
     public function store(Request $request)
     {
         $request->validate([
