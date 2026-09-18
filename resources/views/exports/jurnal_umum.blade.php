@@ -107,9 +107,9 @@
                     <td style="text-align: center;">{{ $row['tanggal'] }}</td>
                     <td style="text-align: center;">{{ $row['bulan'] }}</td>
                     <td style="text-align: center;">{{ $row['tahun'] }}</td>
-                    <td style="text-align: center;"></td>
-                    <td style="text-align: center;"></td>
-                    <td style="text-align: center;"></td>
+                    <td style="text-align: center;">{{ $row['nama_project'] }}</td>
+                    <td style="text-align: center;">{{ $row['nomor_urut_piutang'] }}</td>
+                    <td style="text-align: center;">{{ $row['nomor_urut_hutang'] }}</td>
                     <td style="text-align: left;">{{ $row['aktivitas_arus_kas'] }}</td>
                     <td style="text-align: left;">{{ $row['kategori_nama_akun'] }}</td>
                     <td style="text-align: center;">{{ $row['nomor_akun'] }}</td>

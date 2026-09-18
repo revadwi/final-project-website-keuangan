@@ -21,7 +21,7 @@ class LaporanController extends Controller
         }
 
         // --- MULAI LOGIKA PENGUNDUHAN ---
-        $query = Transaksi::with(['akunDebit.kategori', 'akunKredit.kategori']);
+        $query = Transaksi::with(['akunDebit.kategori', 'akunKredit.kategori', 'hutang', 'piutang.project', 'project']);
         
         // Filter Kategori
         if ($kategoriFilter !== 'ALL') {
@@ -60,15 +60,44 @@ class LaporanController extends Controller
             
             // Baris 1: Debit (Akun Tujuan)
             $akunDebit = $trx->akunDebit;
+            
+            $aktivitasDebit = 'Operasi';
+            $kategoriDebit = '-';
+            $nomorAkunDebit = '-';
+            $namaAkunDebit = '-';
+
+            if ($akunDebit) {
+                $aktivitasDebit = $akunDebit->aktivitas_arus_kas;
+                $kategoriDebit = $akunDebit->kategori ? $akunDebit->kategori->nama_kategori : '-';
+                $nomorAkunDebit = $akunDebit->nomor_akun;
+                $namaAkunDebit = $akunDebit->nama_akun;
+            } elseif ($trx->hutang_id && $trx->hutang) {
+                $kategoriDebit = 'Kewajiban / Hutang';
+                $namaAkunDebit = $trx->hutang->jenis_hutang;
+            }
+
+            $namaProject = '-';
+            if ($trx->project) {
+                $namaProject = $trx->project->nama_project;
+            } elseif ($trx->piutang && $trx->piutang->project) {
+                $namaProject = $trx->piutang->project->nama_project;
+            }
+
+            $nomorUrutPiutang = $trx->piutang ? $trx->piutang->nomor_urut : '-';
+            $nomorUrutHutang = $trx->hutang ? $trx->hutang->nomor_urut : '-';
+
             $jurnal_rows[] = [
                 'no' => $no,
                 'tanggal' => $tanggal->format('j-M-y'),
                 'bulan' => $tanggal->translatedFormat('F'),
                 'tahun' => $tanggal->format('Y'),
-                'aktivitas_arus_kas' => $akunDebit ? $akunDebit->aktivitas_arus_kas : 'Operasi',
-                'kategori_nama_akun' => $akunDebit && $akunDebit->kategori ? $akunDebit->kategori->nama_kategori : '-',
-                'nomor_akun' => $akunDebit ? $akunDebit->nomor_akun : '-',
-                'nama_akun' => $akunDebit ? $akunDebit->nama_akun : '-',
+                'nama_project' => $namaProject,
+                'nomor_urut_piutang' => $nomorUrutPiutang,
+                'nomor_urut_hutang' => $nomorUrutHutang,
+                'aktivitas_arus_kas' => $aktivitasDebit,
+                'kategori_nama_akun' => $kategoriDebit,
+                'nomor_akun' => $nomorAkunDebit,
+                'nama_akun' => $namaAkunDebit,
                 'deskripsi_transaksi' => $trx->keterangan,
                 'debet' => $trx->jumlah,
                 'kredit' => 0,
@@ -80,15 +109,34 @@ class LaporanController extends Controller
             
             // Baris 2: Kredit (Akun Sumber)
             $akunKredit = $trx->akunKredit;
+            
+            $aktivitasKredit = 'Operasi';
+            $kategoriKredit = '-';
+            $nomorAkunKredit = '-';
+            $namaAkunKredit = '-';
+
+            if ($akunKredit) {
+                $aktivitasKredit = $akunKredit->aktivitas_arus_kas;
+                $kategoriKredit = $akunKredit->kategori ? $akunKredit->kategori->nama_kategori : '-';
+                $nomorAkunKredit = $akunKredit->nomor_akun;
+                $namaAkunKredit = $akunKredit->nama_akun;
+            } elseif ($trx->piutang_id && $trx->piutang) {
+                $kategoriKredit = 'Aset / Piutang';
+                $namaAkunKredit = $trx->piutang->jenis_piutang;
+            }
+
             $jurnal_rows[] = [
                 'no' => '', // Kosongkan agar menyatu dengan transaksi di atasnya
                 'tanggal' => $tanggal->format('j-M-y'),
                 'bulan' => $tanggal->translatedFormat('F'),
                 'tahun' => $tanggal->format('Y'),
-                'aktivitas_arus_kas' => $akunKredit ? $akunKredit->aktivitas_arus_kas : 'Operasi',
-                'kategori_nama_akun' => $akunKredit && $akunKredit->kategori ? $akunKredit->kategori->nama_kategori : '-',
-                'nomor_akun' => $akunKredit ? $akunKredit->nomor_akun : '-',
-                'nama_akun' => $akunKredit ? $akunKredit->nama_akun : '-',
+                'nama_project' => $namaProject,
+                'nomor_urut_piutang' => $nomorUrutPiutang,
+                'nomor_urut_hutang' => $nomorUrutHutang,
+                'aktivitas_arus_kas' => $aktivitasKredit,
+                'kategori_nama_akun' => $kategoriKredit,
+                'nomor_akun' => $nomorAkunKredit,
+                'nama_akun' => $namaAkunKredit,
                 'deskripsi_transaksi' => $trx->keterangan,
                 'debet' => 0,
                 'kredit' => $trx->jumlah,

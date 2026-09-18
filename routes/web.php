@@ -67,4 +67,22 @@ Route::middleware(['auth'])->group(function () {
 
     Route::post('/perusahaan', [\App\Http\Controllers\PerusahaanController::class, 'store'])->name('perusahaan.store');
     Route::post('/perusahaan/switch/{id}', [\App\Http\Controllers\PerusahaanController::class, 'switch'])->name('perusahaan.switch');
+
+    Route::get('/projects/export', [\App\Http\Controllers\ProjectController::class, 'export'])->name('projects.export');
+    Route::post('/projects/import', [\App\Http\Controllers\ProjectController::class, 'import'])->name('projects.import');
+    Route::get('/projects/template', [\App\Http\Controllers\ProjectController::class, 'template'])->name('projects.template');
+    Route::resource('projects', \App\Http\Controllers\ProjectController::class);
+    Route::post('/projects/{project}/payment', [\App\Http\Controllers\ProjectController::class, 'storePayment'])->name('projects.payment');
+
+    Route::get('/hutangs/export', [\App\Http\Controllers\HutangController::class, 'export'])->name('hutangs.export');
+    Route::post('/hutangs/import', [\App\Http\Controllers\HutangController::class, 'import'])->name('hutangs.import');
+    Route::get('/hutangs/template', [\App\Http\Controllers\HutangController::class, 'template'])->name('hutangs.template');
+    Route::resource('hutangs', \App\Http\Controllers\HutangController::class);
+    Route::post('/hutangs/{hutang}/payment', [\App\Http\Controllers\HutangController::class, 'storePayment'])->name('hutangs.payment');
+
+    Route::get('/piutangs/export', [\App\Http\Controllers\PiutangController::class, 'export'])->name('piutangs.export');
+    Route::post('/piutangs/import', [\App\Http\Controllers\PiutangController::class, 'import'])->name('piutangs.import');
+    Route::get('/piutangs/template', [\App\Http\Controllers\PiutangController::class, 'template'])->name('piutangs.template');
+    Route::resource('piutangs', \App\Http\Controllers\PiutangController::class);
+    Route::post('/piutangs/{piutang}/payment', [\App\Http\Controllers\PiutangController::class, 'storePayment'])->name('piutangs.payment');
 });

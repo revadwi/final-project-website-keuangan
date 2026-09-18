@@ -15,7 +15,10 @@ class Transaksi extends Model
         'keterangan',
         'jumlah',
         'dokumentasi',
-        'perusahaan_id'
+        'perusahaan_id',
+        'project_id',
+        'hutang_id',
+        'piutang_id'
     ];
 
     protected static function booted()
@@ -48,5 +51,20 @@ class Transaksi extends Model
     public function akunKredit()
     {
         return $this->belongsTo(Akun::class, 'akun_kredit_id');
+    }
+
+    public function project()
+    {
+        return $this->belongsTo(Project::class);
+    }
+
+    public function hutang()
+    {
+        return $this->belongsTo(Hutang::class);
+    }
+
+    public function piutang()
+    {
+        return $this->belongsTo(Piutang::class);
     }
 }

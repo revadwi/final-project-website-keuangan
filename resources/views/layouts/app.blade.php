@@ -48,6 +48,24 @@
                             <span>Input Transaksi</span>
                         </a>
                     </li>
+                    <li class="nav-item {{ request()->is('projects*') ? 'active' : '' }}">
+                        <a href="{{ route('projects.index') }}" class="nav-link">
+                            <i class="ri-briefcase-4-line"></i>
+                            <span>Pendapatan Usaha</span>
+                        </a>
+                    </li>
+                    <li class="nav-item {{ request()->is('hutangs*') ? 'active' : '' }}">
+                        <a href="{{ route('hutangs.index') }}" class="nav-link">
+                            <i class="ri-wallet-3-line"></i>
+                            <span>Hutang Usaha</span>
+                        </a>
+                    </li>
+                    <li class="nav-item {{ request()->is('piutangs*') ? 'active' : '' }}">
+                        <a href="{{ route('piutangs.index') }}" class="nav-link">
+                            <i class="ri-hand-coin-line"></i>
+                            <span>Piutang Usaha</span>
+                        </a>
+                    </li>
                     <li class="nav-item {{ request()->is('riwayat-transaksi*') ? 'active' : '' }}" {!! Auth::user()->role === 'viewer' ? 'style="opacity: 0.5; pointer-events: none;" title="Akses Ditolak"' : '' !!}>
                         <a href="/riwayat-transaksi" class="nav-link">
                             <i class="ri-history-line"></i>
