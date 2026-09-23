@@ -130,6 +130,6 @@ class PiutangController extends Controller
             $piutang->update(['status' => 'Lunas']);
         }
 
-        return redirect()->route('piutangs.show', $piutang->id)->with('success', 'Penerimaan piutang berhasil dicatat.');
+        return redirect()->back()->with('success', 'Penerimaan piutang berhasil dicatat.');
     }
 }

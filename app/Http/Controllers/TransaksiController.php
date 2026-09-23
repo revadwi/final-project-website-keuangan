@@ -17,7 +17,12 @@ class TransaksiController extends Controller
     {
         $kategoris = \App\Models\Kategori::all();
         $akuns = \App\Models\Akun::with('kategori')->get();
-        return view('transaksi', compact('kategoris', 'akuns'));
+        
+        $projects = \App\Models\Project::with('transaksis')->where('status', '!=', 'Completed')->get();
+        $hutangs = \App\Models\Hutang::with('transaksis')->where('status', '!=', 'Lunas')->get();
+        $piutangs = \App\Models\Piutang::with('transaksis')->where('status', '!=', 'Lunas')->get();
+
+        return view('transaksi', compact('kategoris', 'akuns', 'projects', 'hutangs', 'piutangs'));
     }
 
     public function store(Request $request)
@@ -80,5 +85,18 @@ class TransaksiController extends Controller
         $transaksi->update($data);
 
         return redirect()->route('dashboard', ['#riwayat-transaksi'])->with('success', 'Transaksi ' . $request->jenis_transaksi . ' berhasil diperbarui.');
+    }
+
+    public function destroy($id)
+    {
+        $transaksi = \App\Models\Transaksi::findOrFail($id);
+
+        if ($transaksi->dokumentasi && \Illuminate\Support\Facades\Storage::disk('public')->exists($transaksi->dokumentasi)) {
+            \Illuminate\Support\Facades\Storage::disk('public')->delete($transaksi->dokumentasi);
+        }
+
+        $transaksi->delete();
+
+        return redirect()->back()->with('success', 'Transaksi berhasil dihapus.');
     }
 }

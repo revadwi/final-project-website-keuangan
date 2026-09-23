@@ -64,6 +64,7 @@ Route::middleware(['auth'])->group(function () {
     Route::post('/transaksi', [\App\Http\Controllers\TransaksiController::class, 'store'])->name('transaksi.store');
     Route::get('/transaksi/{id}/edit', [\App\Http\Controllers\TransaksiController::class, 'edit'])->name('transaksi.edit');
     Route::put('/transaksi/{id}', [\App\Http\Controllers\TransaksiController::class, 'update'])->name('transaksi.update');
+    Route::delete('/transaksi/{id}', [\App\Http\Controllers\TransaksiController::class, 'destroy'])->name('transaksi.destroy');
 
     Route::post('/perusahaan', [\App\Http\Controllers\PerusahaanController::class, 'store'])->name('perusahaan.store');
     Route::post('/perusahaan/switch/{id}', [\App\Http\Controllers\PerusahaanController::class, 'switch'])->name('perusahaan.switch');

@@ -80,13 +80,13 @@
                         </div>
                     @endif
 
-                    @if($transaksi->jenis_transaksi == 'Pemasukan')
-                    <div style="padding: 10px 20px; background: #d1fae5; color: #065f46; font-weight: 600; text-align: center; border-radius: 8px; margin-bottom: 20px;">
-                        Mengedit Transaksi Pemasukan
+                    <div class="tabs">
+                        <button class="tab-btn {{ $transaksi->jenis_transaksi == 'Pemasukan' ? 'active' : '' }}" onclick="switchTab('pemasukan')">Pemasukan</button>
+                        <button class="tab-btn {{ $transaksi->jenis_transaksi == 'Pengeluaran' ? 'active' : '' }}" onclick="switchTab('pengeluaran')">Pengeluaran</button>
                     </div>
 
                     <!-- FORM PEMASUKAN -->
-                    <div id="form-pemasukan" class="tab-content active">
+                    <div id="form-pemasukan" class="tab-content {{ $transaksi->jenis_transaksi == 'Pemasukan' ? 'active' : '' }}">
                         <form action="{{ route('transaksi.update', $transaksi->id) }}" method="POST" enctype="multipart/form-data" onsubmit="var btn = this.querySelector('button[type=submit]'); btn.disabled = true; btn.innerHTML = 'Menyimpan...'; btn.style.opacity = '0.7';">
                             @csrf
                             @method('PUT')
@@ -168,13 +168,8 @@
                         </form>
                     </div>
 
-                    @elseif($transaksi->jenis_transaksi == 'Pengeluaran')
-                    <div style="padding: 10px 20px; background: #fee2e2; color: #991b1b; font-weight: 600; text-align: center; border-radius: 8px; margin-bottom: 20px;">
-                        Mengedit Transaksi Pengeluaran
-                    </div>
-
                     <!-- FORM PENGELUARAN -->
-                    <div id="form-pengeluaran" class="tab-content active">
+                    <div id="form-pengeluaran" class="tab-content {{ $transaksi->jenis_transaksi == 'Pengeluaran' ? 'active' : '' }}">
                         <form action="{{ route('transaksi.update', $transaksi->id) }}" method="POST" enctype="multipart/form-data" onsubmit="var btn = this.querySelector('button[type=submit]'); btn.disabled = true; btn.innerHTML = 'Menyimpan...'; btn.style.opacity = '0.7';">
                             @csrf
                             @method('PUT')
@@ -255,7 +250,6 @@
                             </div>
                         </form>
                     </div>
-                    @endif
 
                 </div>
             </div>
@@ -324,6 +318,12 @@
                 $('#pem_akun_tujuan').on('change', function() { autoFillKategori(this.value, 'pem_kat_tujuan'); });
                 $('#pem_akun_sumber').on('change', function() { autoFillKategori(this.value, 'pem_kat_sumber'); });
 
+                // Initialize the other form (Pengeluaran) empty just in case user switches tabs
+                populateAkuns('peng_akun_tujuan', null, null);
+                populateAkuns('peng_akun_sumber', null, null);
+                $('#peng_akun_tujuan').on('change', function() { autoFillKategori(this.value, 'peng_kat_tujuan'); });
+                $('#peng_akun_sumber').on('change', function() { autoFillKategori(this.value, 'peng_kat_sumber'); });
+
             } else if (jenis === 'Pengeluaran') {
                 const debitKategori = allAkuns.find(a => a.id == akunDebitId)?.kategori_id;
                 const kreditKategori = allAkuns.find(a => a.id == akunKreditId)?.kategori_id;
@@ -341,6 +341,12 @@
                 // Listen for akun selection changes
                 $('#peng_akun_tujuan').on('change', function() { autoFillKategori(this.value, 'peng_kat_tujuan'); });
                 $('#peng_akun_sumber').on('change', function() { autoFillKategori(this.value, 'peng_kat_sumber'); });
+
+                // Initialize the other form (Pemasukan) empty just in case user switches tabs
+                populateAkuns('pem_akun_tujuan', null, null);
+                populateAkuns('pem_akun_sumber', null, null);
+                $('#pem_akun_tujuan').on('change', function() { autoFillKategori(this.value, 'pem_kat_tujuan'); });
+                $('#pem_akun_sumber').on('change', function() { autoFillKategori(this.value, 'pem_kat_sumber'); });
             }
         });
 

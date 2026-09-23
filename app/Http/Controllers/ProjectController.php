@@ -183,6 +183,6 @@ class ProjectController extends Controller
             // 'perusahaan_id' is handled by model booted creating event
         ]);
 
-        return redirect()->route('projects.show', $project->id)->with('success', 'Pembayaran berhasil dicatat.');
+        return redirect()->back()->with('success', 'Pembayaran berhasil dicatat.');
     }
 }

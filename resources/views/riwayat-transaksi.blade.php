@@ -6,6 +6,11 @@
 <!-- Riwayat Transaksi Section -->
 <div id="view-riwayat-transaksi" class="view-section active" style="display: block;">
     <div class="riwayat-container">
+        @if(session('success'))
+            <div style="background-color: #d1fae5; color: #065f46; padding: 12px 15px; border-radius: 8px; margin: 20px; font-size: 14px; text-align: center;">
+                {{ session('success') }}
+            </div>
+        @endif
         <!-- Top Summary Header (Blue) -->
         <div class="riwayat-header-blue">
             <label class="rh-date-picker" style="position: relative; display: flex;" onclick="try { document.getElementById('riwayat-month-picker').showPicker(); } catch(e) {}">
@@ -143,9 +148,16 @@
         </div>
         
         <!-- Footer / Button -->
-        <div class="detail-footer" style="margin-top: 40px;">
-            <a id="dt-edit-btn" href="#" class="btn" style="display: block; text-align: center; width: 100%; padding: 15px; border-radius: 8px; font-weight: 600; font-size: 16px; cursor: pointer; border: none; background: var(--primary); color: white; text-decoration: none;">
-                Edit
+        <div class="detail-footer" style="margin-top: 40px; display: flex; gap: 15px;">
+            <form id="dt-delete-form" method="POST" action="#" onsubmit="return confirm('Apakah Anda yakin ingin menghapus transaksi ini? Data yang terhapus tidak dapat dikembalikan dan akan mempengaruhi total kas Anda.');" style="flex: 1;">
+                @csrf
+                @method('DELETE')
+                <button type="submit" class="btn btn-danger" style="display: block; text-align: center; width: 100%; padding: 15px; border-radius: 8px; font-weight: 600; font-size: 16px; cursor: pointer; border: none; background: #dc2626; color: white; transition: background 0.2s;" onmouseover="this.style.background='#b91c1c'" onmouseout="this.style.background='#dc2626'">
+                    <i class="ri-delete-bin-line" style="margin-right: 5px;"></i> Hapus
+                </button>
+            </form>
+            <a id="dt-edit-btn" href="#" class="btn" style="flex: 1; display: block; text-align: center; padding: 15px; border-radius: 8px; font-weight: 600; font-size: 16px; cursor: pointer; border: none; background: var(--primary); color: white; text-decoration: none; transition: opacity 0.2s;" onmouseover="this.style.opacity='0.9'" onmouseout="this.style.opacity='1'">
+                <i class="ri-edit-box-line" style="margin-right: 5px;"></i> Edit
             </a>
         </div>
     </div>
@@ -211,6 +223,9 @@
 
         // Set Edit Link
         document.getElementById('dt-edit-btn').href = '/transaksi/' + id + '/edit';
+        
+        // Set Delete Form Action
+        document.getElementById('dt-delete-form').action = '/transaksi/' + id;
     }
 
     function hideDetailTransaksi() {

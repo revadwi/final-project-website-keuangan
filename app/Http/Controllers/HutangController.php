@@ -146,6 +146,6 @@ class HutangController extends Controller
             $hutang->update(['status' => 'Lunas']);
         }
 
-        return redirect()->route('hutangs.show', $hutang->id)->with('success', 'Pembayaran hutang berhasil dicatat.');
+        return redirect()->back()->with('success', 'Pembayaran hutang berhasil dicatat.');
     }
 }

@@ -103,6 +103,63 @@
             </form>
         </div>
 
+        <hr style="border: 0; border-top: 1px solid #e2e8f0; margin: 40px 0;">
+
+        <!-- Ringkasan Kas (Light Theme) -->
+        <div style="background: white; border-radius: 20px; border: 1px solid var(--border-color); box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.03); overflow: hidden; margin-bottom: 20px;">
+            <div style="padding: 30px; text-align: center; border-bottom: 1px solid var(--border-color);">
+                <div style="font-size: 14px; color: var(--text-muted); margin-bottom: 5px; font-weight: 500;">Saldo total</div>
+                <div style="font-size: 40px; font-weight: 700; color: var(--text-dark); display: flex; align-items: center; justify-content: center; gap: 10px;">
+                    Rp {{ number_format($totalSaldo, 0, ',', '.') }}
+                </div>
+            </div>
+            
+            <div style="display: flex; text-align: center; background: #f8fafc;">
+                <div style="flex: 1; padding: 20px; border-right: 1px solid var(--border-color);">
+                    <div style="font-size: 13px; color: var(--text-muted); margin-bottom: 5px; font-weight: 500;">Pengeluaran</div>
+                    <div style="font-size: 18px; font-weight: 700; color: #ef4444;">Rp {{ number_format($totalPengeluaran, 0, ',', '.') }}</div>
+                </div>
+                <div style="flex: 1; padding: 20px;">
+                    <div style="font-size: 13px; color: var(--text-muted); margin-bottom: 5px; font-weight: 500;">Pemasukan</div>
+                    <div style="font-size: 18px; font-weight: 700; color: #10b981;">Rp {{ number_format($totalPemasukan, 0, ',', '.') }}</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Tabel Ringkasan Bulanan (Light Theme) -->
+        <div style="background: white; border-radius: 16px; border: 1px solid var(--border-color); overflow: hidden; margin-bottom: 50px; box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.03);">
+            <div style="padding: 15px 20px; border-bottom: 1px solid var(--border-color); background: #f8fafc; display: grid; grid-template-columns: 1fr 1.5fr 1.5fr 1.5fr; gap: 10px; font-size: 13px; color: var(--text-muted); font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px;">
+                <div>Bulan</div>
+                <div style="text-align: right;">Pengeluaran</div>
+                <div style="text-align: right;">Pemasukan</div>
+                <div style="text-align: right;">Saldo</div>
+            </div>
+            
+            <div style="max-height: 400px; overflow-y: auto;">
+                @php $currentYear = null; @endphp
+                @foreach($overviewPerBulan as $data)
+                    @if($currentYear !== $data['year'])
+                        <div style="padding: 10px 20px; font-size: 12px; font-weight: 700; color: var(--text-muted); background: #f1f5f9; border-bottom: 1px solid var(--border-color); border-top: {{ $loop->first ? 'none' : '1px solid var(--border-color)' }};">
+                            {{ $data['year'] }}
+                        </div>
+                        @php $currentYear = $data['year']; @endphp
+                    @endif
+                    <div style="padding: 15px 20px; border-bottom: 1px solid #f1f5f9; display: grid; grid-template-columns: 1fr 1.5fr 1.5fr 1.5fr; gap: 10px; font-size: 14px; align-items: center; transition: background 0.2s;" onmouseover="this.style.background='#f8fafc'" onmouseout="this.style.background='transparent'">
+                        <div style="font-weight: 500; color: var(--text-dark);">{{ $data['bulan_nama'] }}</div>
+                        <div style="text-align: right; color: var(--text-dark);">{{ number_format($data['pengeluaran'], 0, ',', '.') }}</div>
+                        <div style="text-align: right; color: var(--text-dark);">{{ number_format($data['pemasukan'], 0, ',', '.') }}</div>
+                        <div style="text-align: right; font-weight: 700; color: {{ $data['saldo'] < 0 ? '#ef4444' : ($data['saldo'] > 0 ? '#10b981' : 'var(--text-dark)') }};">
+                            {{ number_format($data['saldo'], 0, ',', '.') }}
+                        </div>
+                    </div>
+                @endforeach
+                
+                @if(count($overviewPerBulan) == 0)
+                    <div style="padding: 30px; text-align: center; color: var(--text-muted); font-size: 14px;">Belum ada data transaksi</div>
+                @endif
+            </div>
+        </div>
+
 
 
 

@@ -96,42 +96,6 @@ class PiutangTemplateExport implements FromArray, WithHeadings, WithStyles, Shou
                     $sheet->getCell("C{$i}")->setDataValidation(clone $validationAkun);
                 }
 
-                // Ambil daftar project dinamis dari database
-                $active_id = session('active_perusahaan_id', \App\Models\Perusahaan::first()->id ?? null);
-                $projects = Project::where('perusahaan_id', $active_id)->orderBy('nama_project')->pluck('nama_project')->toArray();
-
-                if (!empty($projects)) {
-                    // Buat sheet tersembunyi untuk menyimpan opsi nama project
-                    $optionsSheet = $spreadsheet->createSheet();
-                    $optionsSheet->setTitle('ProjectOptions');
-                    $optionsSheet->setSheetState(\PhpOffice\PhpSpreadsheet\Worksheet\Worksheet::SHEETSTATE_HIDDEN);
-
-                    $rowCount = count($projects);
-                    foreach ($projects as $index => $nama_project) {
-                        $optionsSheet->setCellValue('A' . ($index + 1), $nama_project);
-                    }
-
-                    // Dropdown untuk Nama Project (Kolom D)
-                    $validationProject = $sheet->getCell('D2')->getDataValidation();
-                    $validationProject->setType(DataValidation::TYPE_LIST);
-                    $validationProject->setErrorStyle(DataValidation::STYLE_INFORMATION);
-                    $validationProject->setAllowBlank(true);
-                    $validationProject->setShowInputMessage(true);
-                    $validationProject->setShowErrorMessage(true);
-                    $validationProject->setShowDropDown(true);
-                    $validationProject->setErrorTitle('Input Error');
-                    $validationProject->setError('Pilih nama project dari daftar yang tersedia.');
-                    $validationProject->setPromptTitle('Pilih Project');
-                    $validationProject->setPrompt('Silakan pilih nama project (opsional).');
-                    
-                    // Referensikan formula ke sheet tersembunyi
-                    $validationProject->setFormula1('ProjectOptions!$A$1:$A$' . $rowCount);
-
-                    // Terapkan ke baris 2 s.d 101 untuk Nama Project
-                    for ($i = 2; $i <= 101; $i++) {
-                        $sheet->getCell("D{$i}")->setDataValidation(clone $validationProject);
-                    }
-                }
             },
         ];
     }

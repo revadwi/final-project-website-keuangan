@@ -17,7 +17,43 @@ class LaporanController extends Controller
         // JIKA PENGGUNA HANYA MEMBUKA HALAMAN (TIDAK MENGUNDUH)
         if ($request->query('export') !== 'csv') {
             $kategoris = Kategori::all();
-            return view('laporan', compact('mode', 'kategoriFilter', 'kategoris'));
+
+            // Hitung ringkasan keseluruhan
+            $totalPemasukan = Transaksi::where('jenis_transaksi', 'Pemasukan')->sum('jumlah');
+            $totalPengeluaran = Transaksi::where('jenis_transaksi', 'Pengeluaran')->sum('jumlah');
+            $totalSaldo = $totalPemasukan - $totalPengeluaran;
+
+            // Hitung ringkasan bulanan (semua waktu)
+            $monthlyData = Transaksi::selectRaw('
+                    YEAR(tanggal) as year, 
+                    MONTH(tanggal) as month, 
+                    SUM(CASE WHEN jenis_transaksi = "Pemasukan" THEN jumlah ELSE 0 END) as pemasukan,
+                    SUM(CASE WHEN jenis_transaksi = "Pengeluaran" THEN jumlah ELSE 0 END) as pengeluaran
+                ')
+                ->groupBy('year', 'month')
+                ->orderBy('year', 'desc')
+                ->orderBy('month', 'desc')
+                ->get();
+
+            $overviewPerBulan = [];
+            foreach ($monthlyData as $data) {
+                $bulanNama = Carbon::createFromDate($data->year, $data->month, 1)->translatedFormat('M');
+                $saldo = $data->pemasukan - $data->pengeluaran;
+                
+                $overviewPerBulan[] = [
+                    'year' => $data->year,
+                    'month' => $data->month,
+                    'bulan_nama' => $bulanNama,
+                    'pemasukan' => $data->pemasukan,
+                    'pengeluaran' => $data->pengeluaran,
+                    'saldo' => $saldo,
+                ];
+            }
+
+            return view('laporan', compact(
+                'mode', 'kategoriFilter', 'kategoris', 
+                'totalPemasukan', 'totalPengeluaran', 'totalSaldo', 'overviewPerBulan'
+            ));
         }
 
         // --- MULAI LOGIKA PENGUNDUHAN ---
