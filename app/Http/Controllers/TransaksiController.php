@@ -20,7 +20,7 @@ class TransaksiController extends Controller
         
         $projects = \App\Models\Project::with('transaksis')->where('status', '!=', 'Completed')->get();
         $hutangs = \App\Models\Hutang::with('transaksis')->where('status', '!=', 'Lunas')->get();
-        $piutangs = \App\Models\Piutang::with('transaksis')->where('status', '!=', 'Lunas')->get();
+        $piutangs = \App\Models\Piutang::with(['transaksis', 'project'])->where('status', '!=', 'Lunas')->get();
 
         return view('transaksi', compact('kategoris', 'akuns', 'projects', 'hutangs', 'piutangs'));
     }

@@ -269,7 +269,7 @@
                                             $terbayar = $project->transaksis->where('jenis_transaksi', 'Pemasukan')->sum('jumlah');
                                             $sisa = $project->nominal_project - $terbayar;
                                         @endphp
-                                        <option value="{{ $project->id }}">{{ $project->nama_project }} (Sisa: Rp {{ number_format($sisa, 0, ',', '.') }})</option>
+                                        <option value="{{ $project->id }}">{{ $project->no_penawaran }} - {{ $project->nama_project }} (Sisa: Rp {{ number_format($sisa, 0, ',', '.') }})</option>
                                     @endforeach
                                 </select>
                             </div>
@@ -290,7 +290,7 @@
                                     <label>Masuk Ke Akun (Debit)</label>
                                     <select class="select2-search" name="akun_debit_id" required>
                                         <option value="">-- Pilih Akun Kas/Bank --</option>
-                                        @foreach($akuns as $akun)
+                                        @foreach($akuns->filter(function($a) { return $a->kategori && $a->kategori->nama_kategori == 'Kas & Bank'; }) as $akun)
                                             <option value="{{ $akun->id }}">{{ $akun->nomor_akun }} - {{ $akun->nama_akun }}</option>
                                         @endforeach
                                     </select>
@@ -299,7 +299,7 @@
                                     <label>Berasal Dari Akun (Kredit)</label>
                                     <select class="select2-search" name="akun_kredit_id" required>
                                         <option value="">-- Pilih Akun Pendapatan --</option>
-                                        @foreach($akuns as $akun)
+                                        @foreach($akuns->filter(function($a) { return $a->kategori && in_array($a->kategori->nama_kategori, ['Pendapatan', 'Pendapatan Lainnya']); }) as $akun)
                                             <option value="{{ $akun->id }}">{{ $akun->nomor_akun }} - {{ $akun->nama_akun }}</option>
                                         @endforeach
                                     </select>
@@ -328,10 +328,10 @@
                                     <option value="">-- Pilih Piutang --</option>
                                     @foreach($piutangs as $piutang)
                                         @php
-                                            $terbayar = $piutang->transaksis->where('jenis_transaksi', 'Pemasukan')->sum('jumlah');
-                                            $sisa = $piutang->nominal_piutang - $terbayar;
+                                            $sisa = $piutang->nominal_sisa;
+                                            $nama_tampilan = $piutang->project ? $piutang->project->nama_project : $piutang->keterangan;
                                         @endphp
-                                        <option value="{{ $piutang->id }}">{{ $piutang->nama_piutang }} (Sisa: Rp {{ number_format($sisa, 0, ',', '.') }})</option>
+                                        <option value="{{ $piutang->id }}">{{ $piutang->nomor_urut }} - {{ $nama_tampilan }} (Sisa: Rp {{ number_format($sisa, 0, ',', '.') }})</option>
                                     @endforeach
                                 </select>
                             </div>
@@ -347,25 +347,14 @@
                                 </div>
                             </div>
                             
-                            <div class="form-grid">
-                                <div class="form-group">
-                                    <label>Masuk Ke Akun (Debit)</label>
-                                    <select class="select2-search" name="akun_debit_id" required>
-                                        <option value="">-- Pilih Akun Kas/Bank --</option>
-                                        @foreach($akuns as $akun)
-                                            <option value="{{ $akun->id }}">{{ $akun->nomor_akun }} - {{ $akun->nama_akun }}</option>
-                                        @endforeach
-                                    </select>
-                                </div>
-                                <div class="form-group">
-                                    <label>Pilih Akun Piutang (Kredit)</label>
-                                    <select class="select2-search" name="akun_kredit_id" required>
-                                        <option value="">-- Pilih Akun Piutang --</option>
-                                        @foreach($akuns as $akun)
-                                            <option value="{{ $akun->id }}">{{ $akun->nomor_akun }} - {{ $akun->nama_akun }}</option>
-                                        @endforeach
-                                    </select>
-                                </div>
+                            <div class="form-group">
+                                <label>Masuk Ke Akun (Debit)</label>
+                                <select class="select2-search" name="akun_debit_id" required>
+                                    <option value="">-- Pilih Akun Kas/Bank --</option>
+                                    @foreach($akuns->filter(function($a) { return $a->kategori && $a->kategori->nama_kategori == 'Kas & Bank'; }) as $akun)
+                                        <option value="{{ $akun->id }}">{{ $akun->nomor_akun }} - {{ $akun->nama_akun }}</option>
+                                    @endforeach
+                                </select>
                             </div>
                             
                             <div class="form-group">
@@ -390,10 +379,9 @@
                                     <option value="">-- Pilih Hutang --</option>
                                     @foreach($hutangs as $hutang)
                                         @php
-                                            $terbayar = $hutang->transaksis->where('jenis_transaksi', 'Pengeluaran')->sum('jumlah');
-                                            $sisa = $hutang->nominal_hutang - $terbayar;
+                                            $sisa = $hutang->nominal_sisa;
                                         @endphp
-                                        <option value="{{ $hutang->id }}">{{ $hutang->nama_kreditur }} - {{ $hutang->jenis_hutang }} (Sisa: Rp {{ number_format($sisa, 0, ',', '.') }})</option>
+                                        <option value="{{ $hutang->id }}">{{ $hutang->nomor_urut }} - {{ $hutang->kreditur ? $hutang->kreditur . ' - ' : '' }}{{ $hutang->jenis_hutang }} (Sisa: Rp {{ number_format($sisa, 0, ',', '.') }})</option>
                                     @endforeach
                                 </select>
                             </div>
@@ -409,25 +397,14 @@
                                 </div>
                             </div>
                             
-                            <div class="form-grid">
-                                <div class="form-group">
-                                    <label>Pilih Akun Hutang (Debit)</label>
-                                    <select class="select2-search" name="akun_debit_id" required>
-                                        <option value="">-- Pilih Akun Hutang --</option>
-                                        @foreach($akuns as $akun)
-                                            <option value="{{ $akun->id }}">{{ $akun->nomor_akun }} - {{ $akun->nama_akun }}</option>
-                                        @endforeach
-                                    </select>
-                                </div>
-                                <div class="form-group">
-                                    <label>Dibayar Dari Akun (Kredit)</label>
-                                    <select class="select2-search" name="akun_kredit_id" required>
-                                        <option value="">-- Pilih Akun Kas/Bank --</option>
-                                        @foreach($akuns as $akun)
-                                            <option value="{{ $akun->id }}">{{ $akun->nomor_akun }} - {{ $akun->nama_akun }}</option>
-                                        @endforeach
-                                    </select>
-                                </div>
+                            <div class="form-group">
+                                <label>Dibayar Dari Akun (Kredit)</label>
+                                <select class="select2-search" name="akun_kredit_id" required>
+                                    <option value="">-- Pilih Akun Kas/Bank --</option>
+                                    @foreach($akuns->filter(function($a) { return $a->kategori && $a->kategori->nama_kategori == 'Kas & Bank'; }) as $akun)
+                                        <option value="{{ $akun->id }}">{{ $akun->nomor_akun }} - {{ $akun->nama_akun }}</option>
+                                    @endforeach
+                                </select>
                             </div>
                             
                             <div class="form-group">
