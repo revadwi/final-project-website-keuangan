@@ -107,6 +107,17 @@ class PiutangController extends Controller
         return redirect()->route('piutangs.index')->with('success', 'Data piutang berhasil diupdate.');
     }
 
+    public function destroy(\App\Models\Piutang $piutang)
+    {
+        if ($piutang->transaksis()->exists()) {
+            return redirect()->back()->with('error', 'Gagal dihapus! Data piutang ini sudah memiliki riwayat penerimaan pembayaran.');
+        }
+
+        $piutang->delete();
+
+        return redirect()->route('piutangs.index')->with('success', 'Data piutang berhasil dihapus.');
+    }
+
     public function storePayment(Request $request, \App\Models\Piutang $piutang)
     {
         $request->validate([

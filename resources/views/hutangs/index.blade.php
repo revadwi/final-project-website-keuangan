@@ -98,6 +98,12 @@
     </div>
     @endif
 
+    @if(session('error'))
+    <div style="background: #fee2e2; color: #991b1b; padding: 15px; border-radius: 8px; margin-bottom: 20px;">
+        {{ session('error') }}
+    </div>
+    @endif
+
     <div style="background: #f8fafc; padding: 15px; border-radius: 8px; overflow-x: auto;">
         <table style="width:100%; text-align:left; border-collapse: collapse; min-width: 100%; font-size: 13px;">
             <thead>
@@ -154,6 +160,13 @@
                             <a href="{{ route('hutangs.edit', $hutang->id) }}" title="Edit Hutang" style="color: #f59e0b; background: #fef3c7; padding: 6px 10px; border-radius: 6px; text-decoration: none;" class="action-btn">
                                 <i class="ri-edit-line"></i>
                             </a>
+                            <form action="{{ route('hutangs.destroy', $hutang->id) }}" method="POST" onsubmit="return confirm('Apakah Anda yakin ingin menghapus hutang ini?')" style="margin: 0;">
+                                @csrf
+                                @method('DELETE')
+                                <button type="submit" title="Hapus Hutang" style="color: #dc2626; background: #fee2e2; padding: 6px 10px; border-radius: 6px; border: none; cursor: pointer;">
+                                    <i class="ri-delete-bin-line"></i>
+                                </button>
+                            </form>
                             @endif
                         </div>
                     </td>

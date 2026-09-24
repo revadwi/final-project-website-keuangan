@@ -123,6 +123,17 @@ class HutangController extends Controller
         return redirect()->route('hutangs.index')->with('success', 'Data hutang berhasil diupdate.');
     }
 
+    public function destroy(\App\Models\Hutang $hutang)
+    {
+        if ($hutang->transaksis()->exists()) {
+            return redirect()->back()->with('error', 'Gagal dihapus! Data hutang ini sudah memiliki riwayat pembayaran.');
+        }
+
+        $hutang->delete();
+
+        return redirect()->route('hutangs.index')->with('success', 'Data hutang berhasil dihapus.');
+    }
+
     public function storePayment(Request $request, \App\Models\Hutang $hutang)
     {
         $request->validate([

@@ -158,8 +158,14 @@ class ProjectController extends Controller
 
     public function destroy(Project $project)
     {
-        // Fitur hapus dinonaktifkan untuk menjaga integritas data keuangan
-        abort(403, 'Akses hapus dinonaktifkan.');
+        // Cek apakah project sudah memiliki transaksi terkait
+        if ($project->transaksis()->exists()) {
+            return redirect()->back()->with('error', 'Gagal dihapus! Project ini sudah memiliki riwayat transaksi/pembayaran.');
+        }
+
+        $project->delete();
+
+        return redirect()->route('projects.index')->with('success', 'Project berhasil dihapus.');
     }
 
     public function storePayment(Request $request, Project $project)
