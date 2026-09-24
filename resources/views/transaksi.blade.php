@@ -258,7 +258,7 @@
 
                     <!-- FORM PROJECT -->
                     <div id="form-project" class="tab-content">
-                        <form id="form-project-submit" method="POST" action="" onsubmit="if(!this.action || this.action.endsWith('/payment')) { alert('Pilih project terlebih dahulu!'); return false; } var btn = this.querySelector('button[type=submit]'); btn.disabled = true; btn.innerHTML = 'Menyimpan...'; btn.style.opacity = '0.7';">
+                        <form id="form-project-submit" method="POST" action="" onsubmit="if(!document.getElementById('select-project').value) { alert('Pilih project terlebih dahulu!'); return false; } var btn = this.querySelector('button[type=submit]'); btn.disabled = true; btn.innerHTML = 'Menyimpan...'; btn.style.opacity = '0.7';">
                             @csrf
                             <div class="form-group">
                                 <label>Pilih Project (Pendapatan Usaha)</label>
@@ -320,7 +320,7 @@
 
                     <!-- FORM PIUTANG -->
                     <div id="form-piutang" class="tab-content">
-                        <form id="form-piutang-submit" method="POST" action="" onsubmit="if(!this.action || this.action.endsWith('/payment')) { alert('Pilih piutang terlebih dahulu!'); return false; } var btn = this.querySelector('button[type=submit]'); btn.disabled = true; btn.innerHTML = 'Menyimpan...'; btn.style.opacity = '0.7';">
+                        <form id="form-piutang-submit" method="POST" action="" onsubmit="if(!document.getElementById('select-piutang').value) { alert('Pilih piutang terlebih dahulu!'); return false; } var btn = this.querySelector('button[type=submit]'); btn.disabled = true; btn.innerHTML = 'Menyimpan...'; btn.style.opacity = '0.7';">
                             @csrf
                             <div class="form-group">
                                 <label>Pilih Piutang</label>
@@ -371,7 +371,7 @@
 
                     <!-- FORM HUTANG -->
                     <div id="form-hutang" class="tab-content">
-                        <form id="form-hutang-submit" method="POST" action="" onsubmit="if(!this.action || this.action.endsWith('/payment')) { alert('Pilih hutang terlebih dahulu!'); return false; } var btn = this.querySelector('button[type=submit]'); btn.disabled = true; btn.innerHTML = 'Menyimpan...'; btn.style.opacity = '0.7';">
+                        <form id="form-hutang-submit" method="POST" action="" onsubmit="if(!document.getElementById('select-hutang').value) { alert('Pilih hutang terlebih dahulu!'); return false; } var btn = this.querySelector('button[type=submit]'); btn.disabled = true; btn.innerHTML = 'Menyimpan...'; btn.style.opacity = '0.7';">
                             @csrf
                             <div class="form-group">
                                 <label>Pilih Hutang</label>
