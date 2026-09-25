@@ -99,17 +99,45 @@
                     <div class="tabs">
                         <button class="tab-btn active" onclick="switchTab('pemasukan', this)">Pemasukan Umum</button>
                         <button class="tab-btn" onclick="switchTab('pengeluaran', this)">Pengeluaran Umum</button>
-                        <button class="tab-btn" onclick="switchTab('project', this)">Bayar Project</button>
-                        <button class="tab-btn" onclick="switchTab('piutang', this)">Terima Piutang</button>
-                        <button class="tab-btn" onclick="switchTab('hutang', this)">Bayar Hutang</button>
                     </div>
 
                     <!-- FORM PEMASUKAN -->
                     <div id="form-pemasukan" class="tab-content active">
-                        <form action="{{ route('transaksi.store') }}" method="POST" enctype="multipart/form-data" onsubmit="var btn = this.querySelector('button[type=submit]'); btn.disabled = true; btn.innerHTML = 'Menyimpan...'; btn.style.opacity = '0.7';">
+                        <form id="form-pemasukan-submit" action="{{ route('transaksi.store') }}" method="POST" enctype="multipart/form-data" onsubmit="var btn = this.querySelector('button[type=submit]'); btn.disabled = true; btn.innerHTML = 'Menyimpan...'; btn.style.opacity = '0.7';">
                             @csrf
                             <input type="hidden" name="jenis_transaksi" value="Pemasukan">
                             
+                            <!-- Tambahan Dropdown Project dan Piutang -->
+                            <div class="form-grid" style="align-items: end;">
+                                <div class="form-group" style="margin-bottom: 0;">
+                                    <label>Pilih Project (Opsional)</label>
+                                    <select class="select2-search" name="project_id" id="pem_project_id" onchange="handlePemasukanType()">
+                                        <option value="">-- Bukan Pembayaran Project --</option>
+                                        @foreach($projects as $project)
+                                            @php
+                                                $terbayar = $project->transaksis->where('jenis_transaksi', 'Pemasukan')->sum('jumlah');
+                                                $sisa = $project->nominal_project - $terbayar;
+                                            @endphp
+                                            <option value="{{ $project->id }}">{{ $project->no_penawaran }} - {{ $project->nama_project }} (Sisa: Rp {{ number_format($sisa, 0, ',', '.') }})</option>
+                                        @endforeach
+                                    </select>
+                                </div>
+                                <div class="form-group" style="margin-bottom: 0;">
+                                    <label>Pilih Piutang (Opsional)</label>
+                                    <select class="select2-search" name="piutang_id" id="pem_piutang_id" onchange="handlePemasukanType()">
+                                        <option value="">-- Bukan Penerimaan Piutang --</option>
+                                        @foreach($piutangs as $piutang)
+                                            @php
+                                                $sisa = $piutang->nominal_sisa;
+                                                $nama_tampilan = $piutang->project ? $piutang->project->nama_project : $piutang->keterangan;
+                                            @endphp
+                                            <option value="{{ $piutang->id }}">{{ $piutang->nomor_urut }} - {{ $nama_tampilan }} (Sisa: Rp {{ number_format($sisa, 0, ',', '.') }})</option>
+                                        @endforeach
+                                    </select>
+                                </div>
+                            </div>
+                            <!-- Akhir Dropdown Project dan Piutang -->
+
                             <div class="form-grid">
                                 <div class="form-group">
                                     <label>Tanggal Transaksi</label>
@@ -117,7 +145,7 @@
                                 </div>
                                 <div class="form-group">
                                     <label>Keterangan</label>
-                                    <input type="text" name="keterangan" class="form-control" required placeholder="Contoh: Pendapatan Jasa">
+                                    <input type="text" name="keterangan" id="pem_keterangan" class="form-control" required placeholder="Contoh: Pendapatan Jasa">
                                 </div>
                             </div>
                             
@@ -142,7 +170,7 @@
                                 </div>
                             </div>
 
-                            <div class="account-box">
+                            <div class="account-box" id="pem_box_sumber">
                                 <h4>Akun Sumber (Uang Berasal Dari Mana)</h4>
                                 <div class="form-grid" style="margin-bottom: 0;">
                                     <div class="form-group" style="margin-bottom: 0;">
@@ -182,10 +210,25 @@
 
                     <!-- FORM PENGELUARAN -->
                     <div id="form-pengeluaran" class="tab-content">
-                        <form action="{{ route('transaksi.store') }}" method="POST" enctype="multipart/form-data" onsubmit="var btn = this.querySelector('button[type=submit]'); btn.disabled = true; btn.innerHTML = 'Menyimpan...'; btn.style.opacity = '0.7';">
+                        <form id="form-pengeluaran-submit" action="{{ route('transaksi.store') }}" method="POST" enctype="multipart/form-data" onsubmit="var btn = this.querySelector('button[type=submit]'); btn.disabled = true; btn.innerHTML = 'Menyimpan...'; btn.style.opacity = '0.7';">
                             @csrf
                             <input type="hidden" name="jenis_transaksi" value="Pengeluaran">
                             
+                            <!-- Tambahan Dropdown Hutang -->
+                            <div class="form-group">
+                                <label>Pilih Hutang (Opsional)</label>
+                                <select class="select2-search" name="hutang_id" id="peng_hutang_id" onchange="handlePengeluaranType()">
+                                    <option value="">-- Bukan Pembayaran Hutang --</option>
+                                    @foreach($hutangs as $hutang)
+                                        @php
+                                            $sisa = $hutang->nominal_sisa;
+                                        @endphp
+                                        <option value="{{ $hutang->id }}">{{ $hutang->nomor_urut }} - {{ $hutang->kreditur ? $hutang->kreditur . ' - ' : '' }}{{ $hutang->jenis_hutang }} (Sisa: Rp {{ number_format($sisa, 0, ',', '.') }})</option>
+                                    @endforeach
+                                </select>
+                            </div>
+                            <!-- Akhir Dropdown Hutang -->
+
                             <div class="form-grid">
                                 <div class="form-group">
                                     <label>Tanggal Transaksi</label>
@@ -193,11 +236,11 @@
                                 </div>
                                 <div class="form-group">
                                     <label>Keterangan</label>
-                                    <input type="text" name="keterangan" class="form-control" required placeholder="Contoh: Pembayaran Listrik">
+                                    <input type="text" name="keterangan" id="peng_keterangan" class="form-control" required placeholder="Contoh: Pembayaran Listrik">
                                 </div>
                             </div>
                             
-                            <div class="account-box">
+                            <div class="account-box" id="peng_box_tujuan">
                                 <h4>Akun Tujuan (Untuk Keperluan Apa)</h4>
                                 <div class="form-grid" style="margin-bottom: 0;">
                                     <div class="form-group" style="margin-bottom: 0;">
@@ -252,184 +295,6 @@
                             <div class="form-actions">
                                 <button type="button" class="btn btn-cancel" onclick="window.location.href='/dashboard'">Batal</button>
                                 <button type="submit" class="btn btn-save btn-danger">Simpan Pengeluaran</button>
-                            </div>
-                        </form>
-                    </div>
-
-                    <!-- FORM PROJECT -->
-                    <div id="form-project" class="tab-content">
-                        <form id="form-project-submit" method="POST" action="" enctype="multipart/form-data" onsubmit="if(!document.getElementById('select-project').value) { alert('Pilih project terlebih dahulu!'); return false; } var btn = this.querySelector('button[type=submit]'); btn.disabled = true; btn.innerHTML = 'Menyimpan...'; btn.style.opacity = '0.7';">
-                            @csrf
-                            <div class="form-group">
-                                <label>Pilih Project (Pendapatan Usaha)</label>
-                                <select class="select2-search" id="select-project" onchange="document.getElementById('form-project-submit').action = '/projects/' + this.value + '/payment'" required>
-                                    <option value="">-- Pilih Project --</option>
-                                    @foreach($projects as $project)
-                                        @php
-                                            $terbayar = $project->transaksis->where('jenis_transaksi', 'Pemasukan')->sum('jumlah');
-                                            $sisa = $project->nominal_project - $terbayar;
-                                        @endphp
-                                        <option value="{{ $project->id }}">{{ $project->no_penawaran }} - {{ $project->nama_project }} (Sisa: Rp {{ number_format($sisa, 0, ',', '.') }})</option>
-                                    @endforeach
-                                </select>
-                            </div>
-                            
-                            <div class="form-grid">
-                                <div class="form-group">
-                                    <label>Tanggal Pembayaran</label>
-                                    <input type="date" name="tanggal" class="form-control" required value="{{ date('Y-m-d') }}">
-                                </div>
-                                <div class="form-group">
-                                    <label>Jumlah (Rp)</label>
-                                    <input type="number" name="jumlah" class="form-control" required min="1" placeholder="0">
-                                </div>
-                            </div>
-                            
-                            <div class="form-grid">
-                                <div class="form-group">
-                                    <label>Masuk Ke Akun (Debit)</label>
-                                    <select class="select2-search" name="akun_debit_id" required>
-                                        <option value="">-- Pilih Akun Kas/Bank --</option>
-                                        @foreach($akuns->filter(function($a) { return $a->kategori && $a->kategori->nama_kategori == 'Kas & Bank'; }) as $akun)
-                                            <option value="{{ $akun->id }}">{{ $akun->nomor_akun }} - {{ $akun->nama_akun }}</option>
-                                        @endforeach
-                                    </select>
-                                </div>
-                                <div class="form-group">
-                                    <label>Berasal Dari Akun (Kredit)</label>
-                                    <select class="select2-search" name="akun_kredit_id" required>
-                                        <option value="">-- Pilih Akun Pendapatan --</option>
-                                        @foreach($akuns->filter(function($a) { return $a->kategori && in_array($a->kategori->nama_kategori, ['Pendapatan', 'Pendapatan Lainnya']); }) as $akun)
-                                            <option value="{{ $akun->id }}">{{ $akun->nomor_akun }} - {{ $akun->nama_akun }}</option>
-                                        @endforeach
-                                    </select>
-                                </div>
-                            </div>
-                            
-                            <div class="form-group">
-                                <label>Keterangan Tambahan (Opsional)</label>
-                                <input type="text" name="keterangan" class="form-control" placeholder="Kosongkan untuk keterangan otomatis">
-                            </div>
-
-                            <div class="form-group">
-                                <label>Bukti Transaksi / Dokumentasi (Opsional)</label>
-                                <input type="file" name="dokumentasi" class="form-control" accept="image/*,.pdf">
-                            </div>
-
-                            <div class="form-actions">
-                                <button type="button" class="btn btn-cancel" onclick="window.location.href='/dashboard'">Batal</button>
-                                <button type="submit" class="btn btn-save">Simpan Pembayaran Project</button>
-                            </div>
-                        </form>
-                    </div>
-
-                    <!-- FORM PIUTANG -->
-                    <div id="form-piutang" class="tab-content">
-                        <form id="form-piutang-submit" method="POST" action="" enctype="multipart/form-data" onsubmit="if(!document.getElementById('select-piutang').value) { alert('Pilih piutang terlebih dahulu!'); return false; } var btn = this.querySelector('button[type=submit]'); btn.disabled = true; btn.innerHTML = 'Menyimpan...'; btn.style.opacity = '0.7';">
-                            @csrf
-                            <div class="form-group">
-                                <label>Pilih Piutang</label>
-                                <select class="select2-search" id="select-piutang" onchange="document.getElementById('form-piutang-submit').action = '/piutangs/' + this.value + '/payment'" required>
-                                    <option value="">-- Pilih Piutang --</option>
-                                    @foreach($piutangs as $piutang)
-                                        @php
-                                            $sisa = $piutang->nominal_sisa;
-                                            $nama_tampilan = $piutang->project ? $piutang->project->nama_project : $piutang->keterangan;
-                                        @endphp
-                                        <option value="{{ $piutang->id }}">{{ $piutang->nomor_urut }} - {{ $nama_tampilan }} (Sisa: Rp {{ number_format($sisa, 0, ',', '.') }})</option>
-                                    @endforeach
-                                </select>
-                            </div>
-                            
-                            <div class="form-grid">
-                                <div class="form-group">
-                                    <label>Tanggal Pembayaran</label>
-                                    <input type="date" name="tanggal" class="form-control" required value="{{ date('Y-m-d') }}">
-                                </div>
-                                <div class="form-group">
-                                    <label>Jumlah (Rp)</label>
-                                    <input type="number" name="jumlah" class="form-control" required min="1" placeholder="0">
-                                </div>
-                            </div>
-                            
-                            <div class="form-group">
-                                <label>Masuk Ke Akun (Debit)</label>
-                                <select class="select2-search" name="akun_debit_id" required>
-                                    <option value="">-- Pilih Akun Kas/Bank --</option>
-                                    @foreach($akuns->filter(function($a) { return $a->kategori && $a->kategori->nama_kategori == 'Kas & Bank'; }) as $akun)
-                                        <option value="{{ $akun->id }}">{{ $akun->nomor_akun }} - {{ $akun->nama_akun }}</option>
-                                    @endforeach
-                                </select>
-                            </div>
-                            
-                            <div class="form-group">
-                                <label>Keterangan Tambahan (Opsional)</label>
-                                <input type="text" name="keterangan" class="form-control" placeholder="Kosongkan untuk keterangan otomatis">
-                            </div>
-
-                            <div class="form-group">
-                                <label>Bukti Transaksi / Dokumentasi (Opsional)</label>
-                                <input type="file" name="dokumentasi" class="form-control" accept="image/*,.pdf">
-                            </div>
-
-                            <div class="form-actions">
-                                <button type="button" class="btn btn-cancel" onclick="window.location.href='/dashboard'">Batal</button>
-                                <button type="submit" class="btn btn-save">Simpan Penerimaan Piutang</button>
-                            </div>
-                        </form>
-                    </div>
-
-                    <!-- FORM HUTANG -->
-                    <div id="form-hutang" class="tab-content">
-                        <form id="form-hutang-submit" method="POST" action="" enctype="multipart/form-data" onsubmit="if(!document.getElementById('select-hutang').value) { alert('Pilih hutang terlebih dahulu!'); return false; } var btn = this.querySelector('button[type=submit]'); btn.disabled = true; btn.innerHTML = 'Menyimpan...'; btn.style.opacity = '0.7';">
-                            @csrf
-                            <div class="form-group">
-                                <label>Pilih Hutang</label>
-                                <select class="select2-search" id="select-hutang" onchange="document.getElementById('form-hutang-submit').action = '/hutangs/' + this.value + '/payment'" required>
-                                    <option value="">-- Pilih Hutang --</option>
-                                    @foreach($hutangs as $hutang)
-                                        @php
-                                            $sisa = $hutang->nominal_sisa;
-                                        @endphp
-                                        <option value="{{ $hutang->id }}">{{ $hutang->nomor_urut }} - {{ $hutang->kreditur ? $hutang->kreditur . ' - ' : '' }}{{ $hutang->jenis_hutang }} (Sisa: Rp {{ number_format($sisa, 0, ',', '.') }})</option>
-                                    @endforeach
-                                </select>
-                            </div>
-                            
-                            <div class="form-grid">
-                                <div class="form-group">
-                                    <label>Tanggal Pembayaran</label>
-                                    <input type="date" name="tanggal" class="form-control" required value="{{ date('Y-m-d') }}">
-                                </div>
-                                <div class="form-group">
-                                    <label>Jumlah (Rp)</label>
-                                    <input type="number" name="jumlah" class="form-control" required min="1" placeholder="0">
-                                </div>
-                            </div>
-                            
-                            <div class="form-group">
-                                <label>Dibayar Dari Akun (Kredit)</label>
-                                <select class="select2-search" name="akun_kredit_id" required>
-                                    <option value="">-- Pilih Akun Kas/Bank --</option>
-                                    @foreach($akuns->filter(function($a) { return $a->kategori && $a->kategori->nama_kategori == 'Kas & Bank'; }) as $akun)
-                                        <option value="{{ $akun->id }}">{{ $akun->nomor_akun }} - {{ $akun->nama_akun }}</option>
-                                    @endforeach
-                                </select>
-                            </div>
-                            
-                            <div class="form-group">
-                                <label>Keterangan Tambahan (Opsional)</label>
-                                <input type="text" name="keterangan" class="form-control" placeholder="Kosongkan untuk keterangan otomatis">
-                            </div>
-
-                            <div class="form-group">
-                                <label>Bukti Transaksi / Dokumentasi (Opsional)</label>
-                                <input type="file" name="dokumentasi" class="form-control" accept="image/*,.pdf">
-                            </div>
-
-                            <div class="form-actions">
-                                <button type="button" class="btn btn-cancel" onclick="window.location.href='/dashboard'">Batal</button>
-                                <button type="submit" class="btn btn-save btn-danger">Simpan Pembayaran Hutang</button>
                             </div>
                         </form>
                     </div>
@@ -526,5 +391,72 @@
                 $('#' + kategoriElementId).val(akun.kategori_id).trigger('change');
             }
         }
+
+        // Logic untuk pergantian tipe Pemasukan (Umum / Project / Piutang)
+        function handlePemasukanType() {
+            const form = document.getElementById('form-pemasukan-submit');
+            const projectId = document.getElementById('pem_project_id').value;
+            const piutangId = document.getElementById('pem_piutang_id').value;
+            const boxSumber = document.getElementById('pem_box_sumber');
+            const akunSumber = document.getElementById('pem_akun_sumber');
+            const katSumber = document.getElementById('pem_kat_sumber');
+            const keterangan = document.getElementById('pem_keterangan');
+
+            // Reset ke default (Pemasukan Umum)
+            form.action = "{{ route('transaksi.store') }}";
+            boxSumber.style.display = 'block';
+            $('#pem_piutang_id').prop('disabled', false);
+            $('#pem_project_id').prop('disabled', false);
+            akunSumber.required = true;
+            keterangan.required = true;
+            keterangan.placeholder = "Contoh: Pendapatan Jasa";
+
+            if (projectId) {
+                // Pembayaran Project
+                form.action = '/projects/' + projectId + '/payment';
+                $('#pem_piutang_id').prop('disabled', true);
+                keterangan.required = false;
+                keterangan.placeholder = "Kosongkan untuk keterangan otomatis";
+            } else if (piutangId) {
+                // Penerimaan Piutang
+                form.action = '/piutangs/' + piutangId + '/payment';
+                $('#pem_project_id').prop('disabled', true);
+                boxSumber.style.display = 'none'; // Sembunyikan bagian sumber (Kredit)
+                akunSumber.required = false;
+                $(akunSumber).val('').trigger('change.select2'); // Kosongkan nilainya
+                $(katSumber).val('').trigger('change.select2');
+                keterangan.required = false;
+                keterangan.placeholder = "Kosongkan untuk keterangan otomatis";
+            }
+        }
+
+        // Logic untuk pergantian tipe Pengeluaran (Umum / Hutang)
+        function handlePengeluaranType() {
+            const form = document.getElementById('form-pengeluaran-submit');
+            const hutangId = document.getElementById('peng_hutang_id').value;
+            const boxTujuan = document.getElementById('peng_box_tujuan');
+            const akunTujuan = document.getElementById('peng_akun_tujuan');
+            const katTujuan = document.getElementById('peng_kat_tujuan');
+            const keterangan = document.getElementById('peng_keterangan');
+
+            // Reset ke default (Pengeluaran Umum)
+            form.action = "{{ route('transaksi.store') }}";
+            boxTujuan.style.display = 'block';
+            akunTujuan.required = true;
+            keterangan.required = true;
+            keterangan.placeholder = "Contoh: Pembayaran Listrik";
+
+            if (hutangId) {
+                // Pembayaran Hutang
+                form.action = '/hutangs/' + hutangId + '/payment';
+                boxTujuan.style.display = 'none'; // Sembunyikan bagian tujuan (Debit) karena bayar hutang hanya butuh sumber (Kredit)
+                akunTujuan.required = false;
+                $(akunTujuan).val('').trigger('change.select2'); // Kosongkan nilainya
+                $(katTujuan).val('').trigger('change.select2');
+                keterangan.required = false;
+                keterangan.placeholder = "Kosongkan untuk keterangan otomatis";
+            }
+        }
     </script>
 @endpush
+
