@@ -64,7 +64,35 @@ class HutangController extends Controller
     public function create()
     {
         $jenis_hutang = self::$jenisHutang;
-        return view('hutangs.create', compact('jenis_hutang'));
+
+        $bulanRomawi = [
+            1 => 'I', 2 => 'II', 3 => 'III', 4 => 'IV', 5 => 'V', 6 => 'VI',
+            7 => 'VII', 8 => 'VIII', 9 => 'IX', 10 => 'X', 11 => 'XI', 12 => 'XII'
+        ];
+        $bulan = date('n');
+        $tahun = date('Y');
+
+        $latestHutangs = \App\Models\Hutang::whereYear('created_at', $tahun)
+            ->whereMonth('created_at', $bulan)
+            ->where('nomor_urut', 'like', '%/JN/HU/%')
+            ->get();
+
+        $maxUrut = 0;
+        foreach ($latestHutangs as $h) {
+            $parts = explode('/', $h->nomor_urut);
+            if (isset($parts[0]) && is_numeric($parts[0])) {
+                $urut = (int)$parts[0];
+                if ($urut > $maxUrut) {
+                    $maxUrut = $urut;
+                }
+            }
+        }
+        $nomorUrut = $maxUrut + 1;
+
+        $nomorUrutStr = str_pad($nomorUrut, 2, '0', STR_PAD_LEFT);
+        $autoNoHutang = $nomorUrutStr . '/JN/HU/' . $bulanRomawi[$bulan] . '/' . $tahun;
+
+        return view('hutangs.create', compact('jenis_hutang', 'autoNoHutang'));
     }
 
     public function store(Request $request)
@@ -141,7 +169,13 @@ class HutangController extends Controller
             'akun_kredit_id' => 'required|exists:akuns,id', // Kas/Bank (Berkurang)
             'jumlah' => 'required|numeric|min:1',
             'keterangan' => 'nullable|string',
+            'dokumentasi' => 'nullable|file|mimes:jpeg,png,jpg,pdf|max:2048',
         ]);
+
+        $dokumentasiPath = null;
+        if ($request->hasFile('dokumentasi')) {
+            $dokumentasiPath = $request->file('dokumentasi')->store('dokumentasi', 'public');
+        }
 
         \App\Models\Transaksi::create([
             'jenis_transaksi' => 'Pengeluaran',
@@ -151,6 +185,7 @@ class HutangController extends Controller
             'keterangan' => $request->keterangan ?? ('Pembayaran Hutang: ' . $hutang->jenis_hutang . ' - ' . $hutang->kreditur),
             'jumlah' => $request->jumlah,
             'hutang_id' => $hutang->id,
+            'dokumentasi' => $dokumentasiPath,
         ]);
 
         if ($hutang->nominal_sisa <= 0) {

@@ -47,7 +47,35 @@ class PiutangController extends Controller
     {
         $jenis_piutang = self::$jenisPiutang;
         $projects = \App\Models\Project::orderBy('nama_project')->get();
-        return view('piutangs.create', compact('jenis_piutang', 'projects'));
+
+        $bulanRomawi = [
+            1 => 'I', 2 => 'II', 3 => 'III', 4 => 'IV', 5 => 'V', 6 => 'VI',
+            7 => 'VII', 8 => 'VIII', 9 => 'IX', 10 => 'X', 11 => 'XI', 12 => 'XII'
+        ];
+        $bulan = date('n');
+        $tahun = date('Y');
+
+        $latestPiutangs = \App\Models\Piutang::whereYear('created_at', $tahun)
+            ->whereMonth('created_at', $bulan)
+            ->where('nomor_urut', 'like', '%/JN/PTNG/%')
+            ->get();
+
+        $maxUrut = 0;
+        foreach ($latestPiutangs as $p) {
+            $parts = explode('/', $p->nomor_urut);
+            if (isset($parts[0]) && is_numeric($parts[0])) {
+                $urut = (int)$parts[0];
+                if ($urut > $maxUrut) {
+                    $maxUrut = $urut;
+                }
+            }
+        }
+        $nomorUrut = $maxUrut + 1;
+
+        $nomorUrutStr = str_pad($nomorUrut, 2, '0', STR_PAD_LEFT);
+        $autoNoPiutang = $nomorUrutStr . '/JN/PTNG/' . $bulanRomawi[$bulan] . '/' . $tahun;
+
+        return view('piutangs.create', compact('jenis_piutang', 'projects', 'autoNoPiutang'));
     }
 
     public function store(Request $request)
@@ -125,7 +153,13 @@ class PiutangController extends Controller
             'akun_debit_id' => 'required|exists:akuns,id', // Kas/Bank (Bertambah)
             'jumlah' => 'required|numeric|min:1',
             'keterangan' => 'nullable|string',
+            'dokumentasi' => 'nullable|file|mimes:jpeg,png,jpg,pdf|max:2048',
         ]);
+
+        $dokumentasiPath = null;
+        if ($request->hasFile('dokumentasi')) {
+            $dokumentasiPath = $request->file('dokumentasi')->store('dokumentasi', 'public');
+        }
 
         \App\Models\Transaksi::create([
             'jenis_transaksi' => 'Pemasukan',
@@ -135,6 +169,7 @@ class PiutangController extends Controller
             'keterangan' => $request->keterangan ?? ('Penerimaan Piutang: ' . $piutang->jenis_piutang . ($piutang->project ? ' - ' . $piutang->project->nama_project : '')),
             'jumlah' => $request->jumlah,
             'piutang_id' => $piutang->id,
+            'dokumentasi' => $dokumentasiPath,
         ]);
 
         if ($piutang->nominal_sisa <= 0) {

@@ -46,7 +46,7 @@
 
             <div>
                 <label style="display: block; margin-bottom: 8px; color: #475569; font-weight: 500;">No Penawaran / Invoice</label>
-                <input type="text" name="no_penawaran" value="{{ old('no_penawaran') }}" placeholder="Contoh: INV-2026-001" style="width: 100%; padding: 10px; border: 1px solid #cbd5e1; border-radius: 8px; outline: none;">
+                <input type="text" name="no_penawaran" value="{{ old('no_penawaran', $autoNoPenawaran ?? '') }}" placeholder="Contoh: 1/JN/QTN/VIII/2026" style="width: 100%; padding: 10px; border: 1px solid #cbd5e1; border-radius: 8px; outline: none;">
             </div>
 
             <div>

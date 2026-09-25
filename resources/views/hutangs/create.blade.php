@@ -36,7 +36,7 @@
 
             <div>
                 <label style="display: block; margin-bottom: 8px; color: #475569; font-weight: 500;">Nomor Urut <span style="color:red">*</span></label>
-                <input type="text" name="nomor_urut" value="{{ old('nomor_urut') }}" required placeholder="Contoh: 01/JN/HU/XII/2025" style="width: 100%; padding: 10px; border: 1px solid #cbd5e1; border-radius: 8px; outline: none;">
+                <input type="text" name="nomor_urut" value="{{ old('nomor_urut', $autoNoHutang ?? '') }}" required placeholder="Contoh: 01/JN/HU/XII/2025" style="width: 100%; padding: 10px; border: 1px solid #cbd5e1; border-radius: 8px; outline: none;">
             </div>
 
             <div>

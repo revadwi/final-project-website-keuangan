@@ -258,7 +258,7 @@
 
                     <!-- FORM PROJECT -->
                     <div id="form-project" class="tab-content">
-                        <form id="form-project-submit" method="POST" action="" onsubmit="if(!document.getElementById('select-project').value) { alert('Pilih project terlebih dahulu!'); return false; } var btn = this.querySelector('button[type=submit]'); btn.disabled = true; btn.innerHTML = 'Menyimpan...'; btn.style.opacity = '0.7';">
+                        <form id="form-project-submit" method="POST" action="" enctype="multipart/form-data" onsubmit="if(!document.getElementById('select-project').value) { alert('Pilih project terlebih dahulu!'); return false; } var btn = this.querySelector('button[type=submit]'); btn.disabled = true; btn.innerHTML = 'Menyimpan...'; btn.style.opacity = '0.7';">
                             @csrf
                             <div class="form-group">
                                 <label>Pilih Project (Pendapatan Usaha)</label>
@@ -311,6 +311,11 @@
                                 <input type="text" name="keterangan" class="form-control" placeholder="Kosongkan untuk keterangan otomatis">
                             </div>
 
+                            <div class="form-group">
+                                <label>Bukti Transaksi / Dokumentasi (Opsional)</label>
+                                <input type="file" name="dokumentasi" class="form-control" accept="image/*,.pdf">
+                            </div>
+
                             <div class="form-actions">
                                 <button type="button" class="btn btn-cancel" onclick="window.location.href='/dashboard'">Batal</button>
                                 <button type="submit" class="btn btn-save">Simpan Pembayaran Project</button>
@@ -320,7 +325,7 @@
 
                     <!-- FORM PIUTANG -->
                     <div id="form-piutang" class="tab-content">
-                        <form id="form-piutang-submit" method="POST" action="" onsubmit="if(!document.getElementById('select-piutang').value) { alert('Pilih piutang terlebih dahulu!'); return false; } var btn = this.querySelector('button[type=submit]'); btn.disabled = true; btn.innerHTML = 'Menyimpan...'; btn.style.opacity = '0.7';">
+                        <form id="form-piutang-submit" method="POST" action="" enctype="multipart/form-data" onsubmit="if(!document.getElementById('select-piutang').value) { alert('Pilih piutang terlebih dahulu!'); return false; } var btn = this.querySelector('button[type=submit]'); btn.disabled = true; btn.innerHTML = 'Menyimpan...'; btn.style.opacity = '0.7';">
                             @csrf
                             <div class="form-group">
                                 <label>Pilih Piutang</label>
@@ -362,6 +367,11 @@
                                 <input type="text" name="keterangan" class="form-control" placeholder="Kosongkan untuk keterangan otomatis">
                             </div>
 
+                            <div class="form-group">
+                                <label>Bukti Transaksi / Dokumentasi (Opsional)</label>
+                                <input type="file" name="dokumentasi" class="form-control" accept="image/*,.pdf">
+                            </div>
+
                             <div class="form-actions">
                                 <button type="button" class="btn btn-cancel" onclick="window.location.href='/dashboard'">Batal</button>
                                 <button type="submit" class="btn btn-save">Simpan Penerimaan Piutang</button>
@@ -371,7 +381,7 @@
 
                     <!-- FORM HUTANG -->
                     <div id="form-hutang" class="tab-content">
-                        <form id="form-hutang-submit" method="POST" action="" onsubmit="if(!document.getElementById('select-hutang').value) { alert('Pilih hutang terlebih dahulu!'); return false; } var btn = this.querySelector('button[type=submit]'); btn.disabled = true; btn.innerHTML = 'Menyimpan...'; btn.style.opacity = '0.7';">
+                        <form id="form-hutang-submit" method="POST" action="" enctype="multipart/form-data" onsubmit="if(!document.getElementById('select-hutang').value) { alert('Pilih hutang terlebih dahulu!'); return false; } var btn = this.querySelector('button[type=submit]'); btn.disabled = true; btn.innerHTML = 'Menyimpan...'; btn.style.opacity = '0.7';">
                             @csrf
                             <div class="form-group">
                                 <label>Pilih Hutang</label>
@@ -410,6 +420,11 @@
                             <div class="form-group">
                                 <label>Keterangan Tambahan (Opsional)</label>
                                 <input type="text" name="keterangan" class="form-control" placeholder="Kosongkan untuk keterangan otomatis">
+                            </div>
+
+                            <div class="form-group">
+                                <label>Bukti Transaksi / Dokumentasi (Opsional)</label>
+                                <input type="file" name="dokumentasi" class="form-control" accept="image/*,.pdf">
                             </div>
 
                             <div class="form-actions">
