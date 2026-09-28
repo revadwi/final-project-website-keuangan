@@ -151,6 +151,7 @@ class PiutangController extends Controller
         $request->validate([
             'tanggal' => 'required|date',
             'akun_debit_id' => 'required|exists:akuns,id', // Kas/Bank (Bertambah)
+            'akun_kredit_id' => 'required|exists:akuns,id', // Akun sumber (Piutang)
             'jumlah' => 'required|numeric|min:1',
             'keterangan' => 'nullable|string',
             'dokumentasi' => 'nullable|file|mimes:jpeg,png,jpg,pdf|max:2048',
@@ -165,10 +166,11 @@ class PiutangController extends Controller
             'jenis_transaksi' => 'Pemasukan',
             'tanggal' => $request->tanggal,
             'akun_debit_id' => $request->akun_debit_id, // Uang masuk ke Kas
-            // No akun_kredit_id since we aren't linking it to master data for Piutang
-            'keterangan' => $request->keterangan ?? ('Penerimaan Piutang: ' . $piutang->jenis_piutang . ($piutang->project ? ' - ' . $piutang->project->nama_project : '')),
+            'akun_kredit_id' => $request->akun_kredit_id, // Sumber dana
+            'keterangan' => $request->keterangan ?? ('Penerimaan Piutang: ' . ($piutang->keterangan ?? $piutang->jenis_piutang) . ($piutang->project ? ' - ' . $piutang->project->nama_project : '')),
             'jumlah' => $request->jumlah,
             'piutang_id' => $piutang->id,
+            'project_id' => $piutang->project_id,
             'dokumentasi' => $dokumentasiPath,
         ]);
 
@@ -177,5 +179,21 @@ class PiutangController extends Controller
         }
 
         return redirect()->back()->with('success', 'Penerimaan piutang berhasil dicatat.');
+    }
+
+    public function getByProject(\App\Models\Project $project)
+    {
+        $piutangs = \App\Models\Piutang::where('project_id', $project->id)->get();
+        
+        $data = $piutangs->map(function ($piutang) {
+            return [
+                'id' => $piutang->id,
+                'nomor_urut' => $piutang->nomor_urut,
+                'keterangan' => $piutang->keterangan,
+                'nominal_sisa' => $piutang->nominal_sisa,
+            ];
+        });
+
+        return response()->json($data);
     }
 }

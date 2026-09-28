@@ -51,12 +51,17 @@
 
             <div>
                 <label style="display: block; margin-bottom: 8px; color: #475569; font-weight: 500;">Nama Project</label>
-                <select name="project_id" style="width: 100%; padding: 10px; border: 1px solid #cbd5e1; border-radius: 8px; outline: none;">
-                    <option value="" selected>-- Tanpa Project (Isi Keterangan Jika Perlu) --</option>
+                <select name="project_id" id="project_id" onchange="checkProjectSisa()" style="width: 100%; padding: 10px; border: 1px solid #cbd5e1; border-radius: 8px; outline: none;">
+                    <option value="" data-sisa="" selected>-- Tanpa Project (Isi Keterangan Jika Perlu) --</option>
                     @foreach($projects as $p)
-                        <option value="{{ $p->id }}" {{ old('project_id') == $p->id ? 'selected' : '' }}>{{ $p->nama_project }}</option>
+                        @php
+                            $terpakai = \App\Models\Piutang::where('project_id', $p->id)->sum('nominal_awal');
+                            $sisa_nominal = $p->nominal_project - $terpakai;
+                        @endphp
+                        <option value="{{ $p->id }}" data-sisa="{{ $sisa_nominal }}" {{ old('project_id') == $p->id ? 'selected' : '' }}>{{ $p->nama_project }}</option>
                     @endforeach
                 </select>
+                <small id="sisa_info" style="color: #0284c7; font-size: 13px; display: none; margin-top: 5px; font-weight: 500;"></small>
             </div>
 
             <div style="grid-column: 1 / -1;">
@@ -119,7 +124,27 @@
         document.getElementById('nominal_akhir').value = akhir;
     }
 
-    // Initialize calc
+    function checkProjectSisa() {
+        const select = document.getElementById('project_id');
+        const selectedOption = select.options[select.selectedIndex];
+        const sisaInfo = document.getElementById('sisa_info');
+        const sisa = selectedOption.getAttribute('data-sisa');
+
+        if (sisa && sisa !== "") {
+            const formatter = new Intl.NumberFormat('id-ID', {
+                style: 'currency',
+                currency: 'IDR',
+                minimumFractionDigits: 0
+            });
+            sisaInfo.innerHTML = `Sisa nilai project yang bisa dibuat termin: <strong>${formatter.format(sisa)}</strong>`;
+            sisaInfo.style.display = 'block';
+        } else {
+            sisaInfo.style.display = 'none';
+        }
+    }
+
+    // Initialize calc and info
     calculateTotal();
+    checkProjectSisa();
 </script>
 @endpush

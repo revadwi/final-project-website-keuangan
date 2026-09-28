@@ -84,6 +84,7 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/piutangs/export', [\App\Http\Controllers\PiutangController::class, 'export'])->name('piutangs.export');
     Route::post('/piutangs/import', [\App\Http\Controllers\PiutangController::class, 'import'])->name('piutangs.import');
     Route::get('/piutangs/template', [\App\Http\Controllers\PiutangController::class, 'template'])->name('piutangs.template');
+    Route::get('/api/projects/{project}/piutangs', [\App\Http\Controllers\PiutangController::class, 'getByProject']);
     Route::resource('piutangs', \App\Http\Controllers\PiutangController::class);
     Route::post('/piutangs/{piutang}/payment', [\App\Http\Controllers\PiutangController::class, 'storePayment'])->name('piutangs.payment');
 });

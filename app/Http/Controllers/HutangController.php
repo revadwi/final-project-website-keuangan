@@ -166,6 +166,7 @@ class HutangController extends Controller
     {
         $request->validate([
             'tanggal' => 'required|date',
+            'akun_debit_id' => 'required|exists:akuns,id', // Akun tujuan (Hutang)
             'akun_kredit_id' => 'required|exists:akuns,id', // Kas/Bank (Berkurang)
             'jumlah' => 'required|numeric|min:1',
             'keterangan' => 'nullable|string',
@@ -180,8 +181,8 @@ class HutangController extends Controller
         \App\Models\Transaksi::create([
             'jenis_transaksi' => 'Pengeluaran',
             'tanggal' => $request->tanggal,
+            'akun_debit_id' => $request->akun_debit_id, // Keperluan dana (Hutang)
             'akun_kredit_id' => $request->akun_kredit_id, // Uang keluar dari Kas
-            // No akun_debit_id since we aren't linking it to master data for Hutang
             'keterangan' => $request->keterangan ?? ('Pembayaran Hutang: ' . $hutang->jenis_hutang . ' - ' . $hutang->kreditur),
             'jumlah' => $request->jumlah,
             'hutang_id' => $hutang->id,

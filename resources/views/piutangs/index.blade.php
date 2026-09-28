@@ -153,7 +153,7 @@
                     </td>
                     <td style="padding: 12px 10px;">
                         <div style="display: flex; gap: 8px;">
-                            <a href="{{ route('piutangs.show', $piutang->id) }}" title="Detail & Pembayaran" style="color: #0b5394; background: #eff6ff; padding: 6px 10px; border-radius: 6px; text-decoration: none;">
+                            <a href="/transaksi?project_id={{ $piutang->project_id }}&piutang_id={{ $piutang->id }}" title="Bayar Piutang" style="color: #0b5394; background: #eff6ff; padding: 6px 10px; border-radius: 6px; text-decoration: none;">
                                 <i class="ri-eye-line"></i>
                             </a>
                             @if(Auth::user()->role !== 'viewer')

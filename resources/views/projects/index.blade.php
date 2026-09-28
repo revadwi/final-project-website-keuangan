@@ -168,7 +168,7 @@
                     </td>
                     <td style="padding: 12px 10px;">
                         <div style="display: flex; gap: 8px;">
-                            <a href="{{ route('projects.show', $project->id) }}" title="Detail & Pembayaran" style="color: #0b5394; background: #eff6ff; padding: 6px 10px; border-radius: 6px; text-decoration: none;">
+                            <a href="/transaksi?project_id={{ $project->id }}" title="Input Transaksi" style="color: #0b5394; background: #eff6ff; padding: 6px 10px; border-radius: 6px; text-decoration: none;">
                                 <i class="ri-eye-line"></i>
                             </a>
                             @if(Auth::user()->role !== 'viewer')

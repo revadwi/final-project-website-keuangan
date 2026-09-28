@@ -17,13 +17,13 @@
         .tab-btn.active { color: #1d4ed8; border-bottom-color: #1d4ed8; font-weight: 600;}
         
         .form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-bottom: 15px; }
-        .form-group { margin-bottom: 15px; }
+        .form-group { margin-bottom: 15px; min-width: 0; }
         .form-group label { display: block; margin-bottom: 8px; font-weight: 500; font-size: 14px; color: #334155; }
         .form-control { width: 100%; padding: 10px 12px; border: 1px solid #cbd5e1; border-radius: 6px; font-family: 'Inter', sans-serif; font-size: 14px; color: #1e293b; box-sizing: border-box; }
         .form-control:focus { border-color: #3b82f6; outline: none; }
         
         .select2-container .select2-selection--single { height: 40px; border: 1px solid #cbd5e1; border-radius: 6px; display: flex; align-items: center; }
-        .select2-container--default .select2-selection--single .select2-selection__rendered { color: #1e293b; line-height: normal; padding-left: 12px; font-size: 14px;}
+        .select2-container--default .select2-selection--single .select2-selection__rendered { color: #1e293b; line-height: normal; padding-left: 12px; font-size: 14px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; width: 100%; }
         .select2-container--default .select2-selection--single .select2-selection__arrow { height: 38px; right: 10px;}
         
         .form-actions { display: flex; justify-content: flex-end; gap: 10px; margin-top: 30px; border-top: 1px solid #f1f5f9; padding-top: 20px;}
@@ -111,8 +111,8 @@
                             <div class="form-grid" style="align-items: end;">
                                 <div class="form-group" style="margin-bottom: 0;">
                                     <label>Pilih Project (Opsional)</label>
-                                    <select class="select2-search" name="project_id" id="pem_project_id" onchange="handlePemasukanType()">
-                                        <option value="">-- Bukan Pembayaran Project --</option>
+                                    <select class="select2-search" name="project_id" id="pem_project_id" onchange="fetchPiutangsByProject(this.value)">
+                                        <option value="">-- Bukan Pembayaran Project / Pilih Project --</option>
                                         @foreach($projects as $project)
                                             @php
                                                 $terbayar = $project->transaksis->where('jenis_transaksi', 'Pemasukan')->sum('jumlah');
@@ -123,16 +123,9 @@
                                     </select>
                                 </div>
                                 <div class="form-group" style="margin-bottom: 0;">
-                                    <label>Pilih Piutang (Opsional)</label>
-                                    <select class="select2-search" name="piutang_id" id="pem_piutang_id" onchange="handlePemasukanType()">
-                                        <option value="">-- Bukan Penerimaan Piutang --</option>
-                                        @foreach($piutangs as $piutang)
-                                            @php
-                                                $sisa = $piutang->nominal_sisa;
-                                                $nama_tampilan = $piutang->project ? $piutang->project->nama_project : $piutang->keterangan;
-                                            @endphp
-                                            <option value="{{ $piutang->id }}">{{ $piutang->nomor_urut }} - {{ $nama_tampilan }} (Sisa: Rp {{ number_format($sisa, 0, ',', '.') }})</option>
-                                        @endforeach
+                                    <label>Pilih Termin / Piutang (Opsional)</label>
+                                    <select class="select2-search" name="piutang_id" id="pem_piutang_id" onchange="handlePemasukanType()" disabled>
+                                        <option value="">-- Pilih Project Terlebih Dahulu --</option>
                                     </select>
                                 </div>
                             </div>
@@ -355,6 +348,26 @@
             $('#pem_akun_sumber').on('change', function() { autoFillKategori(this.value, 'pem_kat_sumber'); });
             $('#peng_akun_tujuan').on('change', function() { autoFillKategori(this.value, 'peng_kat_tujuan'); });
             $('#peng_akun_sumber').on('change', function() { autoFillKategori(this.value, 'peng_kat_sumber'); });
+
+            // Auto-fill form from URL parameters if redirected from Piutang or Hutang page
+            const urlParams = new URLSearchParams(window.location.search);
+            const initialProjectId = urlParams.get('project_id');
+            const initialPiutangId = urlParams.get('piutang_id');
+            const initialHutangId = urlParams.get('hutang_id');
+
+            if (initialProjectId) {
+                $('#pem_project_id').val(initialProjectId).trigger('change.select2');
+                fetchPiutangsByProject(initialProjectId, initialPiutangId);
+            }
+
+            if (initialHutangId) {
+                // Pindah ke tab pengeluaran
+                const btnPengeluaran = document.querySelector('button[onclick="switchTab(\'pengeluaran\', this)"]');
+                if (btnPengeluaran) {
+                    btnPengeluaran.click();
+                }
+                $('#peng_hutang_id').val(initialHutangId).trigger('change.select2');
+            }
         });
 
         function switchTab(type, element) {
@@ -392,6 +405,57 @@
             }
         }
 
+        function fetchPiutangsByProject(projectId, autoSelectPiutangId = null) {
+            const piutangSelect = $('#pem_piutang_id');
+            piutangSelect.empty();
+            piutangSelect.append('<option value="">-- Sedang memuat termin... --</option>');
+            piutangSelect.prop('disabled', true);
+            
+            if (!projectId) {
+                piutangSelect.empty();
+                piutangSelect.append('<option value="">-- Pilih Project Terlebih Dahulu --</option>');
+                handlePemasukanType(); // Reset state
+                return;
+            }
+
+            $.ajax({
+                url: '/api/projects/' + projectId + '/piutangs',
+                type: 'GET',
+                success: function(data) {
+                    piutangSelect.empty();
+                    piutangSelect.append('<option value="">-- Bukan Pembayaran Termin --</option>');
+                    
+                    if (data.length > 0) {
+                        data.forEach(function(piutang) {
+                            const formatter = new Intl.NumberFormat('id-ID', {
+                                style: 'currency',
+                                currency: 'IDR',
+                                minimumFractionDigits: 0
+                            });
+                            const sisaStr = formatter.format(piutang.nominal_sisa);
+                            const ket = piutang.keterangan ? piutang.keterangan : 'Termin';
+                            piutangSelect.append('<option value="'+ piutang.id +'">' + piutang.nomor_urut + ' - ' + ket + ' (Sisa: ' + sisaStr + ')</option>');
+                        });
+                        piutangSelect.prop('disabled', false);
+                        
+                        if (autoSelectPiutangId) {
+                            piutangSelect.val(autoSelectPiutangId).trigger('change.select2');
+                        }
+                    } else {
+                        piutangSelect.empty();
+                        piutangSelect.append('<option value="">-- Tidak ada termin aktif --</option>');
+                    }
+                    
+                    handlePemasukanType();
+                },
+                error: function() {
+                    piutangSelect.empty();
+                    piutangSelect.append('<option value="">-- Gagal memuat termin --</option>');
+                    handlePemasukanType();
+                }
+            });
+        }
+
         // Logic untuk pergantian tipe Pemasukan (Umum / Project / Piutang)
         function handlePemasukanType() {
             const form = document.getElementById('form-pemasukan-submit');
@@ -405,26 +469,18 @@
             // Reset ke default (Pemasukan Umum)
             form.action = "{{ route('transaksi.store') }}";
             boxSumber.style.display = 'block';
-            $('#pem_piutang_id').prop('disabled', false);
-            $('#pem_project_id').prop('disabled', false);
             akunSumber.required = true;
             keterangan.required = true;
             keterangan.placeholder = "Contoh: Pendapatan Jasa";
 
-            if (projectId) {
-                // Pembayaran Project
-                form.action = '/projects/' + projectId + '/payment';
-                $('#pem_piutang_id').prop('disabled', true);
-                keterangan.required = false;
-                keterangan.placeholder = "Kosongkan untuk keterangan otomatis";
-            } else if (piutangId) {
+            if (piutangId) {
                 // Penerimaan Piutang
                 form.action = '/piutangs/' + piutangId + '/payment';
-                $('#pem_project_id').prop('disabled', true);
-                boxSumber.style.display = 'none'; // Sembunyikan bagian sumber (Kredit)
-                akunSumber.required = false;
-                $(akunSumber).val('').trigger('change.select2'); // Kosongkan nilainya
-                $(katSumber).val('').trigger('change.select2');
+                keterangan.required = false;
+                keterangan.placeholder = "Kosongkan untuk keterangan otomatis";
+            } else if (projectId) {
+                // Pembayaran Project
+                form.action = '/projects/' + projectId + '/payment';
                 keterangan.required = false;
                 keterangan.placeholder = "Kosongkan untuk keterangan otomatis";
             }
@@ -449,10 +505,6 @@
             if (hutangId) {
                 // Pembayaran Hutang
                 form.action = '/hutangs/' + hutangId + '/payment';
-                boxTujuan.style.display = 'none'; // Sembunyikan bagian tujuan (Debit) karena bayar hutang hanya butuh sumber (Kredit)
-                akunTujuan.required = false;
-                $(akunTujuan).val('').trigger('change.select2'); // Kosongkan nilainya
-                $(katTujuan).val('').trigger('change.select2');
                 keterangan.required = false;
                 keterangan.placeholder = "Kosongkan untuk keterangan otomatis";
             }
